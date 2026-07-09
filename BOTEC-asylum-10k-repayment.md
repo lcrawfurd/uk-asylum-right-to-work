@@ -260,6 +260,19 @@ Three things jump out. **The charge changes nothing about earnings** — panels 
 
 ---
 
+## "But won't a job make them harder to remove?"
+
+This is the objection most likely to be raised — and the evidence points the other way: legal work probably makes removal *easier*, not harder.
+
+- **Legal work makes people more visible, not less.** A job on PAYE means a known employer, a known address, a National Insurance number and a tax record. The alternative to *legal* work is not idleness but *informal* work, which is invisible to the Home Office — a work ban pushes people into the shadow economy, exactly where they are hardest to trace.
+- **The state's grip runs through reporting, not the hotel.** People awaiting decisions are not detained; they are [free to come and go](https://commonslibrary.parliament.uk/research-briefings/cbp-10337/). Contact is kept through monthly digital reporting (~100,000 people), which continues whether or not someone works, and [work permission is already refused to anyone who has absconded](https://assets.publishing.service.gov.uk/media/69ba7e8d7c81ce194cd12595/Permission_to_work_and_volunteer.pdf) — so a legal job (fixed employer, fixed address) can be a *condition of compliance*, not a route to disappearing. The status quo is already leaky: ~50,000 people are logged as absconders under a system whose data the Home Office itself calls ["incomplete, inconsistent or simply unavailable"](https://publications.parliament.uk/pa/cm5902/cmselect/cmpubacc/89/report.html) — with no right to work.
+- **The legal worry is weak.** The strongest version — that employment builds an Article 8 private-life defence against removal — runs into UK courts [heavily discounting private life built during "precarious status"](https://freemovement.org.uk/article-8-in-asylum-cases/). Length of residence, which the backlog creates anyway, matters more than a job.
+- **It only bites for a minority.** At a ~60% grant rate, most people are staying regardless, so working sooner just means integrating sooner; the concern applies only to the ~40% eventually refused, of whom most are not removed anyway.
+
+There is **no direct evidence** that employment makes removal harder — it sits in the same unevidenced category as the "pull factor" claim, which the Migration Advisory Committee has twice (2021, 2022) [challenged the government to substantiate](https://www.cgdev.org/blog/letting-asylum-seekers-work-not-pull-factor), with nothing produced. Two honest concessions: a settled job raises the incentive to abscond if refused (though people can already abscond from a hotel), and employment could feed an Article 8 "obstacles to reintegration" assessment at the margin — but both are second-order, and outweighed by the visibility and conditionality logic above.
+
+---
+
 ## Sensitivity — what would change the conclusion
 
 | Assumption | Base | If changed | Effect on charge recovery |
