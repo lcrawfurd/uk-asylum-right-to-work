@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The £10,000 asylum charge and the right to work — a BOTEC</title>
+<style>
+  :root{
+    --surface:#fcfcfb; --page:#f5f4f0; --text:#141310; --text2:#52514e; --muted:#898781;
+    --grid:#e1e0d9; --baseline:#c3c2b7; --hair:rgba(11,11,11,0.10);
+    --blue:#2a78d6; --aqua:#1baf7a; --red:#e34948; --yr1:#86b6ef; --yr8:#1c5cab; --whisker:#0b0b0b;
+    --accent:#2a78d6;
+  }
+  @media (prefers-color-scheme:dark){:root{
+    --surface:#1a1a19; --page:#0e0e0d; --text:#f2f1ea; --text2:#c3c2b7; --muted:#8f8d86;
+    --grid:#2c2c2a; --baseline:#383835; --hair:rgba(255,255,255,0.12);
+    --blue:#3987e5; --aqua:#199e70; --red:#e66767; --yr1:#9ec5f4; --yr8:#3987e5; --whisker:#ffffff;
+    --accent:#5a9bef;
+  }}
+  :root[data-theme="dark"]{--surface:#1a1a19;--page:#0e0e0d;--text:#f2f1ea;--text2:#c3c2b7;--muted:#8f8d86;--grid:#2c2c2a;--baseline:#383835;--hair:rgba(255,255,255,0.12);--blue:#3987e5;--aqua:#199e70;--red:#e66767;--yr1:#9ec5f4;--yr8:#3987e5;--whisker:#ffffff;--accent:#5a9bef;}
+  :root[data-theme="light"]{--surface:#fcfcfb;--page:#f5f4f0;--text:#141310;--text2:#52514e;--muted:#898781;--grid:#e1e0d9;--baseline:#c3c2b7;--hair:rgba(11,11,11,0.10);--blue:#2a78d6;--aqua:#1baf7a;--red:#e34948;--yr1:#86b6ef;--yr8:#1c5cab;--whisker:#0b0b0b;--accent:#2a78d6;}
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--page);}
+  body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;}
+  .doc{max-width:840px;margin:0 auto;background:var(--surface);padding:0 0 64px;border-left:1px solid var(--hair);border-right:1px solid var(--hair);}
+  header{padding:56px 56px 32px;border-bottom:1px solid var(--hair);}
+  .kicker{font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:650;margin:0 0 14px;}
+  h1{font-size:30px;line-height:1.18;margin:0 0 14px;font-weight:700;letter-spacing:-0.01em;}
+  .authors{font-size:14px;color:var(--text2);margin:0 0 4px;}
+  .dateline{font-size:12.5px;color:var(--muted);margin:0;}
+  main{padding:8px 56px 0;}
+  section{padding:28px 0;border-bottom:1px solid var(--hair);}
+  section:last-child{border-bottom:none;}
+  h2{font-size:20px;line-height:1.25;margin:8px 0 10px;font-weight:680;letter-spacing:-0.01em;}
+  h3{font-size:15.5px;margin:22px 0 6px;font-weight:650;}
+  p{margin:0 0 14px;font-size:15.5px;}
+  .lead{font-size:17px;line-height:1.55;color:var(--text);}
+  .lead strong{font-weight:680;}
+  em{font-style:italic;}
+  strong{font-weight:650;}
+  ul,ol{margin:0 0 14px;padding-left:22px;}
+  li{margin:0 0 7px;font-size:15.5px;}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--hair);}
+  .fig{margin:26px 0 10px;}
+  .fig svg{width:100%;height:auto;display:block;overflow:visible;}
+  .fig.wide{margin-left:-8px;margin-right:-8px;}
+  .fig-scroll{overflow-x:auto;}
+  .fig-scroll svg{min-width:720px;}
+  .cap{font-size:12.5px;color:var(--muted);margin:8px 4px 0;line-height:1.45;}
+  .cap b{color:var(--text2);font-weight:650;}
+  table{width:100%;border-collapse:collapse;margin:18px 0;font-size:14px;}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--hair);}
+  th{font-weight:650;color:var(--text2);font-size:12.5px;letter-spacing:.02em;}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;}
+  .callout{background:var(--page);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:14px 18px;margin:18px 0;font-size:14.5px;}
+  .callout p{margin:0;font-size:14.5px;}
+  .pill{display:inline-block;font-size:12px;font-weight:600;padding:2px 9px;border-radius:20px;background:var(--page);border:1px solid var(--hair);color:var(--text2);margin-right:4px;}
+  .stat-row{display:flex;flex-wrap:wrap;gap:14px;margin:20px 0;}
+  .stat{flex:1 1 150px;background:var(--page);border:1px solid var(--hair);border-radius:10px;padding:14px 16px;}
+  .stat .big{font-size:26px;font-weight:700;line-height:1.05;letter-spacing:-0.01em;font-variant-numeric:tabular-nums;}
+  .stat .lbl{font-size:12.5px;color:var(--text2);margin-top:4px;line-height:1.35;}
+  .stat.red .big{color:var(--red);} .stat.blue .big{color:var(--blue);} .stat.green .big{color:var(--aqua);}
+  /* shared figure element classes */
+  .g-grid{stroke:var(--grid);} .g-base{stroke:var(--baseline);}
+  .g-tick{fill:var(--muted);font-size:11px;font-variant-numeric:tabular-nums;}
+  .g-t1{fill:var(--text);} .g-t2{fill:var(--text2);} .g-mut{fill:var(--muted);}
+  .g-red{fill:var(--red);}
+  .s-blue{fill:var(--blue);} .s-aqua{fill:var(--aqua);} .s-red{fill:var(--red);}
+  .s-yr1{fill:var(--yr1);} .s-yr8{fill:var(--yr8);}
+  .k-whisk{stroke:var(--whisker);stroke-width:1.5;opacity:.7;}
+  .k-earn{fill:none;stroke:var(--blue);stroke-width:2;stroke-linejoin:round;}
+  .k-thr{stroke:var(--red);stroke-width:2;stroke-dasharray:5 4;}
+  @media(max-width:640px){
+    header{padding:40px 22px 26px;} main{padding:0 22px;} h1{font-size:25px;}
+    .doc{box-shadow:none;}
+  }
+</style>
+</head>
+<body>
+<div class="doc">
+<header>
+  <p class="kicker">Back-of-the-envelope · CGD</p>
+  <h1>The £10,000 asylum charge is close to uncollectable. The right to work is worth many times more.</h1>
+  <p class="authors">A technical companion to “The UK’s £10,000 Asylum Seeker Payment Must Be Paired With The Right To Work” — Helen Dempster, Lee Crawfurd &amp; Ian Mitchell</p>
+  <p class="dateline">Order-of-magnitude estimates. Every figure below independently re-derived. July 2026.</p>
+</header>
+
+<main>
+<section>
+  <p class="lead">The government’s new Immigration &amp; Asylum Bill lets the Home Office recover about <strong>£10,000</strong> from asylum seekers who received support. Recovered student-loan-style from people the state <em>forbids from working</em>, that charge claws back on the order of <strong>£500 per person over a decade — around 5% of its face value</strong>, and roughly <strong>£24m per annual cohort</strong> once you account for who is actually granted status. Meanwhile the 12-month work ban it sits alongside costs the Exchequer <strong>several hundred million pounds a cohort</strong> in lost tax and avoidable support. The charge is a rounding error; the work ban is the expensive policy — and “make them pay” is arithmetically impossible without “let them work.”</p>
+</section>
+
+<section>
+  <h2>Start with one person</h2>
+  <p>Before the aggregates, follow a single asylum seeker who finds work — many never do, which is itself part of the story. Three scenarios, same vertical scale: today’s <strong>status quo</strong> (A); the <strong>£10,000 charge</strong> bolted onto it (B); and the charge paired with the <strong>right to work at three months</strong> (C). The ban doesn’t just delay work — it lowers employment for years afterwards, so an earlier start lifts the whole path (that persistent damage is the “scarring” visible in panel C).</p>
+  <div class="fig wide">
+    <div class="fig-scroll">
+    <svg viewBox="0 0 1000 486" role="img" aria-label="Three 20-year panels. A status quo: earnings to £31k, 20-year tax £59k, no charge. B plus charge: identical earnings and tax, only £3,312 of £10k repaid. C work rights at 3 months: earnings to £40k, tax £104k (£45k more), charge cleared by year 17.">
+      <line class="k-earn" x1="330" y1="66" x2="352" y2="66"/><text class="g-t2" x="358" y="70" font-size="12">Gross earnings</text>
+      <rect class="s-aqua" x="470" y="60" width="12" height="12" rx="2"/><text class="g-t2" x="488" y="70" font-size="12">Income tax + NI paid</text>
+      <rect class="s-red" x="628" y="60" width="12" height="12" rx="2"/><text class="g-t2" x="646" y="70" font-size="12">£10k charge repaid</text>
+      <!-- A -->
+      <text class="g-t1" x="72" y="96" font-size="13" font-weight="650">A · Status quo</text><text class="g-t2" x="72" y="110" font-size="11">12-month work ban, no charge</text>
+      <g stroke-width="1"><line class="g-grid" x1="72" y1="380" x2="330" y2="380"/><line class="g-grid" x1="72" y1="315.7" x2="330" y2="315.7"/><line class="g-grid" x1="72" y1="251.4" x2="330" y2="251.4"/><line class="g-grid" x1="72" y1="187.1" x2="330" y2="187.1"/><line class="g-grid" x1="72" y1="122.9" x2="330" y2="122.9"/></g>
+      <g class="g-tick" text-anchor="end"><text x="66" y="384">£0</text><text x="66" y="319">£10k</text><text x="66" y="255">£20k</text><text x="66" y="191">£30k</text><text x="66" y="127">£40k</text></g>
+      <polygon class="s-aqua" fill-opacity="0.9" points="72.0,380.0 72.0,380.0 85.6,380.0 99.2,380.0 112.7,379.2 126.3,373.8 139.9,370.2 153.5,366.6 167.1,363.0 180.6,360.3 194.2,357.6 207.8,355.8 221.4,354.4 234.9,353.1 248.5,352.2 262.1,351.3 275.7,350.4 289.3,349.5 302.8,348.6 316.4,347.7 330.0,346.8 330.0,380.0"/>
+      <polyline class="k-earn" points="72.0,380.0 85.6,367.1 99.2,322.1 112.7,296.4 126.3,277.1 139.9,264.3 153.5,251.4 167.1,238.6 180.6,228.9 194.2,219.3 207.8,212.9 221.4,207.7 234.9,203.2 248.5,200.0 262.1,196.8 275.7,193.6 289.3,190.4 302.8,187.1 316.4,183.9 330.0,180.7"/>
+      <g class="g-tick" text-anchor="middle"><text x="72" y="394">1</text><text x="126.3" y="394">5</text><text x="194.2" y="394">10</text><text x="262.1" y="394">15</text><text x="330" y="394">20</text></g>
+      <text class="g-t1" x="72" y="416" font-size="12" font-weight="600">20-yr tax paid: £59k</text><text class="g-t2" x="72" y="432" font-size="11">No repayment charge.</text>
+      <!-- B -->
+      <text class="g-t1" x="392" y="96" font-size="13" font-weight="650">B · + £10,000 charge</text><text class="g-t2" x="392" y="110" font-size="11">Same ban, plus repayment</text>
+      <g stroke-width="1"><line class="g-grid" x1="392" y1="380" x2="650" y2="380"/><line class="g-grid" x1="392" y1="315.7" x2="650" y2="315.7"/><line class="g-grid" x1="392" y1="251.4" x2="650" y2="251.4"/><line class="g-grid" x1="392" y1="187.1" x2="650" y2="187.1"/><line class="g-grid" x1="392" y1="122.9" x2="650" y2="122.9"/></g>
+      <polygon class="s-aqua" fill-opacity="0.9" points="392.0,380.0 392.0,380.0 405.6,380.0 419.2,380.0 432.7,379.2 446.3,373.8 459.9,370.2 473.5,366.6 487.1,363.0 500.6,360.3 514.2,357.6 527.8,355.8 541.4,354.4 554.9,353.1 568.5,352.2 582.1,351.3 595.7,350.4 609.3,349.5 622.8,348.6 636.4,347.7 650.0,346.8 650.0,380.0"/>
+      <polygon class="s-red" fill-opacity="0.92" points="392.0,380.0 405.6,380.0 419.2,380.0 432.7,379.2 446.3,373.8 459.9,370.2 473.5,366.6 487.1,363.0 500.6,360.3 514.2,357.6 527.8,355.2 541.4,353.3 554.9,351.7 568.5,350.5 582.1,349.3 595.7,348.1 609.3,346.9 622.8,345.7 636.4,344.5 650.0,343.4 650.0,346.8 636.4,347.7 622.8,348.6 609.3,349.5 595.7,350.4 582.1,351.3 568.5,352.2 554.9,353.1 541.4,354.4 527.8,355.8 514.2,357.6 500.6,360.3 487.1,363.0 473.5,366.6 459.9,370.2 446.3,373.8 432.7,379.2 419.2,380.0 405.6,380.0 392.0,380.0"/>
+      <polyline class="k-earn" points="392.0,380.0 405.6,367.1 419.2,322.1 432.7,296.4 446.3,277.1 459.9,264.3 473.5,251.4 487.1,238.6 500.6,228.9 514.2,219.3 527.8,212.9 541.4,207.7 554.9,203.2 568.5,200.0 582.1,196.8 595.7,193.6 609.3,190.4 622.8,187.1 636.4,183.9 650.0,180.7"/>
+      <g class="g-tick" text-anchor="middle"><text x="392" y="394">1</text><text x="446.3" y="394">5</text><text x="514.2" y="394">10</text><text x="582.1" y="394">15</text><text x="650" y="394">20</text></g>
+      <text class="g-t1" x="392" y="416" font-size="12" font-weight="600">20-yr tax paid: £59k <tspan class="g-mut">(same as A)</tspan></text><text class="g-t2" x="392" y="432" font-size="11">Charge repaid: only £3.3k of £10k —</text><text class="g-t2" x="392" y="446" font-size="11">£6.7k still owed after 20 years.</text>
+      <!-- C -->
+      <text class="g-t1" x="712" y="96" font-size="13" font-weight="650">C · Work rights at 3 months + charge</text><text class="g-t2" x="712" y="110" font-size="11">Earlier work, less scarring</text>
+      <g stroke-width="1"><line class="g-grid" x1="712" y1="380" x2="970" y2="380"/><line class="g-grid" x1="712" y1="315.7" x2="970" y2="315.7"/><line class="g-grid" x1="712" y1="251.4" x2="970" y2="251.4"/><line class="g-grid" x1="712" y1="187.1" x2="970" y2="187.1"/><line class="g-grid" x1="712" y1="122.9" x2="970" y2="122.9"/></g>
+      <polygon class="s-aqua" fill-opacity="0.9" points="712.0,380.0 712.0,380.0 725.6,377.4 739.2,370.2 752.7,363.0 766.3,357.6 779.9,354.0 793.5,350.4 807.1,346.8 820.6,344.1 834.2,341.4 847.8,339.6 861.4,338.2 874.9,336.9 888.5,336.0 902.1,335.1 915.7,334.2 929.3,333.3 942.8,332.4 956.4,331.5 970.0,330.6 970.0,380.0"/>
+      <polygon class="s-red" fill-opacity="0.92" points="712.0,380.0 725.6,377.4 739.2,370.2 752.7,363.0 766.3,357.6 779.9,352.9 793.5,348.1 807.1,343.4 820.6,339.8 834.2,336.2 847.8,333.8 861.4,331.9 874.9,330.3 888.5,329.1 902.1,327.9 915.7,326.7 929.3,325.9 942.8,332.4 956.4,331.5 970.0,330.6 970.0,330.6 956.4,331.5 942.8,332.4 929.3,333.3 915.7,334.2 902.1,335.1 888.5,336.0 874.9,336.9 861.4,338.2 847.8,339.6 834.2,341.4 820.6,344.1 807.1,346.8 793.5,350.4 779.9,354.0 766.3,357.6 752.7,363.0 739.2,370.2 725.6,377.4 712.0,380.0"/>
+      <polyline class="k-earn" points="712.0,335.0 725.6,290.0 739.2,264.3 752.7,238.6 766.3,219.3 779.9,206.4 793.5,193.6 807.1,180.7 820.6,171.1 834.2,161.4 847.8,155.0 861.4,149.9 874.9,145.4 888.5,142.1 902.1,138.9 915.7,135.7 929.3,132.5 942.8,129.3 956.4,126.1 970.0,122.9"/>
+      <g class="g-tick" text-anchor="middle"><text x="712" y="394">1</text><text x="766.3" y="394">5</text><text x="834.2" y="394">10</text><text x="902.1" y="394">15</text><text x="970" y="394">20</text></g>
+      <text class="g-t1" x="712" y="416" font-size="12" font-weight="600">20-yr tax paid: £104k <tspan class="s-aqua" style="font-weight:700">(+£45k)</tspan></text><text class="g-t2" x="712" y="432" font-size="11">Charge cleared in full by year 17 —</text><text class="g-t2" x="712" y="446" font-size="11">and £45k more tax than the status quo.</text>
+      <text class="g-mut" x="72" y="470" font-size="10.5">Illustrative, one working asylum seeker. Tax = income tax + employee NI (28% above £12,570); repayment = 9% above £25,000, capped at £10,000. Panel C reflects a 3-month start and reduced scarring.</text>
+    </svg>
+    </div>
+    <p class="cap"><b>Figure 1.</b> One working asylum seeker over 20 years — many never work at all. Same vertical scale in all three panels. Tax = income tax + employee NI; charge repayment = 9% above £25,000, capped at £10,000.</p>
+  </div>
+  <p>Three things jump out. <strong>The charge changes nothing about earnings</strong> — panels A and B are the same lines; bolting a debt onto someone doesn’t help them earn. <strong>Even from a worker it barely collects</strong> — £3.3k of £10k after twenty years. And <strong>the right to work pays the Exchequer far more through tax than the charge ever recovers</strong> — about £45k more over the period, more than four times the whole charge — while being the only scenario in which the charge is cleared.</p>
+</section>
+
+<section>
+  <h2>Now scale it across a cohort</h2>
+  <p>Multiply that logic across the ~80,000 adults who claim asylum each year. Three fiscal channels are in play. <strong>Channel A</strong> is the direct recovery of the £10,000 charge. <strong>Channel B</strong> is the support cost avoided when someone works <em>while their claim is pending</em> — which accrues whether or not the claim later succeeds. <strong>Channel C</strong> is the avoided <em>scarring</em> from panel C, now summed across everyone. The charge is dwarfed by both of the others.</p>
+  <div class="stat-row">
+    <div class="stat red"><div class="big">~£24m</div><div class="lbl">recovered by the charge, per cohort over 10 years (~3% of what it bills)</div></div>
+    <div class="stat blue"><div class="big">~£200–450m</div><div class="lbl">value of the right to work, per cohort</div></div>
+    <div class="stat green"><div class="big">≈10×</div><div class="lbl">how much bigger the right-to-work prize is than the charge</div></div>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 820 330" role="img" aria-label="The £10,000 charge recovers about £24m per cohort; right-to-work support saving about £175m and avoided scarring about £115m.">
+      <g stroke-width="1">
+        <line class="g-grid" x1="282" y1="10" x2="282" y2="222"/><line class="g-grid" x1="390" y1="10" x2="390" y2="222"/>
+        <line class="g-grid" x1="497" y1="10" x2="497" y2="222"/><line class="g-grid" x1="604" y1="10" x2="604" y2="222"/>
+        <line class="g-base" x1="175" y1="10" x2="175" y2="222" stroke-width="1.5"/>
+      </g>
+      <text class="g-t1" x="175" y="24" font-size="13.5" font-weight="550">What the £10,000 charge actually recovers</text>
+      <path class="s-red" d="M175,32 H222.5 A4,4 0 0 1 226.5,36 V68 A4,4 0 0 1 222.5,72 H175 Z"/>
+      <line class="k-whisk" x1="213.6" y1="52" x2="243.6" y2="52"/><line class="k-whisk" x1="213.6" y1="46" x2="213.6" y2="58"/><line class="k-whisk" x1="243.6" y1="46" x2="243.6" y2="58"/>
+      <text class="g-t1" x="256" y="48" font-size="15" font-weight="700">£24m</text><text class="g-mut" x="256" y="63" font-size="11.5">£18–32m</text>
+      <text class="g-t1" x="175" y="109" font-size="13.5" font-weight="550">Right to work — support saved while claims pending</text>
+      <path class="s-blue" d="M175,117 H546.5 A4,4 0 0 1 550.5,121 V153 A4,4 0 0 1 546.5,157 H175 Z"/>
+      <line class="k-whisk" x1="454" y1="137" x2="647.1" y2="137"/><line class="k-whisk" x1="454" y1="131" x2="454" y2="143"/><line class="k-whisk" x1="647.1" y1="131" x2="647.1" y2="143"/>
+      <text class="g-t1" x="659" y="133" font-size="15" font-weight="700">£175m</text><text class="g-mut" x="659" y="148" font-size="11.5">£130–220m</text>
+      <text class="g-t1" x="175" y="194" font-size="13.5" font-weight="550">Right to work — employment scarring avoided</text>
+      <path class="s-aqua" d="M175,202 H417.8 A4,4 0 0 1 421.8,206 V238 A4,4 0 0 1 417.8,242 H175 Z"/>
+      <line class="k-whisk" x1="299.5" y1="222" x2="660.1" y2="222"/><line class="k-whisk" x1="299.5" y1="216" x2="299.5" y2="228"/><line class="k-whisk" x1="660.1" y1="216" x2="660.1" y2="228"/>
+      <text class="g-t1" x="672" y="218" font-size="15" font-weight="700">£115m</text><text class="g-mut" x="672" y="233" font-size="11.5">£58–226m</text>
+      <g class="g-tick" text-anchor="middle">
+        <text x="175" y="262">0</text><text x="282" y="262">50</text><text x="390" y="262">100</text><text x="497" y="262">150</text><text x="604" y="262">200</text>
+      </g>
+      <text class="g-t2" x="175" y="286" font-size="12">£ millions per annual cohort, over ten years</text>
+    </svg>
+    <p class="cap"><b>Figure 2.</b> Fiscal value per annual cohort (~80,000 adults), over ten years. Bars = central estimate; whiskers = range. Charge recovery and scarring scale with the ~60% grant rate; support saved does not.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Channel A — why the charge collects so little</h2>
+  <p>The charge is recovered as 9% of income above a £25,000 threshold (the student-loan Plan 5 benchmark). Two facts sink it. First, refugee earnings are low: the Home Office’s own RIO data — measured <em>only among those in work</em> — shows just 6% of employed refugees earn ≥£20,000 in year one. Second, most refugees are not in work at all (employment is 24% in year one, ~48% by year eight). Combine the two and the share of <em>all</em> refugees above the £25,000 threshold runs from about <strong>1% in year one to about 13% by year eight</strong>. Earnings grow — but even at the eight-year peak roughly <strong>seven in eight are still below the threshold</strong>, and repay nothing.</p>
+
+  <div class="fig">
+    <svg viewBox="0 0 760 400" role="img" aria-label="Refugee earnings year 1 versus year 8 as a share of all refugees. Not in work falls 76% to 52%; in work below £25,000 rises 23% to 35%; at or above £25,000 rises about 1% to about 13%.">
+      <g stroke-width="1">
+        <line class="g-grid" x1="70" y1="255" x2="720" y2="255"/><line class="g-grid" x1="70" y1="200" x2="720" y2="200"/><line class="g-grid" x1="70" y1="145" x2="720" y2="145"/><line class="g-grid" x1="70" y1="90" x2="720" y2="90"/>
+      </g>
+      <g class="g-tick" text-anchor="end"><text x="60" y="314">0</text><text x="60" y="259">20</text><text x="60" y="204">40</text><text x="60" y="149">60</text><text x="60" y="94">80</text></g>
+      <text class="g-t2" x="34" y="81" font-size="12">%</text>
+      <line class="g-base" x1="70" y1="310" x2="720" y2="310" stroke-width="1.5"/>
+      <rect class="s-yr1" x="405" y="70" width="12" height="12" rx="2"/><text class="g-t2" x="423" y="80" font-size="12">Year 1</text>
+      <rect class="s-yr8" x="495" y="70" width="12" height="12" rx="2"/><text class="g-t2" x="513" y="80" font-size="12">Year 8 after status</text>
+      <path class="s-yr1" d="M120,310 V104 A3,3 0 0 1 123,101 H163 A3,3 0 0 1 166,104 V310 Z"/><text class="g-t1" x="143" y="93" font-size="13" font-weight="700" text-anchor="middle">76%</text>
+      <path class="s-yr8" d="M172,310 V170 A3,3 0 0 1 175,167 H215 A3,3 0 0 1 218,170 V310 Z"/><text class="g-t1" x="195" y="159" font-size="13" font-weight="700" text-anchor="middle">52%</text>
+      <text class="g-t2" x="169" y="330" font-size="12" text-anchor="middle">Not in work (£0)</text>
+      <path class="s-yr1" d="M330,310 V249.8 A3,3 0 0 1 333,246.8 H373 A3,3 0 0 1 376,249.8 V310 Z"/><text class="g-t1" x="353" y="238" font-size="13" font-weight="700" text-anchor="middle">23%</text>
+      <path class="s-yr8" d="M382,310 V216.8 A3,3 0 0 1 385,213.8 H425 A3,3 0 0 1 428,216.8 V310 Z"/><text class="g-t1" x="405" y="206" font-size="13" font-weight="700" text-anchor="middle">35%</text>
+      <text class="g-t2" x="379" y="330" font-size="12" text-anchor="middle">In work, below £25k</text>
+      <path class="s-yr1" d="M540,307.3 H586 V310 H540 Z"/><text class="g-t1" x="563" y="300" font-size="13" font-weight="700" text-anchor="middle">~1%</text>
+      <path class="s-yr8" d="M592,310 V277.3 A3,3 0 0 1 595,274.3 H635 A3,3 0 0 1 638,277.3 V310 Z"/><text class="g-t1" x="615" y="266" font-size="13" font-weight="700" text-anchor="middle">13%</text>
+      <text class="g-red" x="589" y="330" font-size="12" font-weight="650" text-anchor="middle">£25k+ — repays</text>
+    </svg>
+    <p class="cap"><b>Figure 3.</b> Share of <em>all</em> working-age refugees, year 1 vs year 8 (RIO employment rates × RIO earnings distribution among the employed). Even by year 8, ~87% earn below the £25,000 threshold.</p>
+  </div>
+
+  <p>The result: per person, expected ten-year recovery is about <strong>£510 — some 5% of the £10,000</strong>. Because only those granted asylum <em>and</em> remaining ever repay (refused-and-removed applicants pay nothing; refused-and-remaining ones can’t work legally), the aggregate is roughly <strong>£24m per cohort</strong>, or <strong>~3% of the ~£800m notionally billed</strong>. A £30,000 earner — already in the top tenth of all refugees — repays £450 a year and takes 22 years to clear the balance.</p>
+  <div class="callout"><p><strong>The load-bearing tension:</strong> the only way to make the charge lucrative is a low threshold — i.e. collecting from refugees on poverty wages, which detonates the “sufficient funds” premise the policy rests on. There is no threshold that is both lucrative <em>and</em> fair.</p></div>
+</section>
+
+<section>
+  <h2>Channels B &amp; C — what the right to work is worth</h2>
+  <p><strong>Channel B — support saved.</strong> Letting one person work six months sooner offsets accommodation and subsistence plus a little tax — about <strong>£11,000 in that single transition</strong>. Crucially this accrues whether or not the claim later succeeds; housing someone in a hotel costs the same regardless. Across a cohort that is on the order of <strong>£130–220m</strong>.</p>
+  <p><strong>Channel C — scarring avoided.</strong> Two independent causal studies agree the ban’s main damage is permanent: Fasani, Frattini &amp; Minale (2020) find a ban cuts refugee employment by <strong>15%</strong> for up to a decade; Hainmueller, Hangartner &amp; Lawrence (2016) find each extra year of enforced limbo costs <strong>4–5 percentage points</strong> of employment. Both imply a 12→6-month cut lifts employment by ~3 points, sustained for years — worth about <strong>£115m per cohort</strong>, roughly five times the entire charge.</p>
+  <div class="callout"><p><strong>A tougher asylum regime makes the charge <em>less</em> collectable, not more.</strong> Only granted-and-remaining refugees ever repay, so cutting the grant rate shrinks the charge’s base — while the biggest right-to-work benefit (not housing people who could support themselves) pays off even for applicants later refused.</p></div>
+</section>
+
+<section>
+  <h2>What would change the conclusion</h2>
+  <table>
+    <tr><th>Assumption</th><th>Base</th><th>Effect</th></tr>
+    <tr><td>Repayment threshold</td><td>£25,000</td><td>A lower threshold raises recovery — but taxes refugees on poverty wages; regressive, and breaks the “sufficient funds” logic.</td></tr>
+    <tr><td>Employment response to right-to-work</td><td>+15–25% sooner</td><td>Scales Channel B ~linearly — the key number for the fiscal case.</td></tr>
+    <tr><td>Scarring recovered (12→6 mo)</td><td>~3 pp</td><td>Bracketed by two studies at 2–5 pp; scales Channel C from ~£58m to ~£226m.</td></tr>
+    <tr><td>Eventual grant rate</td><td>~60%</td><td>Cuts <em>both</em> ways: lower grant rate shrinks the charge <em>and</em> scarring — but leaves support-saving untouched.</td></tr>
+  </table>
+  <p>The robust conclusion across all of these: the charge recovers well under 10% of face value, and the right to work is worth several times more. The soft numbers are the inputs (earnings shares, employment response, grant rate), not the arithmetic.</p>
+</section>
+
+<section>
+  <h2>Bottom line</h2>
+  <ol>
+    <li><strong>The charge, alone, is close to fiscally pointless</strong> — ~3% of what it notionally bills, ~£2.4m/yr per cohort.</li>
+    <li><strong>“Make them pay” is impossible without “let them work.”</strong> You cannot recover £10,000 from someone earning nothing, and the state is the reason they earn nothing.</li>
+    <li><strong>The fiscal prize is the work ban, not the charge</strong> — the right to work is worth roughly tenfold what the charge recovers, and most of that prize is permanent scarring avoided, not a six-month delay.</li>
+    <li><strong>The evidence points shorter than six months</strong> — the harm is front-loaded, so a 6-month ban is a compromise, not a cure.</li>
+    <li><strong>Reciprocity is the frame, and it’s the model’s result</strong>: if we expect asylum seekers to repay, we have to let them earn.</li>
+  </ol>
+</section>
+
+<section>
+  <h2>Method &amp; sources</h2>
+  <p style="font-size:14px;color:var(--text2)">Deterministic expected-value model over the Home Office RIO earnings distribution; nominal, undiscounted 10- and 20-year sums. Every quantitative claim was independently re-derived by separate agents blind to the stated answers; two errors were caught and fixed in the process (an aggregate arithmetic slip, and treating employment-conditional earnings as population shares). Residual uncertainty sits in the inputs — the conditional earnings shares, the employment response to lifting the ban, and the ~60% grant rate — not in the sums.</p>
+  <p style="font-size:14px;color:var(--text2)">Sources: Home Office <em>Immigration System Statistics</em> and <em>Refugee Integration Outcomes (RIO), 2015–2023</em>; IPPR; National Audit Office; Migration Observatory; student-loan Plan 5 terms; Fasani, Frattini &amp; Minale, “Lift the Ban?” (IZA DP 13149, 2020); Hainmueller, Hangartner &amp; Lawrence, <em>Science Advances</em> (2016); #LiftTheBan coalition.</p>
+  <p style="font-size:12.5px;color:var(--muted);margin-top:18px">Back-of-the-envelope estimates for discussion — order-of-magnitude, not forecasts. Prepared as a technical companion to the CGD blog.</p>
+</section>
+</main>
+</div>
+</body>
+</html>
