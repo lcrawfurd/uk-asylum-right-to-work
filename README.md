@@ -2,8 +2,10 @@
 
 Back-of-the-envelope analysis + figures for the CGD blog **"The UK's £10,000 Asylum Seeker Payment Must Be Paired With The Right To Work"** (Dempster, Crawfurd, Mitchell).
 
+**Live report:** https://lcrawfurd.github.io/uk-asylum-right-to-work/
+
 ## Files
-- **`BOTEC-asylum-report.html`** — the deliverable. Single self-contained, theme-aware HTML report with all three figures + explanations; opens in any browser. Leads with the one-person 20-year story, then scales to the cohort.
+- **`index.html`** — the deliverable (served as the live report above). Single self-contained, theme-aware HTML report with all three figures + explanations; opens in any browser. Leads with the one-person 20-year story, then scales to the cohort.
 - `BOTEC-asylum-10k-repayment.md` — the working BOTEC brief (full detail, sensitivity, verification box). Links to the three figure files below by relative path, so keep them in this folder together.
 - `BOTEC-asylum-figure3.html` — **Figure 1** in the report: one working asylum seeker over 20 years (status quo / + £10k charge / + right-to-work at 3 months).
 - `BOTEC-asylum-figure.html` — **Figure 2** in the report: the charge (~£24m) vs the two right-to-work channels (~£200–450m) per cohort.
