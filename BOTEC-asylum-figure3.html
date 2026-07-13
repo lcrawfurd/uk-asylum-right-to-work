@@ -3,117 +3,188 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>One asylum seeker, 20 years — earnings, the charge, and the right to work</title>
+<title>Asylum charge repayment over 20 years</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{--surface:#fcfcfb;--text:#141310;--text2:#52514e;--muted:#898781;--grid:#e1e0d9;--baseline:#c3c2b7;
-    --earn:#2a78d6;--tax:#1baf7a;--charge:#e34948;--chip:#f0efec;--chipborder:rgba(11,11,11,.12);}
-  @media (prefers-color-scheme:dark){:root{--surface:#1a1a19;--text:#f2f1ea;--text2:#c3c2b7;--muted:#8f8d86;--grid:#2c2c2a;--baseline:#383835;
-    --earn:#3987e5;--tax:#199e70;--charge:#e66767;--chip:#242422;--chipborder:rgba(255,255,255,.14);}}
-  :root[data-theme="dark"]{--surface:#1a1a19;--text:#f2f1ea;--text2:#c3c2b7;--muted:#8f8d86;--grid:#2c2c2a;--baseline:#383835;--earn:#3987e5;--tax:#199e70;--charge:#e66767;--chip:#242422;--chipborder:rgba(255,255,255,.14);}
-  :root[data-theme="light"]{--surface:#fcfcfb;--text:#141310;--text2:#52514e;--muted:#898781;--grid:#e1e0d9;--baseline:#c3c2b7;--earn:#2a78d6;--tax:#1baf7a;--charge:#e34948;--chip:#f0efec;--chipborder:rgba(11,11,11,.12);}
-  html,body{margin:0;background:var(--surface);}
-  .wrap{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--text);max-width:900px;margin:0 auto;padding:24px 20px 30px;}
-  h1{font-size:20px;line-height:1.25;margin:0 0 6px;font-weight:650;}
-  .sub{font-size:13.5px;color:var(--text2);margin:0 0 14px;line-height:1.4;}
-  .controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 6px;}
-  .step{font:600 12.5px system-ui,sans-serif;color:var(--text2);background:var(--chip);border:1px solid var(--chipborder);
-    border-radius:20px;padding:6px 13px;cursor:pointer;transition:background-color .15s,color .15s,border-color .15s;}
-  .step.active{color:#fff;background:var(--earn);border-color:var(--earn);}
-  .step.s2.active{background:var(--charge);border-color:var(--charge);}
-  .step.s3.active{background:var(--tax);border-color:var(--tax);}
-  .replay{margin-left:auto;font:600 12px system-ui;color:var(--muted);background:none;border:none;cursor:pointer;}
-  svg{width:100%;height:auto;display:block;overflow:visible;}
-  .tick{fill:var(--muted);font-size:12px;font-variant-numeric:tabular-nums;}
-  .axtitle{fill:var(--text2);font-size:12.5px;}
-  .legend{font-size:12.5px;fill:var(--text2);}
-  /* everything fades by opacity, driven by data-step */
-  .layer{transition:opacity .6s ease;}
-  .earnline{fill:none;stroke:var(--earn);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round;transition:opacity .6s ease;}
+  /* CGD brand tokens (cgd-brand-reference.md). Sofia Pro stand-in: Inter. */
+  :root{
+    --cgd-teal:#0B4C5B; --cgd-light-teal:#006970; --cgd-gold:#FFB52C; --cgd-blue:#2D99B5;
+    --cgd-teal-gray:#85A5AD; --cgd-dark-gray:#394649; --cgd-teal-black:#1A272A;
+    --cgd-light-gray:#DFE0E2; --cgd-red:#D15553;
+    --font:'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  }
+  /* iframe-inside reset: no outer chrome, no root margin/padding, transparent bg */
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{background:transparent;}
+  body{font-family:var(--font); color:var(--cgd-teal-black); overflow-x:hidden;}
+  .pad{padding:2px 2px 6px;}                 /* internal spacing only */
+
+  .controls{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:10px;}
+  .step{font:600 clamp(12px,1.6vw,13.5px)/1 var(--font); color:var(--cgd-teal);
+    background:#fff; border:1.5px solid var(--cgd-teal-gray); border-radius:22px;
+    padding:7px 14px; cursor:pointer;}
+  .step[aria-pressed="true"]{color:#fff; background:var(--cgd-light-teal); border-color:var(--cgd-light-teal);}
+  .step:focus-visible, .replay:focus-visible{outline:3px solid var(--cgd-gold); outline-offset:2px;}
+  .replay{margin-left:auto; font:600 12px var(--font); color:var(--cgd-dark-gray);
+    background:none; border:none; cursor:pointer; text-decoration:underline;}
+
+  svg{display:block; width:100%; height:auto; overflow:visible;}
+  .legend{font:500 clamp(11px,1.5vw,12.5px) var(--font); fill:var(--cgd-teal);}
+  .tick{font:400 clamp(10px,1.4vw,12px) var(--font); fill:var(--cgd-teal-black); font-variant-numeric:tabular-nums;}
+  .axlabel{font:500 clamp(11px,1.5vw,12.5px) var(--font); fill:var(--cgd-teal);}
+
+  /* series (CGD categorical/stoplight): earnings=Light Teal line, tax=Blue, charge=Red */
+  .earnline{fill:none; stroke:var(--cgd-light-teal); stroke-width:3; stroke-linejoin:round; stroke-linecap:round;}
+  .sqtax{fill:var(--cgd-blue);}  .ctax{fill:var(--cgd-blue);}
+  .chargeSQ,.chargeC{fill:var(--cgd-red);}
+  .grid{stroke:var(--cgd-light-gray); stroke-width:1;}
+  .baseline{stroke:var(--cgd-teal-black); stroke-width:1;}
+
+  /* build-up by step (opacity fades; honour reduced motion) */
+  .layer,.sqearn{transition:opacity .55s ease;}
   .chargeSQ,.chargeC,.ctax,.cearn{opacity:0;}
   [data-step="3"] .sqtax{opacity:0;}
-  [data-step="3"] .sqearn{opacity:.3;stroke-dasharray:5 5;}
+  [data-step="3"] .sqearn{opacity:.4; stroke:var(--cgd-teal-gray); stroke-dasharray:6 4;}
   [data-step="2"] .chargeSQ{opacity:.92;}
   [data-step="3"] .chargeC{opacity:.92;}
   [data-step="3"] .ctax{opacity:.9;}
   [data-step="3"] .cearn{opacity:1;}
-  .statwrap{margin-top:10px;min-height:46px;}
-  .stat{display:none;font-size:14px;line-height:1.4;color:var(--text);}
-  .stat b{font-weight:700;}
-  [data-step="1"] .stat.st1,[data-step="2"] .stat.st2,[data-step="3"] .stat.st3{display:block;}
-  .cap{font-size:12px;color:var(--muted);margin-top:12px;line-height:1.45;}
+  @media (prefers-reduced-motion: reduce){ .layer,.sqearn{transition:none;} }
+
+  .note{margin-top:10px; font:400 clamp(13px,1.7vw,14px)/1.4 var(--font); color:var(--cgd-teal-black); min-height:44px;}
+  .note strong{font-weight:700; color:var(--cgd-teal);}
+  details.data{margin-top:8px; font:400 12.5px var(--font); color:var(--cgd-dark-gray);}
+  details.data summary{cursor:pointer; color:var(--cgd-teal); font-weight:600;}
+  details.data table{border-collapse:collapse; margin-top:8px; font-variant-numeric:tabular-nums;}
+  details.data th, details.data td{border:1px solid var(--cgd-light-gray); padding:5px 9px; text-align:left;}
+  details.data th{color:var(--cgd-teal); font-weight:600;}
+  .visually-hidden{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <h1>One asylum seeker, 20 years: what the charge changes, and what the right to work changes</h1>
-  <p class="sub">A representative asylum seeker <em>who finds work</em> (many never do). Gross earnings, the income tax + NI they pay, and repayment of the £10,000 charge. Watch it build up, or step through.</p>
-
-  <div class="controls" id="ctl">
-    <button class="step s1 active" data-s="1" aria-current="true">1 · Status quo</button>
-    <button class="step s2" data-s="2">2 · + £10,000 charge</button>
-    <button class="step s3" data-s="3">3 · + right to work at 3 months</button>
-    <button class="replay" id="replay">↻ replay</button>
+<div class="pad">
+  <div class="controls" role="group" aria-label="Choose which scenario to show">
+    <button type="button" class="step" data-s="1" aria-pressed="true">1 · Status quo</button>
+    <button type="button" class="step" data-s="2" aria-pressed="false">2 · + £10,000 charge</button>
+    <button type="button" class="step" data-s="3" aria-pressed="false">3 · + right to work at 3 months</button>
+    <button type="button" class="replay" id="replay">↻ Replay</button>
   </div>
 
   <div id="fig" data-step="1">
-  <svg viewBox="0 0 900 470" role="img" aria-label="Animated chart. Step 1: gross earnings rise to £31k over 20 years, paying £59k tax. Step 2: the £10,000 charge recovers only £3,300. Step 3: with the right to work, earnings rise to £40k, £45k more tax, and the charge clears by year 17.">
-    <g stroke="var(--grid)" stroke-width="1">
-      <line x1="90" y1="321.4" x2="860" y2="321.4"/><line x1="90" y1="242.9" x2="860" y2="242.9"/>
-      <line x1="90" y1="164.3" x2="860" y2="164.3"/><line x1="90" y1="85.7" x2="860" y2="85.7"/>
-    </g>
+  <svg viewBox="0 0 900 460" role="img" aria-labelledby="figTitle figDesc">
+    <title id="figTitle">One asylum seeker's earnings, tax, and £10,000 charge repayment over 20 years</title>
+    <desc id="figDesc">Step 1, status quo: gross earnings rise to about £31,000, paying £59,000 in tax over 20 years. Step 2 adds the £10,000 charge, which recovers only £3,300. Step 3, with the right to work at three months, earnings rise to £40,000, £45,000 more tax is paid, and the charge clears by year 17.</desc>
+
+    <!-- legend -->
+    <line x1="90" y1="30" x2="118" y2="30" class="earnline"/><text class="legend" x="124" y="34">Gross earnings</text>
+    <rect x="270" y="24" width="12" height="12" class="ctax"/><text class="legend" x="288" y="34">Income tax + NI</text>
+    <rect x="440" y="24" width="12" height="12" class="chargeC"/><text class="legend" x="458" y="34">£10k charge repaid</text>
+
+    <!-- gridlines + axes -->
+    <g><line class="grid" x1="90" y1="321.4" x2="860" y2="321.4"/><line class="grid" x1="90" y1="242.9" x2="860" y2="242.9"/><line class="grid" x1="90" y1="164.3" x2="860" y2="164.3"/><line class="grid" x1="90" y1="85.7" x2="860" y2="85.7"/></g>
     <g class="tick" text-anchor="end"><text x="80" y="404">£0</text><text x="80" y="325">£10k</text><text x="80" y="247">£20k</text><text x="80" y="168">£30k</text><text x="80" y="90">£40k</text></g>
-    <line x1="90" y1="400" x2="860" y2="400" stroke="var(--baseline)" stroke-width="1.5"/>
-    <g class="tick" text-anchor="middle"><text x="90" y="420">yr 1</text><text x="252.1" y="420">5</text><text x="454.7" y="420">10</text><text x="657.4" y="420">15</text><text x="860" y="420">20</text></g>
+    <line class="baseline" x1="90" y1="400" x2="860" y2="400"/>
+    <g class="tick" text-anchor="middle"><text x="90" y="422">yr 1</text><text x="252.1" y="422">5</text><text x="454.7" y="422">10</text><text x="657.4" y="422">15</text><text x="860" y="422">20</text></g>
+    <text class="axlabel" x="90" y="448">£ per year, over 20 years</text>
 
-    <line x1="120" y1="47" x2="146" y2="47" stroke="var(--earn)" stroke-width="2.5"/><text class="legend" x="152" y="51">Gross earnings</text>
-    <rect x="300" y="41" width="12" height="12" rx="2" fill="var(--tax)"/><text class="legend" x="318" y="51">Income tax + NI</text>
-    <rect x="470" y="41" width="12" height="12" rx="2" fill="var(--charge)"/><text class="legend" x="488" y="51">£10k charge repaid</text>
-
-    <polygon class="layer sqtax" fill="var(--tax)" fill-opacity="0.9" points="90.0,400.0 90.0,400.0 130.5,400.0 171.1,400.0 211.6,399.1 252.1,392.5 292.6,388.1 333.2,383.7 373.7,379.3 414.2,376.0 454.7,372.7 495.3,370.5 535.8,368.7 576.3,367.2 616.8,366.1 657.4,365.0 697.9,363.9 738.4,362.8 778.9,361.7 819.5,360.6 860.0,359.5 860.0,400.0"/>
-    <polygon class="layer chargeSQ" fill="var(--charge)" fill-opacity="0.92" points="90.0,400.0 130.5,400.0 171.1,400.0 211.6,399.1 252.1,392.5 292.6,388.1 333.2,383.7 373.7,379.3 414.2,376.0 454.7,372.7 495.3,369.8 535.8,367.4 576.3,365.4 616.8,363.9 657.4,362.5 697.9,361.0 738.4,359.6 778.9,358.1 819.5,356.7 860.0,355.2 860.0,359.5 819.5,360.6 778.9,361.7 738.4,362.8 697.9,363.9 657.4,365.0 616.8,366.1 576.3,367.2 535.8,368.7 495.3,370.5 454.7,372.7 414.2,376.0 373.7,379.3 333.2,383.7 292.6,388.1 252.1,392.5 211.6,399.1 171.1,400.0 130.5,400.0 90.0,400.0"/>
-
-    <polygon class="layer ctax" fill="var(--tax)" fill-opacity="0.9" points="90.0,400.0 90.0,400.0 130.5,396.9 171.1,388.1 211.6,379.3 252.1,372.7 292.6,368.3 333.2,363.9 373.7,359.5 414.2,356.2 454.7,352.9 495.3,350.7 535.8,348.9 576.3,347.4 616.8,346.3 657.4,345.2 697.9,344.1 738.4,343.0 778.9,341.9 819.5,340.8 860.0,339.7 860.0,400.0"/>
-    <polygon class="layer chargeC" fill="var(--charge)" fill-opacity="0.92" points="90.0,400.0 130.5,396.9 171.1,388.1 211.6,379.3 252.1,372.7 292.6,366.8 333.2,361.0 373.7,355.2 414.2,350.9 454.7,346.5 495.3,343.6 535.8,341.3 576.3,339.2 616.8,337.8 657.4,336.3 697.9,334.9 738.4,333.9 778.9,341.9 819.5,340.8 860.0,339.7 860.0,339.7 819.5,340.8 778.9,341.9 738.4,343.0 697.9,344.1 657.4,345.2 616.8,346.3 576.3,347.4 535.8,348.9 495.3,350.7 454.7,352.9 414.2,356.2 373.7,359.5 333.2,363.9 292.6,368.3 252.1,372.7 211.6,379.3 171.1,388.1 130.5,396.9 90.0,400.0"/>
-
-    <!-- status-quo earnings (becomes faded ghost at step 3), then right-to-work earnings on top -->
+    <!-- status-quo tax + charge -->
+    <polygon class="layer sqtax" fill-opacity="0.9" points="90.0,400.0 90.0,400.0 130.5,400.0 171.1,400.0 211.6,399.1 252.1,392.5 292.6,388.1 333.2,383.7 373.7,379.3 414.2,376.0 454.7,372.7 495.3,370.5 535.8,368.7 576.3,367.2 616.8,366.1 657.4,365.0 697.9,363.9 738.4,362.8 778.9,361.7 819.5,360.6 860.0,359.5 860.0,400.0"/>
+    <polygon class="layer chargeSQ" fill-opacity="0.92" points="90.0,400.0 130.5,400.0 171.1,400.0 211.6,399.1 252.1,392.5 292.6,388.1 333.2,383.7 373.7,379.3 414.2,376.0 454.7,372.7 495.3,369.8 535.8,367.4 576.3,365.4 616.8,363.9 657.4,362.5 697.9,361.0 738.4,359.6 778.9,358.1 819.5,356.7 860.0,355.2 860.0,359.5 819.5,360.6 778.9,361.7 738.4,362.8 697.9,363.9 657.4,365.0 616.8,366.1 576.3,367.2 535.8,368.7 495.3,370.5 454.7,372.7 414.2,376.0 373.7,379.3 333.2,383.7 292.6,388.1 252.1,392.5 211.6,399.1 171.1,400.0 130.5,400.0 90.0,400.0"/>
+    <!-- right-to-work tax + charge -->
+    <polygon class="layer ctax" fill-opacity="0.9" points="90.0,400.0 90.0,400.0 130.5,396.9 171.1,388.1 211.6,379.3 252.1,372.7 292.6,368.3 333.2,363.9 373.7,359.5 414.2,356.2 454.7,352.9 495.3,350.7 535.8,348.9 576.3,347.4 616.8,346.3 657.4,345.2 697.9,344.1 738.4,343.0 778.9,341.9 819.5,340.8 860.0,339.7 860.0,400.0"/>
+    <polygon class="layer chargeC" fill-opacity="0.92" points="90.0,400.0 130.5,396.9 171.1,388.1 211.6,379.3 252.1,372.7 292.6,366.8 333.2,361.0 373.7,355.2 414.2,350.9 454.7,346.5 495.3,343.6 535.8,341.3 576.3,339.2 616.8,337.8 657.4,336.3 697.9,334.9 738.4,333.9 778.9,341.9 819.5,340.8 860.0,339.7 860.0,339.7 819.5,340.8 778.9,341.9 738.4,343.0 697.9,344.1 657.4,345.2 616.8,346.3 576.3,347.4 535.8,348.9 495.3,350.7 454.7,352.9 414.2,356.2 373.7,359.5 333.2,363.9 292.6,368.3 252.1,372.7 211.6,379.3 171.1,388.1 130.5,396.9 90.0,400.0"/>
+    <!-- earnings lines (status quo becomes faded ghost at step 3; right-to-work on top) -->
     <polyline class="sqearn earnline" points="90.0,400.0 130.5,384.3 171.1,329.3 211.6,297.9 252.1,274.3 292.6,258.6 333.2,242.9 373.7,227.1 414.2,215.4 454.7,203.6 495.3,195.7 535.8,189.4 576.3,183.9 616.8,180.0 657.4,176.1 697.9,172.1 738.4,168.2 778.9,164.3 819.5,160.4 860.0,156.4"/>
-    <polyline class="cearn earnline" points="90.0,345.0 130.5,290.0 171.1,258.6 211.6,227.1 252.1,203.6 292.6,187.9 333.2,172.1 373.7,156.4 414.2,144.6 454.7,132.9 495.3,125.0 535.8,118.7 576.3,113.2 616.8,109.3 657.4,105.4 697.9,101.4 738.4,97.5 778.9,93.6 819.5,89.6 860.0,85.7"/>
-
-    <text class="axtitle" x="90" y="446">£ per year, over 20 years</text>
+    <polyline class="layer cearn earnline" points="90.0,345.0 130.5,290.0 171.1,258.6 211.6,227.1 252.1,203.6 292.6,187.9 333.2,172.1 373.7,156.4 414.2,144.6 454.7,132.9 495.3,125.0 535.8,118.7 576.3,113.2 616.8,109.3 657.4,105.4 697.9,101.4 738.4,97.5 778.9,93.6 819.5,89.6 860.0,85.7"/>
   </svg>
   </div>
 
-  <div class="statwrap">
-    <p class="stat st1">Status quo — the 12-month work ban. Over 20 years this worker pays <b>£59k in income tax and NI</b> (green). No charge yet.</p>
-    <p class="stat st2">Now add the £10,000 charge (red). Earnings and tax are <b>unchanged</b> — the charge doesn't help anyone earn. It recovers just <b>£3.3k of £10k</b> after 20 years; £6.7k is written off.</p>
-    <p class="stat st3">Now give them the <b>right to work at 3 months</b>. Earlier work and less scarring lift the whole path (faded line = status quo): <b>£45k more tax</b>, and the charge <b>clears by year 17</b>.</p>
-  </div>
+  <p class="note" id="note" aria-live="polite"></p>
 
-  <p class="cap">Illustrative, one working asylum seeker (many never work at all). Tax = income tax + employee NI (28% above £12,570); charge repayment = 9% above £25,000, capped at £10,000. Panel 3 reflects a 3-month start and reduced scarring (Fasani; Hainmueller). Independently checked.</p>
+  <details class="data">
+    <summary>Show the numbers</summary>
+    <table>
+      <thead><tr><th>Scenario</th><th>20-yr tax paid</th><th>£10k charge repaid</th></tr></thead>
+      <tbody>
+        <tr><td>1 · Status quo</td><td>£59,000</td><td>—</td></tr>
+        <tr><td>2 · + £10,000 charge</td><td>£59,000</td><td>£3,300 (of £10,000)</td></tr>
+        <tr><td>3 · + right to work at 3 months</td><td>£104,000</td><td>£10,000 (cleared by year 17)</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:6px">Illustrative, one working asylum seeker (many never work at all). Tax = income tax + employee NI (28% above £12,570); charge repayment = 9% above £25,000, capped at £10,000.</p>
+  </details>
 </div>
 
 <script>
+/* CGD analytics postMessage utility (analytics-tracking-standard.md) */
 (function(){
-  var fig=document.getElementById('fig'), ctl=document.getElementById('ctl'),
-      btns=[].slice.call(ctl.querySelectorAll('.step')), timer=null, played=false;
+  var PARENT_ORIGIN='https://www.cgdev.org';
+  var NAME=window.CGD_INTERACTIVE_NAME||'uk-asylum-charge-figure1';
+  var VALID=new Set(['filter','preset','detail_open','detail_close','view_control','navigate','compare','external_link','download']);
+  var viewed=false;
+  function send(ev,p){ if(window.parent) window.parent.postMessage(Object.assign({type:'cgd_analytics',event:ev},p),PARENT_ORIGIN); }
+  window.CGDTracking={
+    trackView:function(){ if(viewed)return; viewed=true; send('interactive_view',{interactive_name:NAME}); },
+    trackEngagement:function(t,l,v){ if(!VALID.has(t))return; var p={interactive_name:NAME,action_type:t,action_label:l};
+      if(v!==undefined&&v!==null&&v!=='') p.action_value=String(v); send('interactive_engagement',p); }
+  };
+})();
+</script>
+
+<script>
+/* CGD iframe-resize (interactive-coding-standard.md). Posts to cgdev.org and, for
+   preview, to the actual parent origin (github.io) so the embed self-sizes there too. */
+(function(){
+  var origins=['https://www.cgdev.org'];
+  try{ var ref=document.referrer && new URL(document.referrer).origin;
+       if(ref && /^https:/.test(ref) && origins.indexOf(ref)===-1) origins.push(ref); }catch(e){}
+  var last=-1;
+  function report(){ var h=Math.ceil(document.body.getBoundingClientRect().height);
+    if(h<=0||h===last) return; last=h;
+    origins.forEach(function(o){ window.parent.postMessage({type:'cgd-iframe-resize',height:h}, o); }); }
+  window.addEventListener('load',report);
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(report);
+  if(window.ResizeObserver) new ResizeObserver(report).observe(document.body); else window.addEventListener('resize',report);
+})();
+</script>
+
+<script>
+/* step controller */
+(function(){
+  var fig=document.getElementById('fig'), note=document.getElementById('note'),
+      btns=[].slice.call(document.querySelectorAll('.step')),
+      reduce=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+      timer=null, played=false;
+  var NOTES={
+    1:'Status quo — the 12-month work ban. Over 20 years this worker pays <strong>£59,000 in income tax and NI</strong>. No charge yet.',
+    2:'Now add the £10,000 charge. Earnings and tax are <strong>unchanged</strong> — the charge doesn’t help anyone earn. It recovers just <strong>£3,300 of £10,000</strong> after 20 years.',
+    3:'Now the <strong>right to work at 3 months</strong>. Earlier work and less scarring lift the whole path (faded line = status quo): <strong>£45,000 more tax</strong>, and the charge <strong>clears by year 17</strong>.'
+  };
   function setStep(n){
     fig.dataset.step=String(n);
-    btns.forEach(function(b){ var on=b.dataset.s===String(n); b.classList.toggle('active',on); b.setAttribute('aria-current', on?'true':'false'); });
+    btns.forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.s===String(n)?'true':'false'); });
+    note.innerHTML=NOTES[n];
   }
-  function play(){
-    clearTimeout(timer); setStep(1);
+  function play(){ clearTimeout(timer); setStep(1);
+    if(reduce) return;                      // honour reduced motion: no auto-sequence
     timer=setTimeout(function(){ setStep(2);
       timer=setTimeout(function(){ setStep(3); },1800); },1800);
   }
-  btns.forEach(function(b){ b.addEventListener('click',function(){ clearTimeout(timer); played=true; setStep(+b.dataset.s); }); });
-  document.getElementById('replay').addEventListener('click',function(){ played=true; play(); });
-  function maybePlay(){ if(played) return; var r=fig.getBoundingClientRect(); if(r.top < (window.innerHeight||800)*0.85 && r.bottom>0){ played=true; play(); } }
+  btns.forEach(function(b){ b.addEventListener('click',function(){
+    clearTimeout(timer); played=true; setStep(+b.dataset.s);
+    CGDTracking.trackEngagement('navigate','scenario_step', b.textContent.trim());
+  }); });
+  document.getElementById('replay').addEventListener('click',function(){
+    played=true; play(); CGDTracking.trackEngagement('view_control','replay');
+  });
+  function maybePlay(){ if(played) return; var r=fig.getBoundingClientRect();
+    if(r.top < (window.innerHeight||800)*0.85 && r.bottom>0){ played=true; play(); } }
   if('IntersectionObserver' in window){
-    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && !played){ played=true; play(); } }); },{threshold:.35});
-    io.observe(fig);
+    new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting&&!played){ played=true; play(); } }); },{threshold:.35}).observe(fig);
   }
-  maybePlay();                          // play now if already in view (standalone page)
-  setTimeout(maybePlay,300);            // and once more after layout settles
+  setStep(1); maybePlay(); setTimeout(maybePlay,300);
+  CGDTracking.trackView();
 })();
 </script>
 </body>

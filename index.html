@@ -95,7 +95,7 @@
   <h2>Start with one person</h2>
   <p>Before the aggregates, follow a single asylum seeker who finds work — many never do, which is itself part of the story. The chart below builds up in three steps: today’s <strong>status quo</strong> (earnings and the tax they pay); then the <strong>£10,000 charge</strong> laid on top; then the same person with the <strong>right to work at three months</strong>. The ban doesn’t just delay work — it lowers employment for years afterwards, so an earlier start lifts the whole path (the “scarring” you see appear in the third step).</p>
   <div class="fig wide">
-    <iframe src="BOTEC-asylum-figure3.html" title="Animated chart: one asylum seeker over 20 years — earnings, the £10,000 charge, and the right to work" loading="lazy" style="width:100%;height:760px;border:1px solid var(--hair);border-radius:10px;background:var(--surface);"></iframe>
+    <iframe id="fig1-embed" src="BOTEC-asylum-figure3.html" title="Animated chart: one asylum seeker over 20 years — earnings, the £10,000 charge, and the right to work" loading="lazy" scrolling="no" style="width:100%;height:600px;border:1px solid var(--hair);border-radius:10px;background:#ffffff;padding:14px;"></iframe>
     <p class="cap"><b>Figure 1.</b> One working asylum seeker over 20 years (many never work at all). Press the step buttons, or let it play. Tax = income tax + employee NI; charge repayment = 9% above £25,000, capped at £10,000; the third step reflects a 3-month start and reduced scarring.</p>
   </div>
   <p>Three things jump out. <strong>The charge changes nothing about earnings</strong> — panels A and B are the same lines; bolting a debt onto someone doesn’t help them earn. <strong>Even from a worker it barely collects</strong> — £3.3k of £10k after twenty years. And <strong>the right to work pays the Exchequer far more through tax than the charge ever recovers</strong> — about £45k more over the period, more than four times the whole charge — while being the only scenario in which the charge is cleared.</p>
@@ -222,5 +222,19 @@
 </section>
 </main>
 </div>
+<script>
+/* Resize the embedded CGD interactive to its content height (mirrors the cgdev.org
+   parent listener; accepts messages from the same GitHub Pages origin). */
+(function(){
+  window.addEventListener('message', function(e){
+    if(!e.data || e.data.type !== 'cgd-iframe-resize') return;
+    try{ if(new URL(e.origin).protocol !== 'https:' && e.origin !== location.origin) return; }catch(err){ return; }
+    var h = Number(e.data.height);
+    if(!isFinite(h) || h <= 0) return;
+    var f = document.getElementById('fig1-embed');
+    if(f && e.source === f.contentWindow) f.style.height = Math.ceil(h) + 28 + 'px';
+  });
+})();
+</script>
 </body>
 </html>
