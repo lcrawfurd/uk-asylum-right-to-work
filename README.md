@@ -2,7 +2,7 @@
 
 Analysis, code, and figures behind the CGD blog **"The UK's £10,000 Asylum Seeker Payment Must Be Paired With The Right To Work"** (Dempster, Crawfurd, Mitchell).
 
-**The blog itself is canonical in the Google Doc**; this repo is not a second version of it. It holds the **methodology, code, and full workings** that don't fit in the blog — the parameterised model that generates every number, the long-form methods brief, and backup copies of the figures.
+This repo holds the **methodology, code, and full workings** that don't fit in the blog — the parameterised model that generates every number, the long-form methods brief, and backup copies of the figures.
 
 ## Reproduce every number
 
