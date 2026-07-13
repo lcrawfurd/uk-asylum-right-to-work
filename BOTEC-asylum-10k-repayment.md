@@ -16,7 +16,7 @@ Confidence: **high** on the direction and rough magnitude of charge recovery (it
 
 ### Figure — the charge vs. the right to work
 
-*Fiscal value to the Exchequer per annual cohort (~85,000 adults), in present value — the charge over its full 40-year recovery, the right-to-work benefits front-loaded (PV ≈ nominal). Bars show the central estimate; whiskers show the range. A theme-aware, interactive version is in [BOTEC-asylum-figure.html](BOTEC-asylum-figure.html).*
+*Fiscal value to the Exchequer per annual cohort (~85,000 adults), in present value — the charge over its full 40-year recovery, the right-to-work benefits front-loaded (PV ≈ nominal). Bars show the central estimate; whiskers show the range.*
 
 <svg viewBox="0 0 820 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The £10,000 charge recovers about £82m per cohort; right-to-work support saving is worth about £187m and avoided scarring about £108m." style="max-width:100%;height:auto;font-family:system-ui,-apple-system,'Segoe UI',sans-serif;">
   <g stroke-width="1">
@@ -105,7 +105,7 @@ Assumptions worth flagging up front: the charge is recovered like a student loan
 
 The mechanism recovers `r × max(0, E − T)` per person per year, where `E` is annual earnings, `r` the rate (9%), `T` the threshold (£25,000). Someone below the threshold repays **nothing**. The binding fact — and a subtlety that matters — is that the RIO earnings figures are measured **among those in work only**: 6% of *employed* refugees earn ≥£20,000 in year 1, rising to 19% clearing £30,000 by year 8. Layer on the employment rate itself (24% in year 1, ~48% by year 8), and the share of *all* refugees above the £25,000 threshold runs from about **1% in year 1 to about 13% by year 8**. Earnings do grow — but even at the eight-year peak roughly **seven in eight are still below the threshold**, and repayment only ever comes from the minority who climb above it over a full career (modelled below). The figure shows the year-1 vs year-8 snapshot:
 
-*Earnings rise after year one — the not-working share falls, the repaying share grows — but even by year 8 the people who clear the threshold are a small minority. Theme-aware, interactive version: [BOTEC-asylum-figure2.html](BOTEC-asylum-figure2.html).*
+*Earnings rise after year one — the not-working share falls, the repaying share grows — but even by year 8 the people who clear the threshold are a small minority.*
 
 <svg viewBox="0 0 760 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Grouped bars comparing UK refugee earnings in year 1 versus year 8 after status, as a share of all refugees. Not in work falls from 76% to 52%; in work but below £25,000 rises from 23% to 35%; at or above £25,000 (who repay) rises from about 1% to about 13%." style="max-width:100%;height:auto;font-family:system-ui,-apple-system,'Segoe UI',sans-serif;">
   <g stroke="#e1e0d9" stroke-width="1">
