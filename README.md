@@ -279,7 +279,6 @@ The remaining uncertainty is in *inputs*, not arithmetic, and is stated as expli
 - **`model.py`** — the whole model in one runnable file: Channel A (charge amortisation), the individual 20-year trajectory, the earner-distribution/quartiles, Channels B & C, and the hotel arithmetic. Sources noted inline.
 - **`numbers.json`** — generated output; every headline number.
 - **`BOTEC-asylum-figure3.html`** — the animated individual-trajectory figure, standalone interactive (built to the [CGD Interactive Toolkit](https://github.com/Center-for-Global-Development/cgd-interactive-toolkit); see `TRACKING.md`). Kept as the one figure backup; the blog's charts live in the Google Doc.
-- **`blog-draft.md`** — the blog text (working copy; the Google Doc is canonical).
 
 ---
 
