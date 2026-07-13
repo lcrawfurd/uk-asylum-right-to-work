@@ -85,6 +85,7 @@
     <g><line class="grid" x1="90" y1="321.4" x2="860" y2="321.4"/><line class="grid" x1="90" y1="242.9" x2="860" y2="242.9"/><line class="grid" x1="90" y1="164.3" x2="860" y2="164.3"/><line class="grid" x1="90" y1="85.7" x2="860" y2="85.7"/></g>
     <g class="tick" text-anchor="end"><text x="80" y="404">£0</text><text x="80" y="325">£10k</text><text x="80" y="247">£20k</text><text x="80" y="168">£30k</text><text x="80" y="90">£40k</text></g>
     <line class="baseline" x1="90" y1="400" x2="860" y2="400"/>
+    <line id="cross" x1="90" y1="66" x2="90" y2="400" stroke="#85A5AD" stroke-width="1" stroke-dasharray="4 3" opacity="0"/>
     <g class="tick" text-anchor="middle"><text x="90" y="422">yr 1</text><text x="252.1" y="422">5</text><text x="454.7" y="422">10</text><text x="657.4" y="422">15</text><text x="860" y="422">20</text></g>
     <text class="axlabel" x="90" y="448">£ per year, over 20 years</text>
 
@@ -185,6 +186,43 @@
   }
   setStep(1); maybePlay(); setTimeout(maybePlay,300);
   CGDTracking.trackView();
+})();
+</script>
+
+<script>
+/* Crosshair tooltip: hover the chart to read each year's values for the current scenario. */
+(function(){
+  var fig=document.getElementById('fig'), svg=fig.querySelector('svg'), cross=document.getElementById('cross');
+  var A=[0,2000,9000,13000,16000,18000,20000,22000,23500,25000,26000,26800,27500,28000,28500,29000,29500,30000,30500,31000];
+  var C=[7000,14000,18000,22000,25000,27000,29000,31000,32500,34000,35000,35800,36500,37000,37500,38000,38500,39000,39500,40000];
+  function tax(e){ return 0.28*Math.max(0,e-12570); }
+  function cum(arr){ var bal=10000,o=[]; arr.forEach(function(e){ var r=Math.min(bal,0.09*Math.max(0,e-25000)); bal-=r; o.push(10000-bal); }); return o; }
+  var cumA=cum(A), cumC=cum(C);
+  function xOf(yr){ return 90+(yr-1)*(770/19); }
+  function fmt(n){ return '£'+Math.round(n).toLocaleString('en-GB'); }
+  var tip=document.createElement('div');
+  tip.style.cssText='position:fixed;z-index:9998;pointer-events:none;opacity:0;transition:opacity .1s;max-width:230px;'+
+    'background:#1A272A;color:#fff;font:400 12.5px/1.45 Inter,system-ui,sans-serif;padding:8px 11px;border-radius:6px;box-shadow:0 2px 12px rgba(0,0,0,.28);';
+  document.body.appendChild(tip);
+  function hide(){ tip.style.opacity='0'; cross.setAttribute('opacity','0'); }
+  fig.addEventListener('mouseleave', hide);
+  fig.addEventListener('mousemove', function(e){
+    var rect=svg.getBoundingClientRect();
+    if(!rect.width){ hide(); return; }
+    var sx=(e.clientX-rect.left)*(900/rect.width);
+    if(sx<80||sx>870){ hide(); return; }
+    var yr=Math.max(1,Math.min(20,Math.round((sx-90)/(770/19))+1));
+    var step=+fig.dataset.step;
+    var earn=(step===3?C:A)[yr-1], t=tax(earn);
+    var rep = step===3 ? cumC[yr-1] : (step===2 ? cumA[yr-1] : null);
+    var html='<b>Year '+yr+'</b><br>Earnings '+fmt(earn)+'<br>Tax + NI '+fmt(t)+(rep!==null?'<br>Charge repaid '+fmt(rep)+' of £10,000':'');
+    tip.innerHTML=html; tip.style.opacity='1';
+    cross.setAttribute('x1',xOf(yr)); cross.setAttribute('x2',xOf(yr)); cross.setAttribute('opacity','0.9');
+    var x=e.clientX+14, y=e.clientY+14, w=tip.offsetWidth, h=tip.offsetHeight;
+    if(x+w>window.innerWidth-8) x=e.clientX-w-14;
+    if(y+h>window.innerHeight-8) y=e.clientY-h-14;
+    tip.style.left=x+'px'; tip.style.top=y+'px';
+  });
 })();
 </script>
 </body>
