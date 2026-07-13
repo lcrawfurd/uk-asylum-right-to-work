@@ -1,16 +1,16 @@
 {
   "charge_recovered_pv_pct": 16,
   "charge_recovered_nominal_pct": 28,
-  "charge_agg_pv_m": 77,
+  "charge_agg_pv_m": 82,
   "charge_agg_pv_range_m": [
-    46,
-    103
+    48,
+    109
   ],
-  "charge_agg_nominal_m": 134,
+  "charge_agg_nominal_m": 142,
   "rab_charge_pct": 84,
   "share_ever_clear_pct": 22,
-  "cohort_adults": 80000,
-  "granted": 48000,
+  "cohort_adults": 85000,
+  "granted": 51000,
   "share_above_25k_yr1_pct": 1,
   "share_above_25k_yr8_pct": 13,
   "indiv_peak_earnings": 31000,
@@ -24,10 +24,10 @@
   "q_upper_32k": 7116,
   "q_top_42k": 10000,
   "channel_B_support_saved_m": [
-    132,
-    220
+    140,
+    234
   ],
-  "channel_C_scarring_avoided_m": 115,
+  "channel_C_scarring_avoided_m": 122,
   "scarring_gap_pp": 8.5,
   "scarring_gain_from_cut_pp": 3.0,
   "fulltime_share_of_employed_yr1_pct": 23,

@@ -8,7 +8,7 @@
 
 A £10,000 repayment charge, recovered student-loan-style from people the state forbids from working, recovers **only about a sixth of its face value in present value** (~a quarter to a third nominal), spread over a 40-year working life — and **only from the ~quarter of refugees who reach and hold full-time earnings above the threshold**. About half never sustain that kind of work and repay nothing. In your student-loan terms it is a ~84% RAB charge — far worse value than the ~50% on graduate loans. *(Over a ten-year window it looks like ~5%; the full-horizon figure is higher, but back-loaded and collected only from successful integrators — see Channel A.)*
 
-The 12-month work ban, meanwhile, costs the Exchequer **far more, and sooner** — most of it permanent, not a delay. Two independent causal studies (Fasani, Frattini & Minale 2020; Hainmueller, Hangartner & Lawrence 2016) agree that time locked out of work cuts refugee employment for up to a decade — ~**3 percentage points** for a 12→6-month cut. Letting one person work six months sooner is worth ~**£11,000 in that single transition**; undoing part of the persistent *scarring* is worth **~£115m per annual cohort**. Because the right-to-work benefits are *front-loaded* (support saved in years 1–3, scarring avoided in years 1–10) while the charge is *back-loaded* over decades, the gap is even wider in present value: on a like-for-like PV basis the right to work is worth roughly **£200–400m per cohort against ~£77m for the charge — several times more**. And the charge's recovery is *parasitic* on the right to work: every pound repaid comes from someone earning above £25,000, which the ban prevents.
+The 12-month work ban, meanwhile, costs the Exchequer **far more, and sooner** — most of it permanent, not a delay. Two independent causal studies (Fasani, Frattini & Minale 2020; Hainmueller, Hangartner & Lawrence 2016) agree that time locked out of work cuts refugee employment for up to a decade — ~**3 percentage points** for a 12→6-month cut. Letting one person work six months sooner is worth ~**£11,000 in that single transition**; undoing part of the persistent *scarring* is worth **~£122m per annual cohort**. Because the right-to-work benefits are *front-loaded* (support saved in years 1–3, scarring avoided in years 1–10) while the charge is *back-loaded* over decades, the gap is even wider in present value: on a like-for-like PV basis the right to work is worth roughly **£210–420m per cohort against ~£82m for the charge — several times more**. And the charge's recovery is *parasitic* on the right to work: every pound repaid comes from someone earning above £25,000, which the ban prevents.
 
 So the reciprocity argument is not rhetorical, it's arithmetic: **"make them pay" is impossible without "let them work."** The charge is a rounding error; the work ban is the expensive policy.
 
@@ -16,9 +16,9 @@ Confidence: **high** on the direction and rough magnitude of charge recovery (it
 
 ### Figure — the charge vs. the right to work
 
-*Fiscal value to the Exchequer per annual cohort (~80,000 adults), in present value — the charge over its full 40-year recovery, the right-to-work benefits front-loaded (PV ≈ nominal). Bars show the central estimate; whiskers show the range. A theme-aware, interactive version is in [BOTEC-asylum-figure.html](BOTEC-asylum-figure.html).*
+*Fiscal value to the Exchequer per annual cohort (~85,000 adults), in present value — the charge over its full 40-year recovery, the right-to-work benefits front-loaded (PV ≈ nominal). Bars show the central estimate; whiskers show the range. A theme-aware, interactive version is in [BOTEC-asylum-figure.html](BOTEC-asylum-figure.html).*
 
-<svg viewBox="0 0 820 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The £10,000 charge recovers about £24m per cohort; right-to-work support saving is worth about £175m and avoided scarring about £115m." style="max-width:100%;height:auto;font-family:system-ui,-apple-system,'Segoe UI',sans-serif;">
+<svg viewBox="0 0 820 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The £10,000 charge recovers about £82m per cohort; right-to-work support saving is worth about £187m and avoided scarring about £108m." style="max-width:100%;height:auto;font-family:system-ui,-apple-system,'Segoe UI',sans-serif;">
   <g stroke-width="1">
     <line x1="282" y1="10" x2="282" y2="222" stroke="#e1e0d9"/>
     <line x1="390" y1="10" x2="390" y2="222" stroke="#e1e0d9"/>
@@ -27,26 +27,26 @@ Confidence: **high** on the direction and rough magnitude of charge recovery (it
     <line x1="175" y1="10" x2="175" y2="222" stroke="#c3c2b7" stroke-width="1.5"/>
   </g>
   <text x="175" y="24" fill="#0b0b0b" font-size="13.5" font-weight="550">What the £10,000 charge recovers (lifetime)</text>
-  <path d="M175,32 H336.2 A4,4 0 0 1 340.2,36 V68 A4,4 0 0 1 336.2,72 H175 Z" fill="#e34948"/>
-  <line x1="271.5" y1="52" x2="396.0" y2="52" stroke="#0b0b0b" stroke-width="1.5" opacity="0.7"/>
-  <line x1="271.5" y1="46" x2="271.5" y2="58" stroke="#0b0b0b" stroke-width="1.5" opacity="0.7"/>
-  <line x1="396.0" y1="46" x2="396.0" y2="58" stroke="#0b0b0b" stroke-width="1.5" opacity="0.7"/>
-  <text x="408" y="48" fill="#0b0b0b" font-size="15" font-weight="700">£77m</text>
-  <text x="408" y="63" fill="#898781" font-size="11.5">£45–103m PV</text>
+  <path d="M175,32 H346.9 A4,4 0 0 1 350.9,36 V68 A4,4 0 0 1 346.9,72 H175 Z" fill="#e34948"/>
+  <line x1="278.0" y1="52" x2="408.8" y2="52" stroke="#0b0b0b" stroke-width="1.5" opacity="0.7"/>
+  <line x1="278.0" y1="46" x2="278.0" y2="58" stroke="#0b0b0b" stroke-width="1.5" opacity="0.7"/>
+  <line x1="408.8" y1="46" x2="408.8" y2="58" stroke="#0b0b0b" stroke-width="1.5" opacity="0.7"/>
+  <text x="421" y="48" fill="#0b0b0b" font-size="15" font-weight="700">£82m</text>
+  <text x="421" y="63" fill="#898781" font-size="11.5">£48–109m PV</text>
   <text x="175" y="109" fill="#0b0b0b" font-size="13.5" font-weight="550">Right to work — support saved while claims pending</text>
-  <path d="M175,117 H535.7 A4,4 0 0 1 539.7,121 V153 A4,4 0 0 1 535.7,157 H175 Z" fill="#2a78d6"/>
-  <line x1="453.9" y1="137" x2="647.0" y2="137" stroke="#0b0b0b" stroke-width="1.5" opacity="0.7"/>
-  <line x1="453.9" y1="131" x2="453.9" y2="143" stroke="#0b0b0b" stroke-width="1.5" opacity="0.7"/>
-  <line x1="647.0" y1="131" x2="647.0" y2="143" stroke="#0b0b0b" stroke-width="1.5" opacity="0.7"/>
-  <text x="659" y="133" fill="#0b0b0b" font-size="15" font-weight="700">£170m</text>
-  <text x="659" y="148" fill="#898781" font-size="11.5">£130–220m PV</text>
+  <path d="M175,117 H572.1 A4,4 0 0 1 576.1,121 V153 A4,4 0 0 1 572.1,157 H175 Z" fill="#2a78d6"/>
+  <line x1="475.3" y1="137" x2="677.0" y2="137" stroke="#0b0b0b" stroke-width="1.5" opacity="0.7"/>
+  <line x1="475.3" y1="131" x2="475.3" y2="143" stroke="#0b0b0b" stroke-width="1.5" opacity="0.7"/>
+  <line x1="677.0" y1="131" x2="677.0" y2="143" stroke="#0b0b0b" stroke-width="1.5" opacity="0.7"/>
+  <text x="689" y="133" fill="#0b0b0b" font-size="15" font-weight="700">£187m</text>
+  <text x="689" y="148" fill="#898781" font-size="11.5">£140–234m PV</text>
   <text x="175" y="166" fill="#0b0b0b" font-size="13.5" font-weight="550">Right to work — employment scarring avoided</text>
-  <path d="M175,174 H385.5 A4,4 0 0 1 389.5,178 V210 A4,4 0 0 1 385.5,214 H175 Z" fill="#1baf7a"/>
-  <line x1="282.3" y1="194" x2="561.1" y2="194" stroke="#0b0b0b" stroke-width="1.5" opacity="0.7"/>
-  <line x1="282.3" y1="188" x2="282.3" y2="200" stroke="#0b0b0b" stroke-width="1.5" opacity="0.7"/>
-  <line x1="561.1" y1="188" x2="561.1" y2="200" stroke="#0b0b0b" stroke-width="1.5" opacity="0.7"/>
-  <text x="573" y="190" fill="#0b0b0b" font-size="15" font-weight="700">£100m</text>
-  <text x="573" y="205" fill="#898781" font-size="11.5">£50–180m PV</text>
+  <path d="M175,174 H402.7 A4,4 0 0 1 406.7,178 V210 A4,4 0 0 1 402.7,214 H175 Z" fill="#1baf7a"/>
+  <line x1="293.0" y1="194" x2="593.3" y2="194" stroke="#0b0b0b" stroke-width="1.5" opacity="0.7"/>
+  <line x1="293.0" y1="188" x2="293.0" y2="200" stroke="#0b0b0b" stroke-width="1.5" opacity="0.7"/>
+  <line x1="593.3" y1="188" x2="593.3" y2="200" stroke="#0b0b0b" stroke-width="1.5" opacity="0.7"/>
+  <text x="605" y="190" fill="#0b0b0b" font-size="15" font-weight="700">£108m</text>
+  <text x="605" y="205" fill="#898781" font-size="11.5">£55–195m PV</text>
   <text x="175" y="237" fill="#898781" font-size="11" text-anchor="middle">0</text>
   <text x="282" y="237" fill="#898781" font-size="11" text-anchor="middle">50</text>
   <text x="390" y="237" fill="#898781" font-size="11" text-anchor="middle">100</text>
@@ -155,7 +155,7 @@ The charge behaves like an income-contingent student loan (the analogy the polic
 | 6 | Earnings among those in work | median £2.5k (yr 1) → £13k; full-time £23k (yr 8) | RIO | data |
 | 7 | Earnings after year 8 | ramp to a mature plateau by ~yr 12, then flat in threshold-relative terms | extrapolation (RIO stops at yr 8) | **assumption** |
 | 8 | Share ever sustaining earnings > £25k | ~33% central (22% low / 42% high) | projected from RIO | **assumption — key uncertainty** |
-| 9 | Repaying pool | 48,000 = ~60% grant rate × ~80,000 adults | GOV.UK grant rates | data + assumption |
+| 9 | Repaying pool | 51,000 = ~60% grant rate × ~85,000 adults | GOV.UK grant rates | data + assumption |
 
 Two modelling choices worth stating plainly. **(a) Threshold-indexed:** Plan-5 thresholds rise with average earnings, so only *individual career progression* crosses the threshold — economy-wide wage growth lifts the threshold too, so we add none (freezing the threshold in nominal terms would raise recovery). **(b) Present value:** repayment is back-loaded into years ~15–40, so we report both nominal and PV.
 
@@ -176,7 +176,7 @@ So the honest picture is: **over a full working life the charge recovers on the 
 - **It comes only from successful integrators.** About half never sustain threshold-relevant work and repay nothing; the ~22% who fully clear the £10k are those who reach and hold full-time earnings above £25,000 over a career. **Per ever-employed refugee, lifetime recovery is ~£5,600 — about 56% of the charge.** The *population* figure is low because half never work, not because workers don't pay.
 - **The £25,000 threshold does enormous work.** Set right at full-time minimum wage, it means the median full-time refugee worker (£23k) repays nothing. Drop it to £20k and PV recovery rises to ~26%; to £15k, ~34% — but that is collecting from refugees on poverty wages, which contradicts the policy's own "sufficient funds" premise.
 
-**Aggregate — and only from those who get status.** The charge can only be recovered from people granted asylum *and* remaining: refused-and-removed applicants pay nothing, and refused-and-remaining ones can't work legally. At a ~60% grant rate the repaying pool is ~48,000. Lifetime recovery is therefore **~£77m in present value per cohort (~£45–103m across calibrations; ~£134m nominal), spread over 40 years** — against the ~£19m PV a ten-year window shows. Collected a decade-plus out and set against a £4.7bn accommodation bill, it remains a marginal revenue instrument.
+**Aggregate — and only from those who get status.** The charge can only be recovered from people granted asylum *and* remaining: refused-and-removed applicants pay nothing, and refused-and-remaining ones can't work legally. At a ~60% grant rate the repaying pool is ~51,000. Lifetime recovery is therefore **~£82m in present value per cohort (~£48–109m across calibrations; ~£142m nominal), spread over 40 years** — against the ~£20m PV a ten-year window shows. Collected a decade-plus out and set against a £4.7bn accommodation bill, it remains a marginal revenue instrument.
 
 ---
 
@@ -223,16 +223,16 @@ These give two ways to size the UK's 12→6-month cut, and they triangulate:
 
 The two literatures agree the 6-month cut is worth **~2–5 percentage points of refugee employment, sustained for up to a decade** — central **~3 pp**. This replaces the earlier single-assumption guess with an empirically bracketed range.
 
-Scarring only applies to people who *get* status — refused applicants have no long-run UK labour market to be scarred out of. So the base is not the full 80k cohort but the **~48,000 eventually granted** (at a ~60% grant rate). Valuing each recovered person-year of employment at £6k–£10k (income tax + NI paid, mainstream benefits not claimed — author estimate, **medium confidence**):
+Scarring only applies to people who *get* status — refused applicants have no long-run UK labour market to be scarred out of. So the base is not the full 85k cohort but the **~51,000 eventually granted** (at a ~60% grant rate). Valuing each recovered person-year of employment at £6k–£10k (income tax + NI paid, mainstream benefits not claimed — author estimate, **medium confidence**):
 
 | | Low (2 pp) | Central (3 pp) | High (4.7 pp) |
 |---|---|---|---|
 | Extra people employed (of ~48k granted) | ~960 | ~1,440 | ~2,260 |
 | × net fiscal value / person-yr | £6,000 | £8,000 | £10,000 |
 | **Annual fiscal gain** | **~£6m** | **~£12m** | **~£23m** |
-| **Over ~10 years (undiscounted)** | **~£58m** | **~£115m** | **~£226m** |
+| **Over ~10 years (undiscounted)** | **~£62m** | **~£122m** | **~£240m** |
 
-**On a like-for-like present-value basis, Channel C alone (~£100m PV per cohort) is comparable to the charge's *full-lifetime* recovery (~£77m PV), and Channel B (~£170m PV) is more than double it.** The channels are additive — B is the timing of support-exit during the claim (robust to refusals); C is long-run participation after status (only the ~60% granted). With a haircut for overlap the combined right-to-work value is **~£200–400m PV per cohort — several times the charge** — and, unlike the charge, it is *front-loaded* (support saved in years 1–3, scarring avoided in years 1–10) rather than collected over decades, which is why the PV gap is wider than the nominal one.
+**On a like-for-like present-value basis, Channel C alone (~£108m PV per cohort) is comparable to the charge's *full-lifetime* recovery (~£82m PV), and Channel B (~£187m PV) is more than double it.** The channels are additive — B is the timing of support-exit during the claim (robust to refusals); C is long-run participation after status (only the ~60% granted). With a haircut for overlap the combined right-to-work value is **~£210–420m PV per cohort — several times the charge** — and, unlike the charge, it is *front-loaded* (support saved in years 1–3, scarring avoided in years 1–10) rather than collected over decades, which is why the PV gap is wider than the nominal one.
 
 **Two evidence-based levers, not one.** Fasani identifies the *work ban* (12→6 months); Hainmueller identifies total *wait time* (the multi-year backlog, of which the ban is only the first slice). Both scar employment; cutting the ban helps, clearing the backlog helps more, and they compound. As a reality check, Fasani et al. put the Europe-wide output loss from bans on the 2015 cohort at **€37.6bn**; the UK per-cohort figures above are a small, fiscal-basis slice of that GDP-basis total, and the orders of magnitude reconcile.
 
@@ -313,9 +313,9 @@ There is **no direct evidence** that employment makes removal harder — it sits
 
 ## Implications
 
-1. **The charge, alone, is a weak revenue instrument** — ~16% of face value in present value, collected over 40 years and only from the ~quarter who reach sustained full-time work (~£77m PV per cohort). Presented as a serious revenue measure it invites the scepticism it has received.
+1. **The charge, alone, is a weak revenue instrument** — ~16% of face value in present value, collected over 40 years and only from the ~quarter who reach sustained full-time work (~£82m PV per cohort). Presented as a serious revenue measure it invites the scepticism it has received.
 2. **"Make them pay" is arithmetically impossible without "let them work."** You cannot recover £10,000 from someone earning nothing, and the state is the reason they earn nothing. Refusals make it worse: much of the billed population is either removed (never pays) or barred from legal work (can't pay).
-3. **The fiscal prize is the work ban, not the charge.** The right to work is worth ~£200–400m in present value per cohort against ~£77m PV for the charge — several times more, and front-loaded rather than collected over decades — and unlike the charge, it improves the position of the people it touches.
+3. **The fiscal prize is the work ban, not the charge.** The right to work is worth ~£210–420m in present value per cohort against ~£82m PV for the charge — several times more, and front-loaded rather than collected over decades — and unlike the charge, it improves the position of the people it touches.
 4. **Most of that prize is avoided scarring, not avoided delay.** Two independent studies find the dominant cost of enforced idleness is permanent non-participation lasting up to a decade — so the case for lifting the ban is far stronger than a "they'll just start work six months sooner" reading suggests.
 5. **A tougher asylum regime makes the charge *less* collectable, not more.** Because only granted-and-remaining refugees ever repay, cutting the grant rate shrinks the charge's revenue base. The one channel immune to this — avoided support while claims are pending — is the right-to-work channel, which pays off even for applicants later refused.
 5. **Two levers, both evidence-based.** Shortening the *work ban* (Fasani) and clearing the *backlog* to cut total wait time (Hainmueller) both raise employment, and compound. The blog focuses on the ban; the backlog is a natural companion ask.
@@ -328,6 +328,6 @@ There is **no direct evidence** that employment makes removal harder — it sits
 
 Model is a deterministic expected-value calculation over the RIO earnings distribution; no micro-data, no discounting (nominal ten-year sums). Earnings bands are treated as population shares; the split of the ≥£20k tail above/below £25k is estimated, not observed — the largest source of error in Channel A, and the reason the threshold sensitivity row matters most.
 
-**Verification box.** Channel A is now a fully reproducible amortisation — see [`model.py`](model.py); every figure in this section is printed by that script, so it can be re-run and challenged directly. 🔴 Fixes: **3.** (1) Channel A aggregate £88m→£90m→grant-adjusted £54m; (2) corrected to £24m after establishing RIO earnings bands are employment-conditional; (3) **the big one — replaced the 10-year truncation with a full 40-year amortisation to write-off, in present value.** The 10-year figure was not an arithmetic error (the new model reproduces ~5% at 10 years) but a horizon artefact; the honest lifetime figure is **~16% PV / ~28% nominal** (central), £77m PV per cohort. Iterations: 3. Channels B and C unchanged in nominal terms; expressed in PV (front-loaded, so PV≈nominal) for a like-for-like comparison with the charge.
+**Verification box.** Channel A is now a fully reproducible amortisation — see [`model.py`](model.py); every figure in this section is printed by that script, so it can be re-run and challenged directly. 🔴 Fixes: **3.** (1) Channel A aggregate £88m→£90m→grant-adjusted £54m; (2) corrected to £24m after establishing RIO earnings bands are employment-conditional; (3) **the big one — replaced the 10-year truncation with a full 40-year amortisation to write-off, in present value.** The 10-year figure was not an arithmetic error (the new model reproduces ~5% at 10 years) but a horizon artefact; the honest lifetime figure is **~16% PV / ~28% nominal** (central), £82m PV per cohort. Iterations: 3. Channels B and C unchanged in nominal terms; expressed in PV (front-loaded, so PV≈nominal) for a like-for-like comparison with the charge.
 
 The remaining uncertainty is in *inputs*, not arithmetic, and is now stated as explicit assumptions in the Channel A table. The **single biggest lever** is assumption #8 (share ever earning above £25k): the 40-year figure spans ~10–21% PV across the conservative–optimistic range. The next is the **threshold** (#2, set at Plan-5's £25k) and the **write-off horizon** (#3). All are policy-unspecified — the Bill sets neither a threshold nor a rate — so the model uses the student-loan analogy the government itself invited, and flags every borrowed value.

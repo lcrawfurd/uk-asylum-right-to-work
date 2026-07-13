@@ -20,7 +20,7 @@ It prints every number and writes [`numbers.json`](numbers.json). Change an assu
 |---|---|---|
 | Charge recovers ~a sixth of face value in PV | `charge_recovered_pv_pct` | 16% |
 | …~28% in nominal terms | `charge_recovered_nominal_pct` | 28% |
-| …roughly £77m per cohort | `charge_agg_pv_m` (range `…_range_m`) | £77m (£46–103m) |
+| …roughly £82m per cohort | `charge_agg_pv_m` (range `…_range_m`) | £82m (£48–109m) |
 | RAB charge (share written off) | `rab_charge_pct` | 84% |
 | ~1% earn above £25k in year 1 | `share_above_25k_yr1_pct` | 1% |
 | …~13% by year 8 | `share_above_25k_yr8_pct` | 13% |
@@ -28,8 +28,8 @@ It prints every number and writes [`numbers.json`](numbers.json). Change an assu
 | Median full-time worker (£23k) repays nothing | `q_median_23k` | £0 |
 | Right to work → +£45k tax over the period | `indiv_extra_tax_righttowork` | £44,761 |
 | …charge clears by year 17 | `indiv_charge_clears_year_righttowork` | 17 |
-| Channel B (support saved) | `channel_B_support_saved_m` | £132–220m |
-| Channel C (scarring avoided) | `channel_C_scarring_avoided_m` | £115m |
+| Channel B (support saved) | `channel_B_support_saved_m` | £140–234m |
+| Channel C (scarring avoided) | `channel_C_scarring_avoided_m` | £122m |
 | Right to work worth several times the charge | `righttowork_vs_charge_multiple` | ~3.8× |
 | 23% of employed refugees full-time, yr1 → 37% yr8 | `fulltime_share_of_employed_*` | 23% / 37% |
 | Hotels vs dispersal | `hotel_vs_dispersal_multiple` | 6.2× |
@@ -48,7 +48,7 @@ It prints every number and writes [`numbers.json`](numbers.json). Change an assu
 
 - **Charge = student-loan Plan 5:** 9% of income above **£25,000**, capped at £10,000, over a **40-year** term. The Bill sets no threshold or rate; we borrow the analogy the policy invites. The **threshold is the biggest lever** (`THRESHOLD`).
 - **Present value** at the Green Book 3.5% real rate, because repayment is back-loaded.
-- **Cohort base:** `COHORT_ADULTS = 80,000` × `GRANT_RATE = 0.60` → ~48,000 who can ever repay. This is an **adult** base — it excludes children. Using ~100k *total* claims (which includes children who can't work or repay) would give ~60,000 granted and a ~£96m charge; we don't, because the charge falls on adults.
+- **Cohort base:** `COHORT_ADULTS = 85,000` × `GRANT_RATE = 0.60` → ~51,000 who can ever repay. This is an **adult** base — it excludes children. Using ~100k *total* claims (which includes children who can't work or repay) would give ~60,000 granted and a ~£96m charge; we don't, because the charge falls on adults.
 - **Earnings** follow Home Office RIO (2015–2023); the central case assumes ~33% of the cohort ever sustain earnings above £25k (`CALIBRATIONS`) — the single most important assumption; conservative/optimistic give ~10% / ~21% PV.
 
 ## Sources

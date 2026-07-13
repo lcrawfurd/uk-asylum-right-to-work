@@ -28,9 +28,9 @@ CHARGE, RATE, THRESHOLD, HORIZON, DISCOUNT = 10_000, 0.09, 25_000, 40, 0.035
 # ~108k total claims / ~84k main applicants in 2024. The charge falls on ADULTS, so we
 # use an adult base and EXCLUDE children. (Using ~100k total claims would fold in
 # children who can't work or repay; that would give GRANTED=60k and a ~£96m charge.)
-COHORT_ADULTS = 80_000     # adult asylum seekers who could be charged, per annual cohort
+COHORT_ADULTS = 85_000     # adult asylum seekers who could be charged, per annual cohort
 GRANT_RATE    = 0.60       # eventual grant rate incl. appeals (2024 initial rate was 47%)
-GRANTED       = round(COHORT_ADULTS * GRANT_RATE)   # ~48,000 who can ever repay
+GRANTED       = round(COHORT_ADULTS * GRANT_RATE)   # ~51,000 who can ever repay
 
 # --- Home Office RIO 2015-2023: employment, hours, earnings ---
 EMP_RATE   = {1: 0.24, 2: 0.45, 8: 0.48}   # share of refugees in ANY work, by yrs since status
