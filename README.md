@@ -65,7 +65,7 @@ So the reciprocity argument is not rhetorical, it's arithmetic: **"make them pay
 
 Confidence: **high** on the direction and rough magnitude of charge recovery (it is small); **medium** on the size of the right-to-work fiscal gain (depends on the employment response).
 
-> **Figures.** The three figures (charge vs. right-to-work; the year-1→year-8 earnings slopegraph; the 20-year individual trajectory) are rendered in [`index.html`](index.html); the animated individual-trajectory version is the standalone [`BOTEC-asylum-figure3.html`](BOTEC-asylum-figure3.html).
+> **Figures.** The charts themselves live in the blog. The one interactive figure kept in this repo is the animated 20-year individual trajectory, [`BOTEC-asylum-figure3.html`](BOTEC-asylum-figure3.html).
 
 ---
 
@@ -116,7 +116,7 @@ Assumptions worth flagging up front: the charge is recovered like a student loan
 
 The mechanism recovers `r × max(0, E − T)` per person per year, where `E` is annual earnings, `r` the rate (9%), `T` the threshold (£25,000). Someone below the threshold repays **nothing**. The binding fact — and a subtlety that matters — is that the RIO earnings figures are measured **among those in work only**: 6% of *employed* refugees earn ≥£20,000 in year 1, rising to 19% clearing £30,000 by year 8. Layer on the employment rate itself (24% in year 1, ~48% by year 8), and the share of *all* refugees above the £25,000 threshold runs from about **1% in year 1 to about 13% by year 8**. Earnings do grow — but even at the eight-year peak roughly **seven in eight are still below the threshold**, and repayment only ever comes from the minority who climb above it over a full career.
 
-*(This year-1 vs year-8 distribution is Figure 3 — the earnings slopegraph — in [`index.html`](index.html).)*
+*(This year-1 vs year-8 distribution is the earnings slopegraph in the blog; the underlying shares are the RIO employment rates × earnings figures above.)*
 
 ### How we model recovery — every assumption on the table
 
@@ -213,7 +213,7 @@ Scarring only applies to people who *get* status — refused applicants have no 
 
 ## One worker over 20 years
 
-The aggregate figures net out across everyone. It helps to see the same logic play out for a single person who finds work — comparing the status quo (A), the charge bolted onto it (B), and the charge paired with the right to work at three months (C). This is the 20-year individual trajectory figure, rendered in [`index.html`](index.html) and as the standalone interactive [`BOTEC-asylum-figure3.html`](BOTEC-asylum-figure3.html).
+The aggregate figures net out across everyone. It helps to see the same logic play out for a single person who finds work — comparing the status quo (A), the charge bolted onto it (B), and the charge paired with the right to work at three months (C). This is the 20-year individual trajectory figure, kept in this repo as the standalone interactive [`BOTEC-asylum-figure3.html`](BOTEC-asylum-figure3.html).
 
 Three things it shows. **The charge changes nothing about earnings** — the status-quo and charge panels are identical lines; bolting a debt onto someone doesn't help them earn. **Even from a worker, the charge barely collects** — £3,312 of £10,000 after twenty years, £6,700 written off. And **the right to work pays the Exchequer far more through tax than the charge ever recovers** — ~£45k of extra income tax and NI over the period, more than four times the entire £10,000 charge — while also being the only scenario in which the charge is actually cleared (by year 17).
 
@@ -278,8 +278,7 @@ The remaining uncertainty is in *inputs*, not arithmetic, and is stated as expli
 
 - **`model.py`** — the whole model in one runnable file: Channel A (charge amortisation), the individual 20-year trajectory, the earner-distribution/quartiles, Channels B & C, and the hotel arithmetic. Sources noted inline.
 - **`numbers.json`** — generated output; every headline number.
-- **`index.html`** — a backup preview assembling all three figures with the full write-up. Not published and not canonical — the blog lives in the Google Doc; this is kept for reference and is where the figures render.
-- **`BOTEC-asylum-figure3.html`** — the animated individual-trajectory figure, standalone interactive (built to the [CGD Interactive Toolkit](https://github.com/Center-for-Global-Development/cgd-interactive-toolkit); see `TRACKING.md`). The blog uses one figure; the others are kept here as backup.
+- **`BOTEC-asylum-figure3.html`** — the animated individual-trajectory figure, standalone interactive (built to the [CGD Interactive Toolkit](https://github.com/Center-for-Global-Development/cgd-interactive-toolkit); see `TRACKING.md`). Kept as the one figure backup; the blog's charts live in the Google Doc.
 - **`blog-draft.md`** — the blog text (working copy; the Google Doc is canonical).
 
 ---
