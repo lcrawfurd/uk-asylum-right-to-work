@@ -2,7 +2,7 @@
 
 Analysis, code, and figures behind the CGD blog **"The UK's £10,000 Asylum Seeker Payment Must Be Paired With The Right To Work"** (Dempster, Crawfurd, Mitchell).
 
-**Live report:** https://lcrawfurd.github.io/uk-asylum-right-to-work/
+**The blog itself is canonical in the Google Doc**; this repo is not a second version of it. It holds the **methodology, code, and full workings** that don't fit in the blog — the parameterised model that generates every number, the long-form methods brief, and backup copies of the figures.
 
 ## Reproduce every number
 
@@ -39,10 +39,10 @@ It prints every number and writes [`numbers.json`](numbers.json). Change an assu
 
 - **`model.py`** — the whole model in one runnable file: Channel A (charge amortisation), the individual 20-year trajectory, the earner-distribution/quartiles, Channels B & C, and the hotel arithmetic. Sources noted inline.
 - **`numbers.json`** — generated output; every headline number.
-- **`index.html`** — the live report (all three figures + explanations).
-- **`BOTEC-asylum-figure3.html`** — the animated Figure 1 interactive (built to the [CGD Interactive Toolkit](https://github.com/Center-for-Global-Development/cgd-interactive-toolkit); see `TRACKING.md`).
-- **`BOTEC-asylum-10k-repayment.md`** — the long-form BOTEC brief (transparent assumptions table, sensitivity, verification box).
-- **`blog-draft.md`** — the blog text (working copy).
+- **`BOTEC-asylum-10k-repayment.md`** — the long-form BOTEC methods brief (transparent assumptions table, sensitivity, verification box, and inline copies of all figures). This is the main methodological document.
+- **`index.html`** — a backup preview assembling all three figures with the full transparent write-up. Not published and not canonical — the blog lives in the Google Doc; this is kept for reference.
+- **`BOTEC-asylum-figure3.html`** — the animated individual-trajectory figure, standalone interactive (built to the [CGD Interactive Toolkit](https://github.com/Center-for-Global-Development/cgd-interactive-toolkit); see `TRACKING.md`). The blog uses one figure; the others are kept here as backup.
+- **`blog-draft.md`** — the blog text (working copy; the Google Doc is canonical).
 
 ## Key assumptions (all editable in `model.py`)
 
