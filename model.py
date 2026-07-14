@@ -95,13 +95,13 @@ def amortise(groups, threshold=THRESHOLD, horizon=HORIZON):
     return dict(pct_nom=100 * nom / CHARGE, pct_pv=100 * pv / CHARGE,
                 clear=100 * cleared, agg_pv_m=pv * GRANTED / 1e6, agg_nom_m=nom * GRANTED / 1e6)
 
-# ===================== 3. INDIVIDUAL 40-YEAR TRAJECTORY (Figure 1) =====================
+# ===================== 3. INDIVIDUAL 40-YEAR CASE (cited in the write-up) =====================
 # One WORKING asylum seeker at the 80th percentile of ALL refugee earners (central
 # calibration): a ~£31k mature plateau (~£26k at year 8) — just inside the ~22% who ever
-# repay the charge in full. Panels A (status quo) and B (+ the £10,000 charge) show how
-# little the charge collects even from a top-fifth earner. Uses the same RIO ramp as the
+# repay the charge in full. Shows how little the charge collects even from a top-fifth earner:
+# it clears only by year 28, worth ~£5.4k in present value. Uses the same RIO ramp as the
 # aggregate model, over the full 40-year write-off horizon. (The right-to-work fiscal case
-# is a POPULATION effect — Channels B & C below — not something one worker's chart can show.)
+# is a POPULATION effect — Channels B & C below — not something one worker's numbers can show.)
 PLATEAU_A = 31_000
 EARN_A = [PLATEAU_A * ramp(t) for t in range(1, HORIZON + 1)]
 
@@ -164,7 +164,7 @@ def all_numbers():
         # --- share above threshold (share of ALL refugees) ---
         "share_above_25k_yr1_pct": round(EMP_RATE[1] * 0.04 * 100),   # emp x conditional above-25k (~4% of employed)
         "share_above_25k_yr8_pct": round(EMP_RATE[8] * 0.27 * 100),   # ~27% of employed above 25k by yr8
-        # --- individual trajectory (Figure 1): 80th-percentile earner, 40-year horizon ---
+        # --- individual case: 80th-percentile earner, 40-year horizon (cited in the text) ---
         "indiv_plateau_earnings": tA["plateau"],
         "indiv_tax40_statusquo": tA["tax"],
         "indiv_repaid40_statusquo": tA["repaid"],
@@ -204,7 +204,7 @@ if __name__ == "__main__":
           f"£{N['charge_agg_pv_m']}m PV per cohort (range £{N['charge_agg_pv_range_m'][0]}-{N['charge_agg_pv_range_m'][1]}m).")
     print(f"  RAB charge (share written off, PV): {N['rab_charge_pct']}%. Ever fully clear: {N['share_ever_clear_pct']}%.")
     print(f"  Share of all refugees above £25k: {N['share_above_25k_yr1_pct']}% (yr1) -> {N['share_above_25k_yr8_pct']}% (yr8).")
-    print("\nONE WORKING PERSON (80th percentile of all refugees), 40 YEARS (Figure 1)")
+    print("\nONE WORKING PERSON (80th percentile of all refugees), 40 YEARS")
     print(f"  ~£{N['indiv_plateau_earnings']:,} plateau, 40-yr tax £{N['indiv_tax40_statusquo']:,}; the £10,000 charge "
           f"is repaid in full but only by year {N['indiv_charge_clears_year_statusquo']} — worth just "
           f"£{N['indiv_repaid_pv_statusquo']:,} in present value.")
