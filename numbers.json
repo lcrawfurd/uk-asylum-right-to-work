@@ -27,6 +27,12 @@
     234
   ],
   "channel_C_scarring_avoided_m": 122,
+  "channel_C_scarring_avoided_pv_m": 102,
+  "channel_C_pv_range_m": [
+    51,
+    199
+  ],
+  "righttowork_total_pv_m": 289,
   "scarring_gap_pp": 8.5,
   "scarring_gain_from_cut_pp": 3.0,
   "fulltime_share_of_employed_yr1_pct": 23,
@@ -38,5 +44,5 @@
   "dispersal_night": 23.25,
   "hotel_saving_10pct_m": 300,
   "hotel_saving_25pct_m": 750,
-  "righttowork_vs_charge_multiple": 3.8
+  "righttowork_vs_charge_multiple": 3.5
 }

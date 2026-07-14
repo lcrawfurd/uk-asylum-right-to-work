@@ -127,9 +127,11 @@ def channel_B_m():
     return (COHORT_ADULTS * lo * SUPPORT_SAVED_PER_TRANSITION / 1e6,
             COHORT_ADULTS * hi * SUPPORT_SAVED_PER_TRANSITION / 1e6)
 
-def channel_C_m(emp_gain_pp=SCAR_GAIN_PP, persistence=SCAR_PERSIST_YEARS):
+def channel_C_m(emp_gain_pp=SCAR_GAIN_PP, persistence=SCAR_PERSIST_YEARS,
+                fiscal=NET_FISCAL_PER_EMP_YR, pv=False):
     extra_employed = GRANTED * emp_gain_pp / 100
-    return extra_employed * NET_FISCAL_PER_EMP_YR * persistence / 1e6
+    years = sum(1 / (1 + DISCOUNT) ** t for t in range(1, persistence + 1)) if pv else persistence
+    return extra_employed * fiscal * years / 1e6
 
 SCAR_GAP_PP = round(EMP_RATE[8] / (1 - FASANI_PROP) - EMP_RATE[8], 3) * 100  # full-ban employment gap, pp
 
@@ -145,6 +147,10 @@ def all_numbers():
     hi_pv = amortise(CALIBRATIONS["optimistic"])["agg_pv_m"]
     tA = trajectory(EARN_A)
     B = channel_B_m(); C = channel_C_m()
+    C_pv = channel_C_m(pv=True)                                       # C over 10 yrs, discounted
+    C_pv_lo = channel_C_m(emp_gain_pp=2.0, fiscal=6_000, pv=True)     # low: 2pp x £6k
+    C_pv_hi = channel_C_m(emp_gain_pp=4.7, fiscal=10_000, pv=True)    # high: 4.7pp x £10k
+    rtw_total_pv = (B[0] + B[1]) / 2 + C_pv                           # support saved (mid) + scarring PV
     N = {
         # --- Channel A: the charge ---
         "charge_recovered_pv_pct": round(A["pct_pv"]),
@@ -169,7 +175,10 @@ def all_numbers():
         "q_upper_32k": quartile_repaid(32_000), "q_top_42k": quartile_repaid(42_000),
         # --- Channels B & C ---
         "channel_B_support_saved_m": [round(B[0]), round(B[1])],
-        "channel_C_scarring_avoided_m": round(C),
+        "channel_C_scarring_avoided_m": round(C),                     # nominal, 10 yrs
+        "channel_C_scarring_avoided_pv_m": round(C_pv),               # present value
+        "channel_C_pv_range_m": [round(C_pv_lo), round(C_pv_hi)],
+        "righttowork_total_pv_m": round(rtw_total_pv),                # B(mid) + C(PV)
         "scarring_gap_pp": round(SCAR_GAP_PP, 1), "scarring_gain_from_cut_pp": SCAR_GAIN_PP,
         # --- full-time work (RIO) ---
         "fulltime_share_of_employed_yr1_pct": round(FT_SHARE[1] * 100),
@@ -182,8 +191,7 @@ def all_numbers():
         "hotel_saving_10pct_m": round(hotel_saving_m(0.10)),
         "hotel_saving_25pct_m": round(hotel_saving_m(0.25)),
     }
-    rtw_mid = (B[0] + B[1]) / 2 + C
-    N["righttowork_vs_charge_multiple"] = round(rtw_mid / N["charge_agg_pv_m"], 1)
+    N["righttowork_vs_charge_multiple"] = round(rtw_total_pv / N["charge_agg_pv_m"], 1)
     return N
 
 if __name__ == "__main__":
