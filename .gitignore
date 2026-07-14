@@ -1,2 +1,5 @@
 .DS_Store
 __pycache__/
+
+# Local review/markup artifacts — not part of the workings
+AI reviews/
