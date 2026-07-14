@@ -106,7 +106,7 @@ Most coverage is sceptical the charge will raise money, citing low asylum-seeker
 
 ## Channel A — how much does the charge recover?
 
-The mechanism recovers `r × max(0, E − T)` per person per year — rate `r` (9%) on earnings `E` above threshold `T` (£25,000). Below the threshold, nothing. The subtlety that matters: RIO earnings are measured **among those in work only** (6% of *employed* refugees earn ≥£20,000 in year 1, 19% clear £30,000 by year 8). Layer on the employment rate (24% → ~48%), and the share of *all* refugees above £25,000 runs from about **1% in year 1 to 13% by year 8** — so even at the eight-year peak, seven in eight are still below the threshold. *(This is the earnings slopegraph in the blog.)*
+Each year, a person repays **9% of whatever they earn above the £25,000 threshold** — and nothing on the part below it. So someone earning £30,000 repays 9% of the £5,000 excess = £450 that year; someone on £24,000 repays nothing at all. The subtlety that matters: RIO earnings are measured **among those in work only** (6% of *employed* refugees earn ≥£20,000 in year 1, 19% clear £30,000 by year 8). Layer on the employment rate (24% → ~48%), and the share of *all* refugees above £25,000 runs from about **1% in year 1 to 13% by year 8** — so even at the eight-year peak, seven in eight are still below the threshold. *(This is the earnings slopegraph in the blog.)*
 
 ### How we model recovery — every assumption on the table
 
