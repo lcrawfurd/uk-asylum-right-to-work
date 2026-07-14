@@ -213,7 +213,11 @@ Scarring only applies to people who *get* status — refused applicants have no 
 
 ## One worker over 20 years
 
-The aggregate figures net out across everyone. It helps to see the same logic play out for a single person who finds work — comparing the status quo (A), the charge bolted onto it (B), and the charge paired with the right to work at three months (C). This is the 20-year individual trajectory figure, kept in this repo as the standalone interactive [`BOTEC-asylum-figure3.html`](BOTEC-asylum-figure3.html).
+The aggregate figures net out across everyone. It helps to see the same logic play out for a single person who finds work — comparing the status quo (A), the charge bolted onto it (B), and the charge paired with the right to work at three months (C).
+
+![One working asylum seeker over 20 years. Panel A (status quo): earnings rise to £31k, 20-year tax £59k, no charge. Panel B (+ £10,000 charge): identical earnings and tax, only £3,312 of the charge repaid after 20 years. Panel C (work rights at 3 months + charge): earnings rise to £40k, 20-year tax £104k — £45k more than A — and the charge clears by year 17.](figure-one-worker.svg)
+
+An animated, interactive version is kept as [`BOTEC-asylum-figure3.html`](BOTEC-asylum-figure3.html).
 
 Three things it shows. **The charge changes nothing about earnings** — the status-quo and charge panels are identical lines; bolting a debt onto someone doesn't help them earn. **Even from a worker, the charge barely collects** — £3,312 of £10,000 after twenty years, £6,700 written off. And **the right to work pays the Exchequer far more through tax than the charge ever recovers** — ~£45k of extra income tax and NI over the period, more than four times the entire £10,000 charge — while also being the only scenario in which the charge is actually cleared (by year 17).
 
