@@ -1,9 +1,81 @@
-<!doctype html>
+#!/usr/bin/env python3
+"""
+make_interactive.py — regenerate BOTEC-asylum-figure3.html (the animated, single-panel
+interactive) from model.py, matching figure-one-worker.svg: one working asylum seeker at
+the 80th percentile of all refugee earners, over the 40-year charge horizon.
+
+    python3 make_interactive.py
+
+CGD Interactive Toolkit build (brand tokens, iframe-resize, analytics, tooltip, a11y).
+Only the plotted data and the narrative are model-derived; the scaffolding is fixed.
+"""
+import model as m
+
+YRS = m.HORIZON
+tjA, tjC = m.trajectory(m.EARN_A), m.trajectory(m.EARN_C)
+taxA = [m.tax(e) for e in m.EARN_A]; taxC = [m.tax(e) for e in m.EARN_C]
+repA, repC = m.repay_stream(m.EARN_A), m.repay_stream(m.EARN_C)
+
+# geometry: x 90..860 across YRS years; £0 at y=400, £40k at y=85.7 (unchanged from v1)
+X0, X1, YB, Y40, VMAX = 90.0, 860.0, 400.0, 85.7, 40000
+def X(yr): return X0 + (yr - 1) * (X1 - X0) / (YRS - 1)
+def Y(v):  return round(YB - v * (YB - Y40) / VMAX, 1)
+def pstr(seq): return " ".join(f"{round(a,1)},{round(b,1)}" for a, b in seq)
+def area(vals): return pstr([(X0, YB)] + [(X(i+1), Y(vals[i])) for i in range(YRS)] + [(X1, YB)])
+def band(base, top):
+    up = [(X(i+1), Y(base[i] + top[i])) for i in range(YRS)]
+    dn = [(X(i+1), Y(base[i])) for i in range(YRS-1, -1, -1)]
+    return pstr(up + dn)
+def line(vals): return pstr([(X(i+1), Y(vals[i])) for i in range(YRS)])
+
+def rk(v):   return f"£{round(v/1000)*1000:,}"      # nearest £1,000
+def r100(v): return f"£{round(v/100)*100:,}"         # nearest £100
+
+taxA_s, taxC_s = rk(tjA["tax"]), rk(tjC["tax"])
+extra_s = rk(tjC["tax"] - tjA["tax"])
+pv_s = r100(tjA["repaid_pv"])
+clrA, clrC = tjA["clears_year"], tjC["clears_year"]
+peakA, peakC = m.PLATEAU_A, m.PLATEAU_C
+
+xticks = "".join(
+    f'<text x="{round(X(yr),1)}" y="422">{("yr "+str(yr)) if yr==1 else str(yr)}</text>'
+    for yr in (1, 10, 20, 30, 40))
+arrA = "[" + ",".join(str(round(e)) for e in m.EARN_A) + "]"
+arrC = "[" + ",".join(str(round(e)) for e in m.EARN_C) + "]"
+
+R = {
+  "HEADTITLE": f"Asylum charge repayment over {YRS} years",
+  "FIGTITLE": f"One asylum seeker’s earnings, tax, and £10,000 charge repayment over {YRS} years",
+  "FIGDESC": (f"Step 1, status quo: gross earnings rise to about £{peakA//1000},000, paying {taxA_s} "
+              f"in tax over {YRS} years. Step 2 adds the £10,000 charge, repaid in full but only by "
+              f"year {clrA} — about {pv_s} in present value. Step 3, with the right to work at three "
+              f"months, earnings rise to about £{peakC//1000},000, {extra_s} more tax is paid, and the "
+              f"charge clears by year {clrC}."),
+  "XTICKS": xticks,
+  "AXLABEL": f"£ per year, over {YRS} years",
+  "SQTAX": area(taxA), "CHARGESQ": band(taxA, repA),
+  "CTAX": area(taxC), "CHARGEC": band(taxC, repC),
+  "SQEARN": line(m.EARN_A), "CEARN": line(m.EARN_C),
+  "NOTE1": (f"Status quo — the 12-month work ban. Over {YRS} years this earner, at the 80th percentile "
+            f"of all refugees, pays <strong>{taxA_s} in income tax and NI</strong>. No charge yet."),
+  "NOTE2": (f"Now add the £10,000 charge. Earnings and tax are <strong>unchanged</strong> — it doesn’t "
+            f"help anyone earn. It is repaid in full, but so slowly it clears only by <strong>year "
+            f"{clrA}</strong> — worth just <strong>~{pv_s} in today’s money</strong>."),
+  "NOTE3": (f"Now the <strong>right to work at 3 months</strong>. Earlier work and less scarring lift the "
+            f"whole path (faded line = status quo): <strong>{extra_s} more tax</strong>, and the charge "
+            f"<strong>clears by year {clrC}</strong>."),
+  "ROW1": f"<tr><td>1 · Status quo</td><td>{taxA_s}</td><td>—</td></tr>",
+  "ROW2": f"<tr><td>2 · + £10,000 charge</td><td>{taxA_s}</td><td>£10,000 (clears year {clrA}; ~{pv_s} in present value)</td></tr>",
+  "ROW3": f"<tr><td>3 · + right to work at 3 months</td><td>{taxC_s}</td><td>£10,000 (cleared by year {clrC})</td></tr>",
+  "ARRA": arrA, "ARRC": arrC, "YRS": str(YRS), "XDEN": f"{X1-X0:.0f}/{YRS-1}",
+}
+
+TEMPLATE = r'''<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Asylum charge repayment over 40 years</title>
+<title>%%HEADTITLE%%</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -73,8 +145,8 @@
 
   <div id="fig" data-step="1">
   <svg viewBox="0 0 900 460" role="img" aria-labelledby="figTitle figDesc">
-    <title id="figTitle">One asylum seeker’s earnings, tax, and £10,000 charge repayment over 40 years</title>
-    <desc id="figDesc">Step 1, status quo: gross earnings rise to about £31,000, paying £177,000 in tax over 40 years. Step 2 adds the £10,000 charge, repaid in full but only by year 28 — about £5,400 in present value. Step 3, with the right to work at three months, earnings rise to about £38,000, £77,000 more tax is paid, and the charge clears by year 16.</desc>
+    <title id="figTitle">%%FIGTITLE%%</title>
+    <desc id="figDesc">%%FIGDESC%%</desc>
 
     <!-- legend -->
     <line x1="90" y1="30" x2="118" y2="30" class="earnline"/><text class="legend" x="124" y="34">Gross earnings</text>
@@ -86,18 +158,18 @@
     <g class="tick" text-anchor="end"><text x="80" y="404">£0</text><text x="80" y="325">£10k</text><text x="80" y="247">£20k</text><text x="80" y="168">£30k</text><text x="80" y="90">£40k</text></g>
     <line class="baseline" x1="90" y1="400" x2="860" y2="400"/>
     <line id="cross" x1="90" y1="66" x2="90" y2="400" stroke="#85A5AD" stroke-width="1" stroke-dasharray="4 3" opacity="0"/>
-    <g class="tick" text-anchor="middle"><text x="90.0" y="422">yr 1</text><text x="267.7" y="422">10</text><text x="465.1" y="422">20</text><text x="662.6" y="422">30</text><text x="860.0" y="422">40</text></g>
-    <text class="axlabel" x="90" y="448">£ per year, over 40 years</text>
+    <g class="tick" text-anchor="middle">%%XTICKS%%</g>
+    <text class="axlabel" x="90" y="448">%%AXLABEL%%</text>
 
     <!-- status-quo tax + charge -->
-    <polygon class="layer sqtax" fill-opacity="0.9" points="90.0,400.0 90.0,400.0 109.7,400.0 129.5,397.0 149.2,390.1 169.0,383.3 188.7,378.8 208.5,374.2 228.2,369.7 247.9,367.1 267.7,364.6 287.4,362.0 307.2,359.5 326.9,359.5 346.7,359.5 366.4,359.5 386.2,359.5 405.9,359.5 425.6,359.5 445.4,359.5 465.1,359.5 484.9,359.5 504.6,359.5 524.4,359.5 544.1,359.5 563.8,359.5 583.6,359.5 603.3,359.5 623.1,359.5 642.8,359.5 662.6,359.5 682.3,359.5 702.1,359.5 721.8,359.5 741.5,359.5 761.3,359.5 781.0,359.5 800.8,359.5 820.5,359.5 840.3,359.5 860.0,359.5 860.0,400.0"/>
-    <polygon class="layer chargeSQ" fill-opacity="0.92" points="90.0,400.0 109.7,400.0 129.5,397.0 149.2,390.1 169.0,383.3 188.7,378.8 208.5,374.2 228.2,368.7 247.9,365.3 267.7,362.0 287.4,358.6 307.2,355.2 326.9,355.2 346.7,355.2 366.4,355.2 386.2,355.2 405.9,355.2 425.6,355.2 445.4,355.2 465.1,355.2 484.9,355.2 504.6,355.2 524.4,355.2 544.1,355.2 563.8,355.2 583.6,355.2 603.3,355.2 623.1,357.5 642.8,359.5 662.6,359.5 682.3,359.5 702.1,359.5 721.8,359.5 741.5,359.5 761.3,359.5 781.0,359.5 800.8,359.5 820.5,359.5 840.3,359.5 860.0,359.5 860.0,359.5 840.3,359.5 820.5,359.5 800.8,359.5 781.0,359.5 761.3,359.5 741.5,359.5 721.8,359.5 702.1,359.5 682.3,359.5 662.6,359.5 642.8,359.5 623.1,359.5 603.3,359.5 583.6,359.5 563.8,359.5 544.1,359.5 524.4,359.5 504.6,359.5 484.9,359.5 465.1,359.5 445.4,359.5 425.6,359.5 405.9,359.5 386.2,359.5 366.4,359.5 346.7,359.5 326.9,359.5 307.2,359.5 287.4,362.0 267.7,364.6 247.9,367.1 228.2,369.7 208.5,374.2 188.7,378.8 169.0,383.3 149.2,390.1 129.5,397.0 109.7,400.0 90.0,400.0"/>
+    <polygon class="layer sqtax" fill-opacity="0.9" points="%%SQTAX%%"/>
+    <polygon class="layer chargeSQ" fill-opacity="0.92" points="%%CHARGESQ%%"/>
     <!-- right-to-work tax + charge -->
-    <polygon class="layer ctax" fill-opacity="0.9" points="90.0,400.0 90.0,398.4 109.7,390.0 129.5,381.7 149.2,373.3 169.0,367.7 188.7,362.2 208.5,356.6 228.2,353.5 247.9,350.3 267.7,347.2 287.4,344.1 307.2,344.1 326.9,344.1 346.7,344.1 366.4,344.1 386.2,344.1 405.9,344.1 425.6,344.1 445.4,344.1 465.1,344.1 484.9,344.1 504.6,344.1 524.4,344.1 544.1,344.1 563.8,344.1 583.6,344.1 603.3,344.1 623.1,344.1 642.8,344.1 662.6,344.1 682.3,344.1 702.1,344.1 721.8,344.1 741.5,344.1 761.3,344.1 781.0,344.1 800.8,344.1 820.5,344.1 840.3,344.1 860.0,344.1 860.0,400.0"/>
-    <polygon class="layer chargeC" fill-opacity="0.92" points="90.0,398.4 109.7,390.0 129.5,381.7 149.2,373.3 169.0,366.2 188.7,358.8 208.5,351.4 228.2,347.3 247.9,343.1 267.7,339.0 287.4,334.9 307.2,334.9 326.9,334.9 346.7,334.9 366.4,334.9 386.2,343.1 405.9,344.1 425.6,344.1 445.4,344.1 465.1,344.1 484.9,344.1 504.6,344.1 524.4,344.1 544.1,344.1 563.8,344.1 583.6,344.1 603.3,344.1 623.1,344.1 642.8,344.1 662.6,344.1 682.3,344.1 702.1,344.1 721.8,344.1 741.5,344.1 761.3,344.1 781.0,344.1 800.8,344.1 820.5,344.1 840.3,344.1 860.0,344.1 860.0,344.1 840.3,344.1 820.5,344.1 800.8,344.1 781.0,344.1 761.3,344.1 741.5,344.1 721.8,344.1 702.1,344.1 682.3,344.1 662.6,344.1 642.8,344.1 623.1,344.1 603.3,344.1 583.6,344.1 563.8,344.1 544.1,344.1 524.4,344.1 504.6,344.1 484.9,344.1 465.1,344.1 445.4,344.1 425.6,344.1 405.9,344.1 386.2,344.1 366.4,344.1 346.7,344.1 326.9,344.1 307.2,344.1 287.4,344.1 267.7,347.2 247.9,350.3 228.2,353.5 208.5,356.6 188.7,362.2 169.0,367.7 149.2,373.3 129.5,381.7 109.7,390.0 90.0,398.4"/>
+    <polygon class="layer ctax" fill-opacity="0.9" points="%%CTAX%%"/>
+    <polygon class="layer chargeC" fill-opacity="0.92" points="%%CHARGEC%%"/>
     <!-- earnings lines (status quo becomes faded ghost at step 3; right-to-work on top) -->
-    <polyline class="sqearn earnline" points="90.0,339.1 109.7,314.7 129.5,290.4 149.2,266.0 169.0,241.7 188.7,225.4 208.5,209.2 228.2,193.0 247.9,183.8 267.7,174.7 287.4,165.6 307.2,156.4 326.9,156.4 346.7,156.4 366.4,156.4 386.2,156.4 405.9,156.4 425.6,156.4 445.4,156.4 465.1,156.4 484.9,156.4 504.6,156.4 524.4,156.4 544.1,156.4 563.8,156.4 583.6,156.4 603.3,156.4 623.1,156.4 642.8,156.4 662.6,156.4 682.3,156.4 702.1,156.4 721.8,156.4 741.5,156.4 761.3,156.4 781.0,156.4 800.8,156.4 820.5,156.4 840.3,156.4 860.0,156.4"/>
-    <polyline class="layer cearn earnline" points="90.0,295.5 109.7,265.6 129.5,235.8 149.2,205.9 169.0,186.0 188.7,166.1 208.5,146.2 228.2,135.0 247.9,123.8 267.7,112.6 287.4,101.4 307.2,101.4 326.9,101.4 346.7,101.4 366.4,101.4 386.2,101.4 405.9,101.4 425.6,101.4 445.4,101.4 465.1,101.4 484.9,101.4 504.6,101.4 524.4,101.4 544.1,101.4 563.8,101.4 583.6,101.4 603.3,101.4 623.1,101.4 642.8,101.4 662.6,101.4 682.3,101.4 702.1,101.4 721.8,101.4 741.5,101.4 761.3,101.4 781.0,101.4 800.8,101.4 820.5,101.4 840.3,101.4 860.0,101.4"/>
+    <polyline class="sqearn earnline" points="%%SQEARN%%"/>
+    <polyline class="layer cearn earnline" points="%%CEARN%%"/>
   </svg>
   </div>
 
@@ -106,14 +178,14 @@
   <details class="data">
     <summary>Show the numbers</summary>
     <table>
-      <thead><tr><th>Scenario</th><th>40-yr tax paid</th><th>£10k charge repaid</th></tr></thead>
+      <thead><tr><th>Scenario</th><th>%%YRS%%-yr tax paid</th><th>£10k charge repaid</th></tr></thead>
       <tbody>
-        <tr><td>1 · Status quo</td><td>£177,000</td><td>—</td></tr>
-        <tr><td>2 · + £10,000 charge</td><td>£177,000</td><td>£10,000 (clears year 28; ~£5,400 in present value)</td></tr>
-        <tr><td>3 · + right to work at 3 months</td><td>£254,000</td><td>£10,000 (cleared by year 16)</td></tr>
+        %%ROW1%%
+        %%ROW2%%
+        %%ROW3%%
       </tbody>
     </table>
-    <p style="margin-top:6px">Illustrative: one working asylum seeker at the 80th percentile of all refugee earners (many never work at all). Tax = income tax + employee NI (28% above £12,570); charge repayment = 9% above £25,000, capped at £10,000, over 40 years.</p>
+    <p style="margin-top:6px">Illustrative: one working asylum seeker at the 80th percentile of all refugee earners (many never work at all). Tax = income tax + employee NI (28% above £12,570); charge repayment = 9% above £25,000, capped at £10,000, over %%YRS%% years.</p>
   </details>
 </div>
 
@@ -158,9 +230,9 @@
       reduce=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
       timer=null, played=false;
   var NOTES={
-    1:'Status quo — the 12-month work ban. Over 40 years this earner, at the 80th percentile of all refugees, pays <strong>£177,000 in income tax and NI</strong>. No charge yet.',
-    2:'Now add the £10,000 charge. Earnings and tax are <strong>unchanged</strong> — it doesn’t help anyone earn. It is repaid in full, but so slowly it clears only by <strong>year 28</strong> — worth just <strong>~£5,400 in today’s money</strong>.',
-    3:'Now the <strong>right to work at 3 months</strong>. Earlier work and less scarring lift the whole path (faded line = status quo): <strong>£77,000 more tax</strong>, and the charge <strong>clears by year 16</strong>.'
+    1:'%%NOTE1%%',
+    2:'%%NOTE2%%',
+    3:'%%NOTE3%%'
   };
   function setStep(n){
     fig.dataset.step=String(n);
@@ -193,12 +265,12 @@
 /* Crosshair tooltip: hover the chart to read each year's values for the current scenario. */
 (function(){
   var fig=document.getElementById('fig'), svg=fig.querySelector('svg'), cross=document.getElementById('cross');
-  var A=[7750,10850,13950,17050,20150,22217,24283,26350,27512,28675,29838,31000,31000,31000,31000,31000,31000,31000,31000,31000,31000,31000,31000,31000,31000,31000,31000,31000,31000,31000,31000,31000,31000,31000,31000,31000,31000,31000,31000,31000];
-  var C=[13300,17100,20900,24700,27233,29767,32300,33725,35150,36575,38000,38000,38000,38000,38000,38000,38000,38000,38000,38000,38000,38000,38000,38000,38000,38000,38000,38000,38000,38000,38000,38000,38000,38000,38000,38000,38000,38000,38000,38000];
+  var A=%%ARRA%%;
+  var C=%%ARRC%%;
   function tax(e){ return 0.28*Math.max(0,e-12570); }
   function cum(arr){ var bal=10000,o=[]; arr.forEach(function(e){ var r=Math.min(bal,0.09*Math.max(0,e-25000)); bal-=r; o.push(10000-bal); }); return o; }
   var cumA=cum(A), cumC=cum(C);
-  function xOf(yr){ return 90+(yr-1)*(770/39); }
+  function xOf(yr){ return 90+(yr-1)*(%%XDEN%%); }
   function fmt(n){ return '£'+Math.round(n).toLocaleString('en-GB'); }
   var tip=document.createElement('div');
   tip.style.cssText='position:fixed;z-index:9998;pointer-events:none;opacity:0;transition:opacity .1s;max-width:230px;'+
@@ -211,7 +283,7 @@
     if(!rect.width){ hide(); return; }
     var sx=(e.clientX-rect.left)*(900/rect.width);
     if(sx<80||sx>870){ hide(); return; }
-    var yr=Math.max(1,Math.min(40,Math.round((sx-90)/(770/39))+1));
+    var yr=Math.max(1,Math.min(%%YRS%%,Math.round((sx-90)/(%%XDEN%%))+1));
     var step=+fig.dataset.step;
     var earn=(step===3?C:A)[yr-1], t=tax(earn);
     var rep = step===3 ? cumC[yr-1] : (step===2 ? cumA[yr-1] : null);
@@ -227,3 +299,13 @@
 </script>
 </body>
 </html>
+'''
+
+out = TEMPLATE
+for k, v in R.items():
+    out = out.replace(f"%%{k}%%", v)
+with open("BOTEC-asylum-figure3.html", "w") as f:
+    f.write(out)
+assert "%%" not in out, "unreplaced token remains"
+print("Wrote BOTEC-asylum-figure3.html")
+print(f"  A: {taxA_s} tax, charge clears yr {clrA} (PV {pv_s}); C: {taxC_s} tax (+{extra_s}), clears yr {clrC}")
