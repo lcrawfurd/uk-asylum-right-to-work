@@ -6,17 +6,18 @@ the 80th percentile of all refugee earners, over the 40-year charge horizon.
 
     python3 make_interactive.py
 
-CGD Interactive Toolkit build (brand tokens, iframe-resize, analytics, tooltip, a11y).
-Only the plotted data and the narrative are model-derived; the scaffolding is fixed.
+Two-step reveal: (1) status quo earnings + tax, (2) add the £10,000 charge and watch how
+little it claws back. CGD Interactive Toolkit build (brand tokens, iframe-resize,
+analytics, crosshair tooltip, a11y). Only the plotted data + narrative are model-derived.
 """
 import model as m
 
 YRS = m.HORIZON
-tjA, tjC = m.trajectory(m.EARN_A), m.trajectory(m.EARN_C)
-taxA = [m.tax(e) for e in m.EARN_A]; taxC = [m.tax(e) for e in m.EARN_C]
-repA, repC = m.repay_stream(m.EARN_A), m.repay_stream(m.EARN_C)
+tj = m.trajectory(m.EARN_A)
+taxA = [m.tax(e) for e in m.EARN_A]
+repA = m.repay_stream(m.EARN_A)
 
-# geometry: x 90..860 across YRS years; £0 at y=400, £40k at y=85.7 (unchanged from v1)
+# geometry: x 90..860 across YRS years; £0 at y=400, £40k at y=85.7
 X0, X1, YB, Y40, VMAX = 90.0, 860.0, 400.0, 85.7, 40000
 def X(yr): return X0 + (yr - 1) * (X1 - X0) / (YRS - 1)
 def Y(v):  return round(YB - v * (YB - Y40) / VMAX, 1)
@@ -28,46 +29,32 @@ def band(base, top):
     return pstr(up + dn)
 def line(vals): return pstr([(X(i+1), Y(vals[i])) for i in range(YRS)])
 
-def rk(v):   return f"£{round(v/1000)*1000:,}"      # nearest £1,000
-def r100(v): return f"£{round(v/100)*100:,}"         # nearest £100
+def rk(v):   return f"£{round(v/1000)*1000:,}"
+def r100(v): return f"£{round(v/100)*100:,}"
+tax_s, pv_s, clr = rk(tj["tax"]), r100(tj["repaid_pv"]), tj["clears_year"]
+peak = m.PLATEAU_A
 
-taxA_s, taxC_s = rk(tjA["tax"]), rk(tjC["tax"])
-extra_s = rk(tjC["tax"] - tjA["tax"])
-pv_s = r100(tjA["repaid_pv"])
-clrA, clrC = tjA["clears_year"], tjC["clears_year"]
-peakA, peakC = m.PLATEAU_A, m.PLATEAU_C
-
-xticks = "".join(
-    f'<text x="{round(X(yr),1)}" y="422">{("yr "+str(yr)) if yr==1 else str(yr)}</text>'
-    for yr in (1, 10, 20, 30, 40))
+xticks = "".join(f'<text x="{round(X(yr),1)}" y="422">{("yr "+str(yr)) if yr==1 else str(yr)}</text>'
+                 for yr in (1, 10, 20, 30, 40))
 arrA = "[" + ",".join(str(round(e)) for e in m.EARN_A) + "]"
-arrC = "[" + ",".join(str(round(e)) for e in m.EARN_C) + "]"
 
 R = {
-  "HEADTITLE": f"Asylum charge repayment over {YRS} years",
+  "HEADTITLE": f"How little the £10,000 asylum charge collects, over {YRS} years",
   "FIGTITLE": f"One asylum seeker’s earnings, tax, and £10,000 charge repayment over {YRS} years",
-  "FIGDESC": (f"Step 1, status quo: gross earnings rise to about £{peakA//1000},000, paying {taxA_s} "
-              f"in tax over {YRS} years. Step 2 adds the £10,000 charge, repaid in full but only by "
-              f"year {clrA} — about {pv_s} in present value. Step 3, with the right to work at three "
-              f"months, earnings rise to about £{peakC//1000},000, {extra_s} more tax is paid, and the "
-              f"charge clears by year {clrC}."),
-  "XTICKS": xticks,
-  "AXLABEL": f"£ per year, over {YRS} years",
-  "SQTAX": area(taxA), "CHARGESQ": band(taxA, repA),
-  "CTAX": area(taxC), "CHARGEC": band(taxC, repC),
-  "SQEARN": line(m.EARN_A), "CEARN": line(m.EARN_C),
+  "FIGDESC": (f"Step 1, status quo: gross earnings rise to about £{peak//1000},000, paying {tax_s} in tax "
+              f"over {YRS} years. Step 2 adds the £10,000 charge — repaid in full but only by year {clr}, "
+              f"worth about {pv_s} in present value. This earner is at the 80th percentile; only the top "
+              f"fifth of refugees ever repay the charge in full."),
+  "XTICKS": xticks, "AXLABEL": f"£ per year, over {YRS} years",
+  "SQTAX": area(taxA), "CHARGESQ": band(taxA, repA), "SQEARN": line(m.EARN_A),
   "NOTE1": (f"Status quo — the 12-month work ban. Over {YRS} years this earner, at the 80th percentile "
-            f"of all refugees, pays <strong>{taxA_s} in income tax and NI</strong>. No charge yet."),
+            f"of all refugees, pays <strong>{tax_s} in income tax and NI</strong>. No charge yet."),
   "NOTE2": (f"Now add the £10,000 charge. Earnings and tax are <strong>unchanged</strong> — it doesn’t "
-            f"help anyone earn. It is repaid in full, but so slowly it clears only by <strong>year "
-            f"{clrA}</strong> — worth just <strong>~{pv_s} in today’s money</strong>."),
-  "NOTE3": (f"Now the <strong>right to work at 3 months</strong>. Earlier work and less scarring lift the "
-            f"whole path (faded line = status quo): <strong>{extra_s} more tax</strong>, and the charge "
-            f"<strong>clears by year {clrC}</strong>."),
-  "ROW1": f"<tr><td>1 · Status quo</td><td>{taxA_s}</td><td>—</td></tr>",
-  "ROW2": f"<tr><td>2 · + £10,000 charge</td><td>{taxA_s}</td><td>£10,000 (clears year {clrA}; ~{pv_s} in present value)</td></tr>",
-  "ROW3": f"<tr><td>3 · + right to work at 3 months</td><td>{taxC_s}</td><td>£10,000 (cleared by year {clrC})</td></tr>",
-  "ARRA": arrA, "ARRC": arrC, "YRS": str(YRS), "XDEN": f"{X1-X0:.0f}/{YRS-1}",
+            f"help anyone earn. Even from this top-fifth earner it clears only by <strong>year {clr}</strong>, "
+            f"worth just <strong>~{pv_s} in today’s money</strong>. Most refugees repay nothing."),
+  "ROW1": f"<tr><td>1 · Status quo</td><td>{tax_s}</td><td>—</td></tr>",
+  "ROW2": f"<tr><td>2 · + £10,000 charge</td><td>{tax_s}</td><td>£10,000 (clears year {clr}; ~{pv_s} in present value)</td></tr>",
+  "ARRA": arrA, "YRS": str(YRS), "XDEN": f"{X1-X0:.0f}/{YRS-1}",
 }
 
 TEMPLATE = r'''<!doctype html>
@@ -90,7 +77,7 @@ TEMPLATE = r'''<!doctype html>
   *{box-sizing:border-box; margin:0; padding:0;}
   html,body{background:transparent;}
   body{font-family:var(--font); color:var(--cgd-teal-black); overflow-x:hidden;}
-  .pad{padding:2px 2px 6px;}                 /* internal spacing only */
+  .pad{padding:2px 2px 6px;}
 
   .controls{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:10px;}
   .step{font:600 clamp(12px,1.6vw,13.5px)/1 var(--font); color:var(--cgd-teal);
@@ -108,20 +95,15 @@ TEMPLATE = r'''<!doctype html>
 
   /* series (CGD categorical/stoplight): earnings=Light Teal line, tax=Blue, charge=Red */
   .earnline{fill:none; stroke:var(--cgd-light-teal); stroke-width:3; stroke-linejoin:round; stroke-linecap:round;}
-  .sqtax{fill:var(--cgd-blue);}  .ctax{fill:var(--cgd-blue);}
-  .chargeSQ,.chargeC{fill:var(--cgd-red);}
+  .sqtax{fill:var(--cgd-blue);}
+  .chargeSQ{fill:var(--cgd-red);}
   .grid{stroke:var(--cgd-light-gray); stroke-width:1;}
   .baseline{stroke:var(--cgd-teal-black); stroke-width:1;}
 
-  /* build-up by step (opacity fades; honour reduced motion) */
+  /* build-up by step (opacity fade; honour reduced motion) */
   .layer,.sqearn{transition:opacity .55s ease;}
-  .chargeSQ,.chargeC,.ctax,.cearn{opacity:0;}
-  [data-step="3"] .sqtax{opacity:0;}
-  [data-step="3"] .sqearn{opacity:.4; stroke:var(--cgd-teal-gray); stroke-dasharray:6 4;}
+  .chargeSQ{opacity:0;}
   [data-step="2"] .chargeSQ{opacity:.92;}
-  [data-step="3"] .chargeC{opacity:.92;}
-  [data-step="3"] .ctax{opacity:.9;}
-  [data-step="3"] .cearn{opacity:1;}
   @media (prefers-reduced-motion: reduce){ .layer,.sqearn{transition:none;} }
 
   .note{margin-top:10px; font:400 clamp(13px,1.7vw,14px)/1.4 var(--font); color:var(--cgd-teal-black); min-height:44px;}
@@ -139,7 +121,6 @@ TEMPLATE = r'''<!doctype html>
   <div class="controls" role="group" aria-label="Choose which scenario to show">
     <button type="button" class="step" data-s="1" aria-pressed="true">1 · Status quo</button>
     <button type="button" class="step" data-s="2" aria-pressed="false">2 · + £10,000 charge</button>
-    <button type="button" class="step" data-s="3" aria-pressed="false">3 · + right to work at 3 months</button>
     <button type="button" class="replay" id="replay">↻ Replay</button>
   </div>
 
@@ -150,8 +131,8 @@ TEMPLATE = r'''<!doctype html>
 
     <!-- legend -->
     <line x1="90" y1="30" x2="118" y2="30" class="earnline"/><text class="legend" x="124" y="34">Gross earnings</text>
-    <rect x="270" y="24" width="12" height="12" class="ctax"/><text class="legend" x="288" y="34">Income tax + NI</text>
-    <rect x="440" y="24" width="12" height="12" class="chargeC"/><text class="legend" x="458" y="34">£10k charge repaid</text>
+    <rect x="270" y="24" width="12" height="12" fill="#2D99B5"/><text class="legend" x="288" y="34">Income tax + NI</text>
+    <rect x="440" y="24" width="12" height="12" fill="#D15553"/><text class="legend" x="458" y="34">£10k charge repaid</text>
 
     <!-- gridlines + axes -->
     <g><line class="grid" x1="90" y1="321.4" x2="860" y2="321.4"/><line class="grid" x1="90" y1="242.9" x2="860" y2="242.9"/><line class="grid" x1="90" y1="164.3" x2="860" y2="164.3"/><line class="grid" x1="90" y1="85.7" x2="860" y2="85.7"/></g>
@@ -164,12 +145,8 @@ TEMPLATE = r'''<!doctype html>
     <!-- status-quo tax + charge -->
     <polygon class="layer sqtax" fill-opacity="0.9" points="%%SQTAX%%"/>
     <polygon class="layer chargeSQ" fill-opacity="0.92" points="%%CHARGESQ%%"/>
-    <!-- right-to-work tax + charge -->
-    <polygon class="layer ctax" fill-opacity="0.9" points="%%CTAX%%"/>
-    <polygon class="layer chargeC" fill-opacity="0.92" points="%%CHARGEC%%"/>
-    <!-- earnings lines (status quo becomes faded ghost at step 3; right-to-work on top) -->
+    <!-- earnings line -->
     <polyline class="sqearn earnline" points="%%SQEARN%%"/>
-    <polyline class="layer cearn earnline" points="%%CEARN%%"/>
   </svg>
   </div>
 
@@ -182,10 +159,9 @@ TEMPLATE = r'''<!doctype html>
       <tbody>
         %%ROW1%%
         %%ROW2%%
-        %%ROW3%%
       </tbody>
     </table>
-    <p style="margin-top:6px">Illustrative: one working asylum seeker at the 80th percentile of all refugee earners (many never work at all). Tax = income tax + employee NI (28% above £12,570); charge repayment = 9% above £25,000, capped at £10,000, over %%YRS%% years.</p>
+    <p style="margin-top:6px">Illustrative: one working asylum seeker at the 80th percentile of all refugee earners (only the top ~fifth ever repay the charge in full; many never work at all). Tax = income tax + employee NI (28% above £12,570); charge repayment = 9% above £25,000, capped at £10,000, over %%YRS%% years.</p>
   </details>
 </div>
 
@@ -231,8 +207,7 @@ TEMPLATE = r'''<!doctype html>
       timer=null, played=false;
   var NOTES={
     1:'%%NOTE1%%',
-    2:'%%NOTE2%%',
-    3:'%%NOTE3%%'
+    2:'%%NOTE2%%'
   };
   function setStep(n){
     fig.dataset.step=String(n);
@@ -241,8 +216,7 @@ TEMPLATE = r'''<!doctype html>
   }
   function play(){ clearTimeout(timer); setStep(1);
     if(reduce) return;                      // honour reduced motion: no auto-sequence
-    timer=setTimeout(function(){ setStep(2);
-      timer=setTimeout(function(){ setStep(3); },1800); },1800);
+    timer=setTimeout(function(){ setStep(2); },1900);
   }
   btns.forEach(function(b){ b.addEventListener('click',function(){
     clearTimeout(timer); played=true; setStep(+b.dataset.s);
@@ -266,10 +240,9 @@ TEMPLATE = r'''<!doctype html>
 (function(){
   var fig=document.getElementById('fig'), svg=fig.querySelector('svg'), cross=document.getElementById('cross');
   var A=%%ARRA%%;
-  var C=%%ARRC%%;
   function tax(e){ return 0.28*Math.max(0,e-12570); }
   function cum(arr){ var bal=10000,o=[]; arr.forEach(function(e){ var r=Math.min(bal,0.09*Math.max(0,e-25000)); bal-=r; o.push(10000-bal); }); return o; }
-  var cumA=cum(A), cumC=cum(C);
+  var cumA=cum(A);
   function xOf(yr){ return 90+(yr-1)*(%%XDEN%%); }
   function fmt(n){ return '£'+Math.round(n).toLocaleString('en-GB'); }
   var tip=document.createElement('div');
@@ -285,8 +258,8 @@ TEMPLATE = r'''<!doctype html>
     if(sx<80||sx>870){ hide(); return; }
     var yr=Math.max(1,Math.min(%%YRS%%,Math.round((sx-90)/(%%XDEN%%))+1));
     var step=+fig.dataset.step;
-    var earn=(step===3?C:A)[yr-1], t=tax(earn);
-    var rep = step===3 ? cumC[yr-1] : (step===2 ? cumA[yr-1] : null);
+    var earn=A[yr-1], t=tax(earn);
+    var rep = step===2 ? cumA[yr-1] : null;
     var html='<b>Year '+yr+'</b><br>Earnings '+fmt(earn)+'<br>Tax + NI '+fmt(t)+(rep!==null?'<br>Charge repaid '+fmt(rep)+' of £10,000':'');
     tip.innerHTML=html; tip.style.opacity='1';
     cross.setAttribute('x1',xOf(yr)); cross.setAttribute('x2',xOf(yr)); cross.setAttribute('opacity','0.9');
@@ -304,8 +277,8 @@ TEMPLATE = r'''<!doctype html>
 out = TEMPLATE
 for k, v in R.items():
     out = out.replace(f"%%{k}%%", v)
+assert "%%" not in out, "unreplaced token remains"
 with open("BOTEC-asylum-figure3.html", "w") as f:
     f.write(out)
-assert "%%" not in out, "unreplaced token remains"
-print("Wrote BOTEC-asylum-figure3.html")
-print(f"  A: {taxA_s} tax, charge clears yr {clrA} (PV {pv_s}); C: {taxC_s} tax (+{extra_s}), clears yr {clrC}")
+print("Wrote BOTEC-asylum-figure3.html (2-step)")
+print(f"  {tax_s} tax; £10k charge clears yr {clr} (PV {pv_s})")

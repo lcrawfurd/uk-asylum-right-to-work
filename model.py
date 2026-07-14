@@ -98,12 +98,12 @@ def amortise(groups, threshold=THRESHOLD, horizon=HORIZON):
 # ===================== 3. INDIVIDUAL 40-YEAR TRAJECTORY (Figure 1) =====================
 # One WORKING asylum seeker at the 80th percentile of ALL refugee earners (central
 # calibration): a ~£31k mature plateau (~£26k at year 8) — just inside the ~22% who ever
-# repay the charge in full. A/B = status quo (12-month ban). C = right to work at 3 months:
-# an ~1-year-earlier start and less scarring (a higher ~£38k plateau). Uses the same RIO
-# ramp as the aggregate model, run over the full 40-year write-off horizon.
-PLATEAU_A, PLATEAU_C, HEADSTART_C = 31_000, 38_000, 1
+# repay the charge in full. Panels A (status quo) and B (+ the £10,000 charge) show how
+# little the charge collects even from a top-fifth earner. Uses the same RIO ramp as the
+# aggregate model, over the full 40-year write-off horizon. (The right-to-work fiscal case
+# is a POPULATION effect — Channels B & C below — not something one worker's chart can show.)
+PLATEAU_A = 31_000
 EARN_A = [PLATEAU_A * ramp(t) for t in range(1, HORIZON + 1)]
-EARN_C = [min(PLATEAU_C, PLATEAU_C * ramp(t + HEADSTART_C)) for t in range(1, HORIZON + 1)]
 
 def trajectory(earnings):
     rep = repay_stream(earnings)
@@ -143,7 +143,7 @@ def all_numbers():
     A = amortise(CALIBRATIONS["central"])
     lo_pv = amortise(CALIBRATIONS["conservative"])["agg_pv_m"]
     hi_pv = amortise(CALIBRATIONS["optimistic"])["agg_pv_m"]
-    tA, tC = trajectory(EARN_A), trajectory(EARN_C)
+    tA = trajectory(EARN_A)
     B = channel_B_m(); C = channel_C_m()
     N = {
         # --- Channel A: the charge ---
@@ -164,9 +164,6 @@ def all_numbers():
         "indiv_repaid40_statusquo": tA["repaid"],
         "indiv_repaid_pv_statusquo": tA["repaid_pv"],
         "indiv_charge_clears_year_statusquo": tA["clears_year"],
-        "indiv_tax40_righttowork": tC["tax"],
-        "indiv_extra_tax_righttowork": tC["tax"] - tA["tax"],
-        "indiv_charge_clears_year_righttowork": tC["clears_year"],
         # --- distribution / quartiles (20-yr repaid) ---
         "q_bottom_15k": quartile_repaid(15_000), "q_median_23k": quartile_repaid(23_000),
         "q_upper_32k": quartile_repaid(32_000), "q_top_42k": quartile_repaid(42_000),
@@ -200,10 +197,9 @@ if __name__ == "__main__":
     print(f"  RAB charge (share written off, PV): {N['rab_charge_pct']}%. Ever fully clear: {N['share_ever_clear_pct']}%.")
     print(f"  Share of all refugees above £25k: {N['share_above_25k_yr1_pct']}% (yr1) -> {N['share_above_25k_yr8_pct']}% (yr8).")
     print("\nONE WORKING PERSON (80th percentile of all refugees), 40 YEARS (Figure 1)")
-    print(f"  Status quo: ~£{N['indiv_plateau_earnings']:,} plateau, 40-yr tax £{N['indiv_tax40_statusquo']:,}, "
-          f"charge repaid £{N['indiv_repaid40_statusquo']:,} (PV £{N['indiv_repaid_pv_statusquo']:,}); clears year {N['indiv_charge_clears_year_statusquo']}.")
-    print(f"  Right to work: 40-yr tax £{N['indiv_tax40_righttowork']:,} (+£{N['indiv_extra_tax_righttowork']:,}); "
-          f"charge clears year {N['indiv_charge_clears_year_righttowork']}.")
+    print(f"  ~£{N['indiv_plateau_earnings']:,} plateau, 40-yr tax £{N['indiv_tax40_statusquo']:,}; the £10,000 charge "
+          f"is repaid in full but only by year {N['indiv_charge_clears_year_statusquo']} — worth just "
+          f"£{N['indiv_repaid_pv_statusquo']:,} in present value.")
     print("\nDISTRIBUTION (20-yr repaid by earner)")
     print(f"  bottom-Q £{N['q_bottom_15k']} | median (£23k) £{N['q_median_23k']} | "
           f"upper-Q (£32k) £{N['q_upper_32k']:,} | top (£42k) £{N['q_top_42k']:,}")

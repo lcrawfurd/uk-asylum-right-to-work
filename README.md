@@ -41,8 +41,6 @@ It prints every number and writes [`numbers.json`](numbers.json). `python3 make_
 | 80th-pct earner clears the £10k only by year 28 | `indiv_charge_clears_year_statusquo` | 28 |
 | …worth just ~£5.4k of £10k in present value | `indiv_repaid_pv_statusquo` | £5,358 |
 | Median full-time worker (£23k) repays nothing | `q_median_23k` | £0 |
-| Right to work → +£77k tax over 40 years | `indiv_extra_tax_righttowork` | £77,444 |
-| …and clears the charge by year 16 instead | `indiv_charge_clears_year_righttowork` | 16 |
 | Channel B (support saved) | `channel_B_support_saved_m` | £140–234m |
 | Channel C (scarring avoided) | `channel_C_scarring_avoided_m` | £122m |
 | Right to work worth several times the charge | `righttowork_vs_charge_multiple` | ~3.8× |
@@ -194,11 +192,13 @@ In present value, **Channel C alone (~£108m) is comparable to the charge's full
 
 ## One worker over 40 years
 
-The aggregate figures net out across everyone. It helps to follow a single earner who *does* repay — someone at the **80th percentile of all refugees** (a ~£31k mature plateau, ~£26k at year 8), just inside the ~22% who ever clear the charge in full. Three panels over the whole 40-year horizon: the status quo (A), the charge bolted on (B), and the charge paired with the right to work at three months (C).
+The aggregate figures net out across everyone. It helps to follow a single earner who *does* repay — someone at the **80th percentile of all refugees** (a ~£31k mature plateau, ~£26k at year 8), just inside the ~22% who ever clear the charge in full. Two panels over the whole 40-year horizon: the status quo (A) and the charge bolted on (B).
 
-![One working asylum seeker at the 80th percentile of refugee earners, three 40-year panels. A (status quo): ~£31k plateau, 40-year tax £177k, no charge. B (+ £10,000 charge): same earnings and tax; the £10,000 is repaid in full but only by year 28, worth ~£5.4k in present value. C (right to work at 3 months): earnings reach ~£38k, 40-year tax £254k — £77k more than A — and the charge clears by year 16.](figure-one-worker.svg)
+![One working asylum seeker at the 80th percentile of refugee earners, two 40-year panels. A (status quo): ~£31k plateau, 40-year tax £177k, no charge. B (+ £10,000 charge): same earnings and tax; the £10,000 is repaid in full but only by year 28, worth ~£5.4k in present value.](figure-one-worker.svg)
 
-Three things it shows: **the charge changes nothing about earnings** (A and B are identical lines); **even a top-fifth earner repays slowly** — the full £10,000 isn't cleared until **year 28**, so in present value the Exchequer nets only **~£5,400** of it; and **the right to work pays the Exchequer far more than the charge ever recovers** — **~£77,000** of extra income tax and NI over 40 years (nearly eight times the charge's face value), while clearing the charge by **year 16** instead of 28. And this is the *best* case: only the top ~22% ever repay in full — two-thirds of the cohort repay nothing at all.
+*Also as an [animated, interactive version](BOTEC-asylum-figure3.html).*
+
+Two things it shows: **the charge changes nothing about earnings** (A and B are identical lines — a debt doesn't help anyone earn); and **even a top-fifth earner repays slowly** — the full £10,000 isn't cleared until **year 28**, so in present value the Exchequer nets only **~£5,400** of it. This is the *best* case: only the top ~22% ever repay in full — two-thirds of the cohort repay nothing at all. The right-to-work fiscal prize is a *population* effect (Channels B & C, £210–420m per cohort) — not something one already-working person's chart can show, which is why it isn't in this figure.
 
 ---
 
