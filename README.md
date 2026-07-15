@@ -61,7 +61,7 @@ The 12-month work ban, by contrast, costs the Exchequer far more and sooner — 
 
 Confidence: **high** that charge recovery is small; **medium** on the size of the right-to-work gain, which depends on the employment response.
 
-![The £10,000 charge recovers a fraction of what the right to work is worth. Present value per cohort: the charge recovers about £82m (range £48–109m); the right to work is worth far more — support saved while claims are pending about £187m (£140–234m) and scarring avoided about £102m (£51–199m), together roughly £289m, about 3.5× the charge.](figure-charge-vs-righttowork.svg)
+![The £10,000 charge recovers a fraction of what the right to work is worth. Present value per cohort: the charge recovers about £82m (range £48–109m); the right to work is worth far more — support saved while claims are pending about £187m (£140–234m) and scarring avoided about £102m (£51–199m), together roughly £289m, about 3.5× the charge.](figure-charge-vs-righttowork.png)
 
 > **Figure.** The chart above is the whole argument — the charge against the two right-to-work channels, in present value per cohort. It's the repo's one figure, generated from the model by `make_barchart.py`.
 
@@ -247,6 +247,6 @@ The remaining uncertainty is in *inputs*, not arithmetic. The largest source of 
 
 - **`model.py`** — the whole model in one runnable file (Channel A amortisation, the individual 40-year trajectory, the earner distribution, Channels B & C, hotel arithmetic). Sources noted inline.
 - **`numbers.json`** — generated output; every headline number.
-- **`make_barchart.py`** → **`figure-charge-vs-righttowork.svg`** — the figure (charge vs the two right-to-work channels), regenerated from `numbers.json`; every plotted coordinate derives from the model.
+- **`make_barchart.py`** → **`figure-charge-vs-righttowork.png`** (+ `.svg` source) — the figure (charge vs the two right-to-work channels), regenerated from `numbers.json`; every plotted coordinate derives from the model. The PNG is 1640px wide, for dropping into the blog; the SVG is the vector original. Regenerating the PNG needs `rsvg-convert` (`brew install librsvg`) — without it the SVG is still written.
 
 **Sources.** Home Office *Immigration System Statistics* and *Refugee Integration Outcomes (RIO) 2015–2023*; IPPR; National Audit Office (*Investigation into asylum accommodation*, 2024); Migration Observatory; student-loan Plan 5 terms; Fasani, Frattini & Minale (IZA DP 13149, 2020); Hainmueller, Hangartner & Lawrence (*Science Advances*, 2016).

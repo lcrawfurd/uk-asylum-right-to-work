@@ -10,6 +10,8 @@ right-to-work channels, all in present value per cohort. Horizontal bars, zero b
 red (the weak instrument); both right-to-work bars in teal (grouped by colour).
 """
 import json
+import shutil
+import subprocess
 
 N = json.load(open("numbers.json"))
 charge, (c_lo, c_hi) = N["charge_agg_pv_m"], N["charge_agg_pv_range_m"]
@@ -63,8 +65,18 @@ svg = f'''<?xml version="1.0" encoding="UTF-8"?>
 </svg>
 '''
 
-with open("figure-charge-vs-righttowork.svg", "w") as f:
+SVG_PATH, PNG_PATH = "figure-charge-vs-righttowork.svg", "figure-charge-vs-righttowork.png"
+with open(SVG_PATH, "w") as f:
     f.write(svg)
-print("Wrote figure-charge-vs-righttowork.svg")
+print(f"Wrote {SVG_PATH}")
+
+# PNG at 2x for pasting into the blog/doc (SVG doesn't embed everywhere).
+# Needs rsvg-convert (brew install librsvg); the SVG is still written without it.
+if shutil.which("rsvg-convert"):
+    subprocess.run(["rsvg-convert", "-w", str(VBW * 2), "-o", PNG_PATH, SVG_PATH], check=True)
+    print(f"Wrote {PNG_PATH} ({VBW*2}px wide)")
+else:
+    print(f"! rsvg-convert not found — {PNG_PATH} not regenerated (brew install librsvg)")
+
 print(f"  charge £{charge}m ({c_lo}-{c_hi}) | support £{b_mid}m ({b_lo}-{b_hi}) | "
       f"scarring £{cscar}m ({s_lo}-{s_hi}) | right to work £{rtw_total}m = {mult}x")
