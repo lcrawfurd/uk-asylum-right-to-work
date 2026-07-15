@@ -15,8 +15,8 @@ Two stated modelling choices:
     individual career progression crosses the threshold; we add no economy-wide growth.
   * PRESENT VALUE: repayment is back-loaded, so we report nominal and PV (Green Book 3.5%).
 
-Sources are noted inline. Every headline number in the blog maps to an entry in
-numbers.json (see README).
+Sources are linked inline below; the full annotated list is in the README.
+Every headline number in the blog maps to an entry in numbers.json.
 """
 import json
 from pathlib import Path
@@ -25,9 +25,13 @@ HERE = Path(__file__).resolve().parent   # write next to the script, never the C
 
 # ===================== 1. PARAMETERS & DATA =====================
 # --- policy (charge modelled on student-loan Plan 5; the Bill sets no threshold/rate) ---
+# charge:  https://www.gov.uk/government/news/asylum-seekers-will-pay-towards-costs-of-accommodation
+# Plan 5:  https://www.gov.uk/repaying-your-student-loan/what-you-pay
+# 3.5% discount rate (Green Book): https://www.gov.uk/government/publications/the-green-book-appraisal-and-evaluation-in-central-government
 CHARGE, RATE, THRESHOLD, HORIZON, DISCOUNT = 10_000, 0.09, 25_000, 40, 0.035
 
 # --- cohort (GOV.UK Immigration System Statistics, year ending Dec 2024) ---
+# https://www.gov.uk/government/statistics/immigration-system-statistics-year-ending-december-2024/how-many-people-claim-asylum-in-the-uk
 # ~108k total claims / ~84k main applicants in 2024. The charge falls on ADULTS, so we
 # use an adult base and EXCLUDE children. (Using ~100k total claims would fold in
 # children who can't work or repay; that would give GRANTED=60k and a ~£96m charge.)
@@ -36,6 +40,9 @@ GRANT_RATE    = 0.60       # eventual grant rate incl. appeals (2024 initial rat
 GRANTED       = round(COHORT_ADULTS * GRANT_RATE)   # ~51,000 who can ever repay
 
 # --- Home Office RIO 2015-2023: employment, hours, earnings ---
+# employment: https://www.gov.uk/government/publications/refugee-integration-outcomes-rio-employment-from-2015-to-2023/how-many-refugees-are-in-employment
+#   "reached around 45% after 2 years and then increased more slowly to 48%" by yr 8
+# earnings:   https://www.gov.uk/government/publications/refugee-integration-outcomes-rio-employment-from-2015-to-2023/how-much-do-refugees-earn-from-employment
 EMP_RATE   = {1: 0.24, 2: 0.45, 8: 0.48}   # share of refugees in ANY work, by yrs since status
 FT_SHARE   = {1: 0.23, 8: 0.37}            # of those in work, share full-time (>=30 hrs/wk)
 MED_FT     = 23_000                        # median full-time earnings, RIO yr 8
@@ -46,6 +53,8 @@ MED_FT     = 23_000                        # median full-time earnings, RIO yr 8
 SHARE_EMPLOYED_ABOVE_25K = {1: 0.04, 8: 0.27}
 
 # --- scarring from initial work bans (causal studies) ---
+# Fasani:      https://docs.iza.org/dp13149.pdf
+# Hainmueller: https://www.science.org/doi/10.1126/sciadv.1600432  (doi:10.1126/sciadv.1600432)
 FASANI_PROP = 0.15         # ban cuts refugee employment 15% (proportional), up to a decade [IZA DP13149, 2020]
 HAINMUELLER_PP = (4, 5)    # each extra year of limbo cuts employment 4-5pp [Science Advances, 2016]
 BAN_CUT_YEARS = 0.5        # the reform modelled: 12 -> 6 months
@@ -75,6 +84,10 @@ WORK_SOONER_CENTRAL = sum(WORK_SOONER_SHARE) / 2   # 20% — midpoint of the ran
 # limits), so assuming parity with them would not be conservative. B scales linearly in this.
 
 # --- hotels (NAO, Investigation into asylum accommodation, 2024) ---
+# NAO:  https://www.nao.org.uk/reports/investigation-into-asylum-accommodation/
+# IPPR: https://www.ippr.org/media-office/decentralise-asylum-accommodation-to-tackle-soaring-costs-and-substandard-quality-says-ippr
+# NB NAO puts hotels at £127-148/night; IPPR puts dispersal at ~£14, lower than the £23.25
+# used here — so HOTEL_MULTIPLE (6.2x) is the conservative reading.
 HOTEL_BILL_PER_YEAR = 3_000_000_000       # ~£3bn/yr spent on asylum hotels
 HOTEL_NIGHT, DISPERSAL_NIGHT = 144.98, 23.25   # £ per person per night
 SUPPORT_COST_PER_YEAR = 41_000            # avg cost of supporting an asylum seeker 2023/24 (IPPR)

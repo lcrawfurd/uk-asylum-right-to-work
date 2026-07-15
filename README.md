@@ -61,27 +61,31 @@ B and C are additive — different periods, mechanisms, and populations (see eac
 
 | Variable | Value | Unit | Source |
 |---|---|---|---|
-| Charge per adult | 10,000 | £ | Home Office press release / Immigration & Asylum Bill |
-| Asylum claimants, 2024 | 108,138 (84,231 main applicants) | people/yr | GOV.UK, YE Dec 2024 |
-| Initial grant rate, 2024 | 47 (76 in 2022) | % | GOV.UK, YE Dec 2024 |
-| Eventual grant rate incl. appeals (assumed) | ~60 (range 50–75) | % | Author estimate from initial + appeal-success data |
-| People on asylum support (stock) | ~92,000 | people | GOV.UK, S95/S4 support |
-| Weekly subsistence (S95) | 49.18 | £/week (~£2,560/yr) | GOV.UK |
-| Avg support cost per asylum seeker, 2023/24 | 41,000 | £/yr | IPPR (hotel-inflated) |
-| — same, 2019/20 (pre-hotel) | 17,000 | £/yr | IPPR |
-| Repayment rate (benchmark) | 9 | % of income above threshold | Student loan Plan 5 |
-| Repayment threshold (benchmark) | 25,000 | £/yr | Student loan Plan 5 |
-| Employment rate, yr 1 after grant | 24 | % | Home Office RIO 2015–2023 |
-| Employment rate, yr 8 | 48 | % | RIO |
-| Refugees earning ≥ £20,000, yr 1 | 6 | % | RIO |
-| Refugees earning ≥ £30,000, yr 8 | 19 | % | RIO |
-| Refugees earning ≥ £20,000 (all) | 13 | % | Migration Observatory |
-| Current work ban | 12 | months | Home Office |
-| Proposed work ban (#LiftTheBan) | 6 | months | #LiftTheBan / MAC |
-| Ban scarring: reduction in post-ban employment probability | 15 (proportional, not pp) | % | Fasani, Frattini & Minale 2020 (IZA DP 13149) |
-| Wait scarring: per additional year of limbo | 4–5 (pp; ≈16–23% relative) | pp/yr | Hainmueller, Hangartner & Lawrence 2016 (Sci. Adv.) |
-| — persistence of scarring | up to 10 | years | Fasani et al. 2020 |
-| Net fiscal value of one refugee person-year of employment | ~8,000 | £/yr (tax gained + benefits saved) | Author estimate — see Channel C |
+| Charge per adult | 10,000 | £ | [Home Office press release](https://www.gov.uk/government/news/asylum-seekers-will-pay-towards-costs-of-accommodation) (Immigration & Asylum Bill) |
+| Asylum claimants, 2024 | 108,138 (84,231 main applicants) | people/yr | [GOV.UK Immigration System Statistics](https://www.gov.uk/government/statistics/immigration-system-statistics-year-ending-december-2024/how-many-people-claim-asylum-in-the-uk), YE Dec 2024 |
+| Initial grant rate, 2024 | 47 (76 in 2022) | % | [GOV.UK](https://www.gov.uk/government/statistics/immigration-system-statistics-year-ending-december-2024/how-many-people-claim-asylum-in-the-uk), YE Dec 2024 |
+| Eventual grant rate incl. appeals (assumed) | ~60 (range 50–75) | % | **Author estimate** from initial + appeal-success data |
+| People on asylum support (stock) | ~92,000 | people | [GOV.UK, S95/S4 support](https://www.gov.uk/asylum-support/what-youll-get) |
+| Weekly subsistence (S95) | 49.18 | £/week (~£2,560/yr) | [GOV.UK asylum support rates](https://www.gov.uk/asylum-support/what-youll-get) |
+| Avg support cost per asylum seeker, 2023/24 | 41,000 | £/yr | [IPPR, *Transforming Asylum Accommodation*](https://www.ippr.org/media-office/decentralise-asylum-accommodation-to-tackle-soaring-costs-and-substandard-quality-says-ippr) (hotel-inflated) |
+| — same, 2019/20 (pre-hotel) | 17,000 | £/yr | [IPPR](https://www.ippr.org/media-office/decentralise-asylum-accommodation-to-tackle-soaring-costs-and-substandard-quality-says-ippr) |
+| Repayment rate (benchmark) | 9 | % of income above threshold | [Student loan Plan 5](https://www.gov.uk/repaying-your-student-loan/what-you-pay) |
+| Repayment threshold (benchmark) | 25,000 | £/yr | [Student loan Plan 5](https://www.gov.uk/repaying-your-student-loan/what-you-pay) |
+| Discount rate (present value) | 3.5 | % real | [HM Treasury Green Book](https://www.gov.uk/government/publications/the-green-book-appraisal-and-evaluation-in-central-government) |
+| Employment rate, yr 1 after grant | 24 | % | [Home Office RIO 2015–2023](https://www.gov.uk/government/publications/refugee-integration-outcomes-rio-employment-from-2015-to-2023/how-many-refugees-are-in-employment) |
+| Employment rate, yr 2 / yr 8 | 45 / 48 | % | [RIO — employment](https://www.gov.uk/government/publications/refugee-integration-outcomes-rio-employment-from-2015-to-2023/how-many-refugees-are-in-employment) ("reached around 45% after 2 years and then increased more slowly to 48%" by yr 8) |
+| Median earnings, full-time / part-time | 23,000 / 10,000 | £/yr | [RIO — earnings](https://www.gov.uk/government/publications/refugee-integration-outcomes-rio-employment-from-2015-to-2023/how-much-do-refugees-earn-from-employment) |
+| Refugees earning ≥ £20,000, yr 1 | 6 | % | [RIO — earnings](https://www.gov.uk/government/publications/refugee-integration-outcomes-rio-employment-from-2015-to-2023/how-much-do-refugees-earn-from-employment) |
+| Refugees earning ≥ £30,000, yr 8 | 19 | % | [RIO — earnings](https://www.gov.uk/government/publications/refugee-integration-outcomes-rio-employment-from-2015-to-2023/how-much-do-refugees-earn-from-employment) |
+| Refugees earning ≥ £20,000 (all) | 13 | % | [Migration Observatory](https://migrationobservatory.ox.ac.uk/resources/briefings/migration-to-the-uk-asylum/) |
+| Hotel bill / total asylum support | 3.1 / 4.7 | £bn/yr | [NAO, *Investigation into asylum accommodation*](https://www.nao.org.uk/reports/investigation-into-asylum-accommodation/) (2024) |
+| Hotel vs dispersal, per person per night | 144.98 / 23.25 | £/night | [NAO](https://www.nao.org.uk/wp-content/uploads/2024/03/investigation-into-asylum-accommodation.pdf) (NAO puts hotels at £127–148; [IPPR](https://www.ippr.org/media-office/decentralise-asylum-accommodation-to-tackle-soaring-costs-and-substandard-quality-says-ippr) puts dispersal lower still, at ~£14 — so our 6.2× multiple is conservative) |
+| Current work ban | 12 | months | [Home Office — permission to work](https://www.gov.uk/government/publications/handling-applications-for-permission-to-take-employment-instruction) |
+| Proposed work ban (#LiftTheBan) | 6 | months | [#LiftTheBan](https://www.refugee-action.org.uk/lift-the-ban/) / MAC |
+| Ban scarring: reduction in post-ban employment probability | 15 (proportional, not pp) | % | [Fasani, Frattini & Minale 2020, IZA DP 13149](https://docs.iza.org/dp13149.pdf) |
+| Wait scarring: per additional year of limbo | 4–5 (pp; ≈16–23% relative) | pp/yr | [Hainmueller, Hangartner & Lawrence 2016, *Science Advances*](https://www.science.org/doi/10.1126/sciadv.1600432) ([DOI](https://doi.org/10.1126/sciadv.1600432)) |
+| — persistence of scarring | up to 10 | years | [Fasani et al. 2020](https://docs.iza.org/dp13149.pdf) |
+| Net fiscal value of one refugee person-year of employment | ~8,000 | £/yr (tax gained + benefits saved) | **Author estimate** — see Channel C |
 
 **Cohort base.** `COHORT_ADULTS = 85,000` × `GRANT_RATE = 0.60` → ~51,000 who can ever repay. This is an **adult** base — it excludes children. Using ~100k *total* claims (including children who can't work or repay) would give ~60,000 granted and a ~£96m charge; we don't, because the charge falls on adults.
 
@@ -225,4 +229,27 @@ The remaining uncertainty is in *inputs*, not arithmetic. The largest source of 
 - **`make_barchart.py`** → **`figure-charge-vs-righttowork.png`** (+ `.svg` source) — the figure, regenerated from `numbers.json`; every plotted coordinate derives from the model. The PNG is 1640px wide for dropping into the blog. Regenerating it needs `rsvg-convert` (`brew install librsvg`); without it the SVG is still written.
 - **`check_readme.py`** — guards against prose/model drift: parses the mapping table above and exits non-zero if any published value disagrees with `numbers.json`. Every number in this README is hand-typed, so this is what stops it rotting.
 
-**Sources.** Home Office *Immigration System Statistics* and *Refugee Integration Outcomes (RIO) 2015–2023*; IPPR; National Audit Office (*Investigation into asylum accommodation*, 2024); Migration Observatory; student-loan Plan 5 terms; Fasani, Frattini & Minale (IZA DP 13149, 2020); Hainmueller, Hangartner & Lawrence (*Science Advances*, 2016).
+## Sources
+
+Every external number in the model traces to one of these. Links checked and resolving as of 2026-07-15.
+
+**Official statistics**
+- Home Office, [Immigration System Statistics, YE Dec 2024 — *How many people claim asylum in the UK?*](https://www.gov.uk/government/statistics/immigration-system-statistics-year-ending-december-2024/how-many-people-claim-asylum-in-the-uk) — claimant volumes, grant rates, adult share.
+- Home Office, [*Refugee Integration Outcomes (RIO): Employment from 2015 to 2023*](https://www.gov.uk/government/publications/refugee-integration-outcomes-rio-employment-from-2015-to-2023) — the model's earnings and employment backbone. Specifically: [how many refugees are in employment](https://www.gov.uk/government/publications/refugee-integration-outcomes-rio-employment-from-2015-to-2023/how-many-refugees-are-in-employment) (24% yr 1 → ~45% yr 2 → 48% yr 8) and [how much do refugees earn](https://www.gov.uk/government/publications/refugee-integration-outcomes-rio-employment-from-2015-to-2023/how-much-do-refugees-earn-from-employment) (£23,000 full-time / £10,000 part-time median).
+- National Audit Office, [*Investigation into asylum accommodation*](https://www.nao.org.uk/reports/investigation-into-asylum-accommodation/) (March 2024) — [full report PDF](https://www.nao.org.uk/wp-content/uploads/2024/03/investigation-into-asylum-accommodation.pdf). £4.7bn asylum support incl. £3.1bn hotels; hotel nightly rates.
+- HM Treasury, [*The Green Book*](https://www.gov.uk/government/publications/the-green-book-appraisal-and-evaluation-in-central-government) — the 3.5% real discount rate.
+
+**Policy terms**
+- Home Office, [*Asylum seekers will pay towards costs of accommodation*](https://www.gov.uk/government/news/asylum-seekers-will-pay-towards-costs-of-accommodation) — the £10,000 charge (the Bill itself sets no threshold or rate).
+- GOV.UK, [*Repaying your student loan — what you pay*](https://www.gov.uk/repaying-your-student-loan/what-you-pay) — Plan 5 terms (9% above £25,000), the analogy the policy invites.
+- GOV.UK, [*Asylum support — what you'll get*](https://www.gov.uk/asylum-support/what-youll-get) — S95 subsistence rates.
+- Home Office, [*Permission to work: caseworker guidance*](https://www.gov.uk/government/publications/handling-applications-for-permission-to-take-employment-instruction) — the 12-month ban and its conditions.
+- [#LiftTheBan](https://www.refugee-action.org.uk/lift-the-ban/) (Refugee Action) — the 6-month proposal modelled here.
+
+**Research**
+- Fasani, Frattini & Minale (2020), [*Lift the Ban? Initial Employment Restrictions and Refugee Labour Market Outcomes*](https://docs.iza.org/dp13149.pdf), IZA DP 13149 — bans cut refugee employment ~15% (proportional), persisting up to a decade.
+- Hainmueller, Hangartner & Lawrence (2016), [*When lives are put on hold: Lengthy asylum processes decrease employment among refugees*](https://www.science.org/doi/10.1126/sciadv.1600432), *Science Advances* ([doi:10.1126/sciadv.1600432](https://doi.org/10.1126/sciadv.1600432)) — each extra year of waiting cuts later employment 4–5pp.
+- IPPR, [*Transforming Asylum Accommodation*](https://www.ippr.org/media-office/decentralise-asylum-accommodation-to-tackle-soaring-costs-and-substandard-quality-says-ippr) (Mort & Morris, 2024) — support cost per person £17,000 (2019/20) → £41,000 (2023/24).
+- Migration Observatory, [*Asylum and refugee resettlement in the UK*](https://migrationobservatory.ox.ac.uk/resources/briefings/migration-to-the-uk-asylum/) — 13% of refugees earning ≥£20,000.
+
+**Not from any source** — the model's judgement calls, flagged in place: the ~60% eventual grant rate, the ~33% ever-above-£25k calibration (#8), the £8,000 net fiscal value per person-year, the 15–25% employment response, the 3.0pp scarring gain, and the £25k/£30k band interpolation behind the 1% / 13% shares.
