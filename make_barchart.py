@@ -12,8 +12,10 @@ red (the weak instrument); both right-to-work bars in teal (grouped by colour).
 import json
 import shutil
 import subprocess
+from pathlib import Path
 
-N = json.load(open("numbers.json"))
+HERE = Path(__file__).resolve().parent   # read/write next to the script, never the CWD
+N = json.load(open(HERE / "numbers.json"))
 charge, (c_lo, c_hi) = N["charge_agg_pv_m"], N["charge_agg_pv_range_m"]
 b_lo, b_hi = N["channel_B_support_saved_m"]; b_mid = round((b_lo + b_hi) / 2)
 cscar, (s_lo, s_hi) = N["channel_C_scarring_avoided_pv_m"], N["channel_C_pv_range_m"]
@@ -51,7 +53,7 @@ svg = f'''<?xml version="1.0" encoding="UTF-8"?>
 <svg viewBox="0 0 {VBW} {VBH}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Horizontal bar chart, present value per cohort. The £10,000 charge recovers about £{charge} million (range £{c_lo}–{c_hi}m). The right to work is worth far more: support saved while claims are pending about £{b_mid} million (£{b_lo}–{b_hi}m) and scarring avoided about £{cscar} million (£{s_lo}–{s_hi}m) — together roughly £{rtw_total} million, about {mult} times the charge." style="font-family:system-ui,-apple-system,'Segoe UI',sans-serif;">
   <rect x="0" y="0" width="{VBW}" height="{VBH}" rx="8" fill="#ffffff"/>
   <text x="20" y="30" font-size="17" font-weight="700" fill="{INK}">The £10,000 charge recovers a fraction of what the right to work is worth</text>
-  <text x="20" y="50" font-size="12.5" fill="{MUTE}">Fiscal value to the Exchequer per annual cohort, present value (£ millions). Bar = central estimate; whisker = plausible range.</text>
+  <text x="20" y="50" font-size="12.5" fill="{MUTE}">Fiscal value to the Exchequer per annual cohort, present value (£m). Bar = central; whisker = key-assumption range, not a full envelope.</text>
 
   {row(95, RED, charge, c_lo, c_hi, "The £10,000 charge", "what it recovers")}
 
@@ -65,7 +67,8 @@ svg = f'''<?xml version="1.0" encoding="UTF-8"?>
 </svg>
 '''
 
-SVG_PATH, PNG_PATH = "figure-charge-vs-righttowork.svg", "figure-charge-vs-righttowork.png"
+SVG_PATH = HERE / "figure-charge-vs-righttowork.svg"
+PNG_PATH = HERE / "figure-charge-vs-righttowork.png"
 with open(SVG_PATH, "w") as f:
     f.write(svg)
 print(f"Wrote {SVG_PATH}")
@@ -73,7 +76,7 @@ print(f"Wrote {SVG_PATH}")
 # PNG at 2x for pasting into the blog/doc (SVG doesn't embed everywhere).
 # Needs rsvg-convert (brew install librsvg); the SVG is still written without it.
 if shutil.which("rsvg-convert"):
-    subprocess.run(["rsvg-convert", "-w", str(VBW * 2), "-o", PNG_PATH, SVG_PATH], check=True)
+    subprocess.run(["rsvg-convert", "-w", str(VBW * 2), "-o", str(PNG_PATH), str(SVG_PATH)], check=True)
     print(f"Wrote {PNG_PATH} ({VBW*2}px wide)")
 else:
     print(f"! rsvg-convert not found — {PNG_PATH} not regenerated (brew install librsvg)")

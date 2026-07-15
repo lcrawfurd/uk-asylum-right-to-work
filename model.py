@@ -19,6 +19,9 @@ Sources are noted inline. Every headline number in the blog maps to an entry in
 numbers.json (see README).
 """
 import json
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent   # write next to the script, never the CWD
 
 # ===================== 1. PARAMETERS & DATA =====================
 # --- policy (charge modelled on student-loan Plan 5; the Bill sets no threshold/rate) ---
@@ -35,20 +38,36 @@ GRANTED       = round(COHORT_ADULTS * GRANT_RATE)   # ~51,000 who can ever repay
 # --- Home Office RIO 2015-2023: employment, hours, earnings ---
 EMP_RATE   = {1: 0.24, 2: 0.45, 8: 0.48}   # share of refugees in ANY work, by yrs since status
 FT_SHARE   = {1: 0.23, 8: 0.37}            # of those in work, share full-time (>=30 hrs/wk)
-MED_FT, MED_PT = 23_000, 10_000            # median earnings: full-time / part-time & irregular
+MED_FT     = 23_000                        # median full-time earnings, RIO yr 8
+# Share of EMPLOYED refugees earning above the £25k threshold, by year since status.
+# RIO publishes BANDS, not the £25k point: 6% of employed clear £20k in yr 1; 19% clear
+# £30k by yr 8. The £25k share is INTERPOLATED between adjacent bands — estimated, not
+# observed, and the largest single source of error in the yr1/yr8 shares (see README).
+SHARE_EMPLOYED_ABOVE_25K = {1: 0.04, 8: 0.27}
 
 # --- scarring from initial work bans (causal studies) ---
 FASANI_PROP = 0.15         # ban cuts refugee employment 15% (proportional), up to a decade [IZA DP13149, 2020]
 HAINMUELLER_PP = (4, 5)    # each extra year of limbo cuts employment 4-5pp [Science Advances, 2016]
-SCAR_GAIN_PP = 3.0         # implied lift from a 12->6 month cut (both studies) — central
+BAN_CUT_YEARS = 0.5        # the reform modelled: 12 -> 6 months
 SCAR_PERSIST_YEARS = 10    # scarring persists up to a decade
+# Triangulating the two studies onto a 12->6 cut:
+SCAR_GAIN_HAINMUELLER = tuple(pp * BAN_CUT_YEARS for pp in HAINMUELLER_PP)   # 2.0-2.5pp (linear in wait)
+SCAR_GAIN_FASANI = (2.1, 4.7)   # 15% of the ~48% base = 8.5pp full gap; harm is front-loaded, so
+                                # only ~1/4-1/2 is recovered by cutting the BACK six months.
+# JUDGEMENT CALL, not a derivation: 3.0pp is our central read across the two ranges above.
+# Channel C scales linearly in it. Neither study yields a UK 12->6 point estimate directly.
+SCAR_GAIN_PP = 3.0
 NET_FISCAL_PER_EMP_YR = 8_000   # tax gained + benefits saved per extra person-year employed (author est.)
 
 # --- Channel B (support saved by working while the claim is pending) ---
-# Per person moved off support 6 months sooner: £10,000 accommodation (0.5yr x ~£20k/yr,
-# i.e. the £41k hotel-inflated average halved) + £1,300 tax/NI on 6 months at ~£25k.
-SUPPORT_SAVED_ACCOMMODATION, SUPPORT_SAVED_TAX = 10_000, 1_300
+ACCOM_COST_ASSUMED = 20_000     # ASSUMPTION: govt succeeds in ~halving SUPPORT_COST_PER_YEAR
+                                # (£41k, hotel-inflated). Generous — see README.
+SUPPORT_SAVED_ACCOMMODATION = round(ACCOM_COST_ASSUMED * BAN_CUT_YEARS)   # £10,000 (0.5 yr of it)
+SUPPORT_SAVED_TAX = 1_300       # tax + NI on 6 months at ~£25k (author est.)
 SUPPORT_SAVED_PER_TRANSITION = SUPPORT_SAVED_ACCOMMODATION + SUPPORT_SAVED_TAX   # £11,300
+# NB the per-person value is itself uncertain (dispersal ~£6,000 / hotel ~£22,000 per person).
+# The aggregate range below varies ONLY the employment share, holding this at central — so it
+# is a sensitivity range, not a full uncertainty envelope. Stated as such in README + figure.
 WORK_SOONER_SHARE = (0.15, 0.25)          # sensitivity range: share working sooner under a 6-month ban
 WORK_SOONER_CENTRAL = sum(WORK_SOONER_SHARE) / 2   # 20% — midpoint of the range.
 # Deliberately BELOW the 24% RIO year-1 refugee employment rate (EMP_RATE[1]): asylum seekers
@@ -89,6 +108,11 @@ CALIBRATIONS = {   # shares sum to 1
     "central":      [(.50, 0), (.08, 20_000), (.09, 24_000), (.11, 27_000), (.09, 31_000), (.08, 36_000), (.05, 44_000)],  # 33%
     "optimistic":   [(.45, 0), (.06, 20_000), (.07, 24_000), (.12, 27_000), (.11, 31_000), (.10, 36_000), (.09, 44_000)],  # 42%
 }
+# Guard: a mis-edited share vector would silently rescale every Channel A output.
+for _name, _g in CALIBRATIONS.items():
+    assert abs(sum(s for s, _ in _g) - 1) < 1e-9, f"{_name}: earner-type shares must sum to 1"
+    _above = sum(s for s, p in _g if p > THRESHOLD)
+    assert 0.20 <= _above <= 0.45, f"{_name}: share ever above threshold ({_above:.0%}) looks wrong"
 
 def amortise(groups, threshold=THRESHOLD, horizon=HORIZON):
     nom = pv = cleared = 0.0
@@ -165,10 +189,10 @@ def all_numbers():
     C_pv = channel_C_m(pv=True)                                       # C over 10 yrs, discounted
     C_pv_lo = channel_C_m(emp_gain_pp=2.0, fiscal=6_000, pv=True)     # low: 2pp x £6k
     C_pv_hi = channel_C_m(emp_gain_pp=4.7, fiscal=10_000, pv=True)    # high: 4.7pp x £10k
-    B_central = channel_B_central_m()                                 # at the RIO-anchored 24%
+    B_central = channel_B_central_m()                                 # at the range midpoint (20%)
     B_accom, B_tax = channel_B_split_m()
     # Sum the ROUNDED parts, so the published components always add to the published total
-    # (readers add up what they see; £231m + £102m must not print as £332m).
+    # (readers add up what they see; £192m + £102m must not print as £294m by luck).
     rtw_total_pv = round(B_central) + round(C_pv)
     N = {
         # --- Channel A: the charge ---
@@ -181,8 +205,8 @@ def all_numbers():
         "share_ever_clear_pct": round(A["clear"]),
         "cohort_adults": COHORT_ADULTS, "granted": GRANTED,
         # --- share above threshold (share of ALL refugees) ---
-        "share_above_25k_yr1_pct": round(EMP_RATE[1] * 0.04 * 100),   # emp x conditional above-25k (~4% of employed)
-        "share_above_25k_yr8_pct": round(EMP_RATE[8] * 0.27 * 100),   # ~27% of employed above 25k by yr8
+        "share_above_25k_yr1_pct": round(EMP_RATE[1] * SHARE_EMPLOYED_ABOVE_25K[1] * 100),
+        "share_above_25k_yr8_pct": round(EMP_RATE[8] * SHARE_EMPLOYED_ABOVE_25K[8] * 100),
         # --- individual case: 80th-percentile earner, 40-year horizon (cited in the text) ---
         "indiv_plateau_earnings": tA["plateau"],
         "indiv_tax40_statusquo": tA["tax"],
@@ -190,11 +214,11 @@ def all_numbers():
         "indiv_repaid_pv_statusquo": tA["repaid_pv"],
         "indiv_charge_clears_year_statusquo": tA["clears_year"],
         # --- distribution / quartiles (20-yr repaid) ---
-        "q_bottom_15k": quartile_repaid(15_000), "q_median_23k": quartile_repaid(23_000),
+        "q_bottom_15k": quartile_repaid(15_000), "q_median_23k": quartile_repaid(MED_FT),
         "q_upper_32k": quartile_repaid(32_000), "q_top_42k": quartile_repaid(42_000),
         # --- Channels B & C ---
         "channel_B_support_saved_m": [round(B[0]), round(B[1])],      # sensitivity range (15–25%)
-        "work_sooner_central_pct": round(WORK_SOONER_CENTRAL * 100),  # 24%, = RIO yr-1 employment
+        "work_sooner_central_pct": round(WORK_SOONER_CENTRAL * 100),  # 20% — midpoint, below RIO's 24%
         "channel_B_central_m": round(B_central),
         "channel_B_accommodation_m": round(B_accom),
         "channel_B_tax_m": round(B_tax),
@@ -219,7 +243,7 @@ def all_numbers():
 
 if __name__ == "__main__":
     N = all_numbers()
-    with open("numbers.json", "w") as f:
+    with open(HERE / "numbers.json", "w") as f:
         json.dump(N, f, indent=2)
     print("Wrote numbers.json\n")
     print("THE CHARGE (Channel A)")
