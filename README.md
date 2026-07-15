@@ -1,20 +1,12 @@
 # The £10,000 asylum charge vs. the right to work — model & methods
 
-Analysis, code, and methodology behind the CGD blog **"The UK's £10,000 Asylum Seeker Payment Must Be Paired With The Right To Work"** (Dempster, Crawfurd, Mitchell). Back-of-the-envelope — figures are order-of-magnitude, not forecasts.
+The modelling behind the CGD blog **"The UK's £10,000 Asylum Seeker Payment Must Be Paired With The Right To Work"** (Dempster, Crawfurd, Mitchell).
 
-**Contents**
-- [Reproduce every number](#reproduce-every-number)
-- [The finding](#the-finding)
-- [The three channels](#the-three-channels)
-- [Parameters](#parameters)
-- [Channel A — how much does the charge recover?](#channel-a--how-much-does-the-charge-recover)
-- [Channel B — support the ban destroys](#channel-b--support-the-ban-destroys)
-- [Channel C — the scarring the ban leaves behind](#channel-c--the-scarring-the-ban-leaves-behind)
-- [One worker over 40 years](#one-worker-over-40-years)
-- ["But won't a job make them harder to remove?"](#but-wont-a-job-make-them-harder-to-remove)
-- [Sensitivity](#sensitivity)
-- [Methodology & verification](#methodology--verification)
-- [Files & sources](#files--sources)
+**This repo is the calculation detail the blog doesn't have room for** — the parameters, assumptions, workings, and sensitivities. The argument itself is in the blog; it isn't repeated here. Back-of-the-envelope: figures are order-of-magnitude, not forecasts.
+
+**Contents** — [Reproduce every number](#reproduce-every-number) · [The three channels](#the-three-channels) · [Parameters](#parameters) · [Channel A](#channel-a--how-much-does-the-charge-recover) · [Channel B](#channel-b--support-saved) · [Channel C](#channel-c--scarring-avoided) · [Sensitivity](#sensitivity) · [Methodology & verification](#methodology--verification) · [Files & sources](#files--sources)
+
+![The £10,000 charge recovers a fraction of what the right to work is worth. Present value per cohort: the charge recovers about £82m (range £48–109m); the right to work is worth far more — support saved while claims are pending about £187m (£140–234m) and scarring avoided about £102m (£51–199m), together roughly £289m, about 3.5× the charge.](figure-charge-vs-righttowork.png)
 
 ---
 
@@ -53,27 +45,13 @@ It prints every number and writes [`numbers.json`](numbers.json). `make_barchart
 
 ---
 
-## The finding
-
-A £10,000 charge, recovered student-loan-style from people the state forbids from working, recovers **only about a sixth of its face value in present value** (~a quarter to a third nominal) over a 40-year working life — and only from the ~quarter of refugees who reach and hold full-time earnings above the £25,000 threshold. About half never sustain that work and repay nothing. In student-loan terms it is a **~84% RAB charge**, far worse than the ~50% on graduate loans.
-
-The 12-month work ban, by contrast, costs the Exchequer far more and sooner — and most of that cost is permanent, not delay. On a like-for-like present-value basis the right to work is worth roughly **£210–420m per cohort against ~£82m for the charge** — several times more, and front-loaded rather than collected over decades. The charge is also **parasitic** on the right to work: every pound repaid comes from someone earning above £25,000, which the ban prevents. So the reciprocity argument is arithmetic, not rhetoric: **"make them pay" is impossible without "let them work."**
-
-Confidence: **high** that charge recovery is small; **medium** on the size of the right-to-work gain, which depends on the employment response.
-
-![The £10,000 charge recovers a fraction of what the right to work is worth. Present value per cohort: the charge recovers about £82m (range £48–109m); the right to work is worth far more — support saved while claims are pending about £187m (£140–234m) and scarring avoided about £102m (£51–199m), together roughly £289m, about 3.5× the charge.](figure-charge-vs-righttowork.png)
-
-> **Figure.** The chart above is the whole argument — the charge against the two right-to-work channels, in present value per cohort. It's the repo's one figure, generated from the model by `make_barchart.py`.
-
----
-
 ## The three channels
 
-Most coverage is sceptical the charge will raise money, citing low asylum-seeker earnings. This repo puts numbers on that scepticism, then asks whether expanding the right to work (cutting the wait from 12 to 6 months) changes the answer — and through which channel:
+- **Channel A** — direct recovery of the £10,000 charge (the student-loan mechanism).
+- **Channel B** — avoided support costs + tax from people working *sooner* (a timing effect, during the claim).
+- **Channel C** — avoided *scarring*: the ban lowers refugee employment for up to a decade after status, not just delays it.
 
-- **Channel A — direct recovery of the £10,000 charge** (the student-loan mechanism).
-- **Channel B — avoided support costs + tax** from people working *sooner* (the timing effect).
-- **Channel C — avoided *scarring*.** The ban permanently lowers refugee employment for up to a decade, not just delays it — the largest channel, and the one a "six-month delay" framing misses.
+B and C are additive — different periods, mechanisms, and populations (see each below).
 
 ---
 
@@ -101,20 +79,19 @@ Most coverage is sceptical the charge will raise money, citing low asylum-seeker
 | Ban scarring: reduction in post-ban employment probability | 15 (proportional, not pp) | % | Fasani, Frattini & Minale 2020 (IZA DP 13149) |
 | Wait scarring: per additional year of limbo | 4–5 (pp; ≈16–23% relative) | pp/yr | Hainmueller, Hangartner & Lawrence 2016 (Sci. Adv.) |
 | — persistence of scarring | up to 10 | years | Fasani et al. 2020 |
-| — Europe-wide output loss, 2015 cohort bans | 37.6 | €bn | Fasani et al. 2020 |
 | Net fiscal value of one refugee person-year of employment | ~8,000 | £/yr (tax gained + benefits saved) | Author estimate — see Channel C |
 
-**Cohort base.** `COHORT_ADULTS = 85,000` × `GRANT_RATE = 0.60` → ~51,000 who can ever repay. This is an **adult** base — it excludes children. Using ~100k *total* claims (which includes children who can't work or repay) would give ~60,000 granted and a ~£96m charge; we don't, because the charge falls on adults.
+**Cohort base.** `COHORT_ADULTS = 85,000` × `GRANT_RATE = 0.60` → ~51,000 who can ever repay. This is an **adult** base — it excludes children. Using ~100k *total* claims (including children who can't work or repay) would give ~60,000 granted and a ~£96m charge; we don't, because the charge falls on adults.
 
 ---
 
 ## Channel A — how much does the charge recover?
 
-Each year, a person repays **9% of whatever they earn above the £25,000 threshold** — and nothing on the part below it. So someone earning £30,000 repays 9% of the £5,000 excess = £450 that year; someone on £24,000 repays nothing at all. The subtlety that matters: RIO earnings are measured **among those in work only** (6% of *employed* refugees earn ≥£20,000 in year 1, 19% clear £30,000 by year 8). Layer on the employment rate (24% → ~48%), and the share of *all* refugees above £25,000 runs from about **1% in year 1 to 13% by year 8** — so even at the eight-year peak, seven in eight are still below the threshold. *(This is the earnings slopegraph in the blog.)*
+Each year a person repays **9% of earnings above £25,000**, capped cumulatively at £10,000, until write-off. The subtlety that matters: RIO earnings are measured **among those in work only** (6% of *employed* refugees earn ≥£20,000 in year 1; 19% clear £30,000 by year 8). Layer on the employment rate (24% → ~48%) and the share of *all* refugees above £25,000 runs from **~1% in year 1 to ~13% by year 8**.
 
-### How we model recovery — every assumption on the table
+We track the £10,000 cap on *individual earner types*, not a population average, because it only ever binds for the minority earning well above the threshold.
 
-The charge behaves like an income-contingent student loan (the analogy the policy itself invites): 9% of earnings above £25,000, capped cumulatively at £10,000, until written off. We track the cap on *individual* earner types, not a population average, because it only ever binds for the minority who earn well above the threshold.
+### Every assumption on the table
 
 | # | Assumption | Value | Basis | Type |
 |---|---|---|---|---|
@@ -139,17 +116,13 @@ Two choices worth stating. **(a) Threshold-indexed:** Plan-5 thresholds rise wit
 | 30 years | 26% | 15% | 22% |
 | **40 years (to write-off)** | **~28%** | **~16%** | **~22%** |
 
-Central calibration, £25,000 threshold; across the conservative–optimistic range on assumption #8, the 40-year figure spans **~17–36% nominal / ~10–21% PV**. The ~5% a ten-year window shows is not an error — the model reproduces it — just too short a horizon. Three features of the full-life figure:
+Central calibration, £25,000 threshold; across the conservative–optimistic range on assumption #8 the 40-year figure spans **~17–36% nominal / ~10–21% PV**. The ~5% a ten-year window shows is not an error — the model reproduces it — just too short a horizon. Discounting at 3.5% turns ~28% nominal into ~16% PV: a **~84% RAB charge**, against ~50% on graduate loans. Per *ever-employed* refugee, lifetime recovery is **~£5,600 (~56% of the charge)** — the population figure is low because half never work, not because workers don't pay.
 
-- **Collected over *decades*.** Discounting at 3.5% turns ~28% nominal into ~16% PV — a **~84% RAB charge**, far worse than the ~50% on graduate loans.
-- **Only from successful integrators.** The ~22% who fully clear the £10k are those who hold full-time earnings above £25,000 over a career. **Per ever-employed refugee, lifetime recovery is ~£5,600 (~56% of the charge)** — the population figure is low because half never work, not because workers don't pay.
-- **The £25,000 threshold does the work.** Set at full-time minimum wage, it means the median full-time refugee worker (£23k) repays nothing. Drop it to £20k → ~26% PV; to £15k → ~34% — but that collects from refugees on poverty wages, contradicting the policy's own "sufficient funds" premise.
-
-**Aggregate — only from those who get status.** Refused-and-removed applicants pay nothing; refused-and-remaining ones can't work legally. At a ~60% grant rate the repaying pool is ~51,000, so lifetime recovery is **~£82m PV per cohort (~£48–109m across calibrations; ~£142m nominal), over 40 years.** Set against a £4.7bn accommodation bill, it is a marginal revenue instrument — and its recovery already *assumes* people can work, so under the status quo it would be lower still.
+**Aggregate.** Only granted-and-remaining refugees can repay: refused-and-removed applicants pay nothing, refused-and-remaining ones can't work legally. At a ~60% grant rate the repaying pool is ~51,000, so lifetime recovery is **~£82m PV per cohort** (~£48–109m across calibrations; ~£142m nominal), over 40 years.
 
 ---
 
-## Channel B — support the ban destroys
+## Channel B — support saved
 
 Per person moved off support and into work **six months sooner**:
 
@@ -159,18 +132,22 @@ Per person moved off support and into work **six months sooner**:
 | Tax + NI on 6 months' work (~£25k salary) | £1,000 | £1,300 | £1,500 |
 | **Total per person, one transition** | **~£6,000** | **~£11,000** | **~£22,000** |
 
-The central **~£11,000** roughly equals the charge's entire face value — earned back in a single six-month window, and recurring for anyone who would otherwise have stayed on support longer. **Aggregate:** if the reform moves an extra 15–25% of a cohort (~12,000–20,000 people) into work six months earlier, Channel B is worth **~£140m–£234m**. This is **medium-to-low confidence** — it hinges entirely on how many people find work when the ban lifts, which the model does not derive.
+**Aggregate:** `85,000 adults × 15–25% working sooner × £11,000` = **£140–234m** (12,750–21,250 people). Note the base is the **full 85,000**, not the 51,000 granted: the saving accrues while the claim is *pending*, whether or not it later succeeds — so Channel B alone doesn't scale with the grant rate.
 
-Channel B prices only *timing*; the larger effect (people who don't work *at all*) is Channel C. But it is **the one channel robust to refusals**: the avoided support and tax accrue while someone works *during their claim*, whether or not it later succeeds — a hotel costs the same regardless. So it applies to the full support pool, not just the ~60% granted.
+**Confidence: medium-to-low**, for two reasons worth being explicit about:
+- The **15–25% employment response is stipulated, not derived** — the model has no basis for it, and Channel B scales linearly in it. For scale, RIO puts *recognised refugees* at 24% employment in year 1 *post-status*; assuming a similar share of *asylum seekers* work during their claim is not conservative.
+- The **£10,000 uses *average* support cost.** The marginal saving is lower — hotels are block-booked, so one person leaving banks nothing until a facility closes.
+
+Both push the same way: Channel B is more likely over- than under-stated. Note also that ~£10,000 of the £11,000 is *accommodation*, not tax — so any separate "hotel savings" figure would double-count this channel.
 
 ---
 
-## Channel C — the scarring the ban leaves behind
+## Channel C — scarring avoided
 
-The ban's main damage is not delay but **permanent lower participation** — two independent studies, different countries and methods, size it:
+The ban's main damage is not delay but **permanent lower participation**. Two independent studies size it:
 
-- **Fasani, Frattini & Minale (2020)** — Europe-wide, 30 years of staggered ban changes, IV + non-refugee placebo. A ban cuts refugee employment **by 15% (proportional)** in post-ban years, **persisting up to 10 years**, and **non-linear in ban length** (the first months do most of the harm).
-- **Hainmueller, Hangartner & Lawrence (2016)** — Switzerland, exogenous variation in wait times. Each **extra year of limbo cuts subsequent employment by 4–5 pp** (a 16–23% relative drop), roughly linear per year.
+- **Fasani, Frattini & Minale (2020)** — Europe-wide, 30 years of staggered ban changes, IV + non-refugee placebo. A ban cuts refugee employment **by 15% (proportional)** in post-ban years, **persisting up to 10 years**, **non-linear in ban length** (the first months do most of the harm).
+- **Hainmueller, Hangartner & Lawrence (2016)** — Switzerland, exogenous variation in wait times. Each **extra year of limbo cuts subsequent employment by 4–5 pp** (16–23% relative), roughly linear per year.
 
 They triangulate on the UK's 12→6-month cut:
 
@@ -180,7 +157,7 @@ They triangulate on the UK's 12→6-month cut:
 | Fasani, proportional | 15% of ~48% base = 8.5 pp full gap; front-loaded, ~¼–½ recovered by cutting the back six months | **2.1–4.7 pp** |
 | **Triangulated central** | | **~3 pp** |
 
-Scarring only applies to people who *get* status, so the base is the **~51,000 granted**, not the full 85k. Valuing each recovered person-year of employment at £6k–£10k (tax + NI paid, mainstream benefits not claimed — author estimate, **medium confidence**):
+Scarring applies only to those who *get* status, so the base is the **~51,000 granted**. Valuing each recovered person-year of employment at £6k–£10k (tax + NI paid, mainstream benefits not claimed — author estimate, **medium confidence**):
 
 | | Low (2 pp) | Central (3 pp) | High (4.7 pp) |
 |---|---|---|---|
@@ -189,47 +166,26 @@ Scarring only applies to people who *get* status, so the base is the **~51,000 g
 | **Annual fiscal gain** | **~£6m** | **~£12m** | **~£24m** |
 | **Over ~10 years (undiscounted)** | **~£62m** | **~£122m** | **~£240m** |
 
-In present value, **Channel C alone (~£102m) is comparable to the charge's full-lifetime recovery (~£82m), and Channel B (~£187m) is more than double it.** The channels are additive (different periods, mechanisms, and populations); together the central estimate is **~£289m PV per cohort — about 3.5× the charge** (a wider envelope of ~£210–420m across the ranges, with a haircut for overlap), and front-loaded rather than collected over decades.
+Discounted over the 10 years at 3.5%, the central £122m is **~£102m PV**. With Channel B's midpoint (£187m), the right to work totals **~£289m PV per cohort, ~3.5× the charge** (envelope ~£210–420m across the ranges, with a haircut for overlap).
 
-**Two evidence-based levers, not one.** Fasani identifies the *work ban* (12→6 months); Hainmueller the total *wait time* (the backlog, of which the ban is the first slice). Both scar employment and compound — cutting the ban helps, clearing the backlog helps more. As a sanity check, Fasani et al. put the Europe-wide output loss from bans on the 2015 cohort at **€37.6bn**; the UK per-cohort figures are a small fiscal slice of that GDP-basis total.
-
----
-
-## One worker over 40 years
-
-The aggregate figures net out across everyone; it helps to follow a single earner who *does* repay. Take someone at the **80th percentile of all refugees** (a ~£31k mature plateau, ~£26k at year 8), just inside the ~22% who ever clear the charge in full. Even they clear the £10,000 only by **year 28**, so in present value the Exchequer nets only **~£5,400** of it. Adding the charge changes nothing about what they earn — a debt doesn't help anyone earn — it just claws a little back, late and heavily discounted.
-
-This is the *best* case: only the top ~22% ever repay in full, and two-thirds of the cohort repay nothing at all. The right-to-work fiscal prize, by contrast, is a *population* effect (Channels B & C, ~£289m per cohort) — not something one already-working person can show, which is why the headline figure above is the charge-vs-right-to-work comparison, not an individual trajectory.
-
----
-
-## "But won't a job make them harder to remove?"
-
-The objection most likely to be raised — and the evidence points the other way: legal work probably makes removal *easier*.
-
-- **Legal work makes people more visible, not less.** PAYE means a known employer, address, NI number and tax record. The alternative to *legal* work is not idleness but *informal* work, invisible to the Home Office — a ban pushes people into the shadow economy, where they are hardest to trace.
-- **The state's grip runs through reporting, not the hotel.** People awaiting decisions are not detained; they are [free to come and go](https://commonslibrary.parliament.uk/research-briefings/cbp-10337/). Contact is kept through monthly digital reporting (~100,000 people), which continues whether or not someone works, and [work permission is already refused to anyone who has absconded](https://assets.publishing.service.gov.uk/media/69ba7e8d7c81ce194cd12595/Permission_to_work_and_volunteer.pdf) — so a legal job (fixed employer, fixed address) can be a *condition of compliance*. The status quo is already leaky: ~50,000 people are logged as absconders under a system whose data the Home Office calls ["incomplete, inconsistent or simply unavailable"](https://publications.parliament.uk/pa/cm5902/cmselect/cmpubacc/89/report.html) — with no right to work.
-- **The legal worry is weak.** The strongest version — employment building an Article 8 private-life defence — runs into UK courts [heavily discounting private life built during "precarious status"](https://freemovement.org.uk/article-8-in-asylum-cases/). Length of residence, which the backlog creates anyway, matters more than a job.
-- **It only bites for a minority.** At a ~60% grant rate, most people are staying regardless; the concern applies only to the ~40% eventually refused, of whom most are not removed anyway.
-
-There is **no direct evidence** that employment makes removal harder — it sits in the same unevidenced category as the "pull factor" claim, which the Migration Advisory Committee has twice (2021, 2022) [challenged the government to substantiate](https://www.cgdev.org/blog/letting-asylum-seekers-work-not-pull-factor), with nothing produced. Two honest concessions — a settled job raises the incentive to abscond if refused (though people can already abscond from a hotel), and employment could feed an Article 8 "obstacles to reintegration" assessment at the margin — are both second-order.
+*Sanity check:* Fasani et al. put the Europe-wide output loss from bans on the 2015 cohort at **€37.6bn**; the UK per-cohort figures here are a small fiscal slice of that GDP-basis total. *Note also:* Fasani identifies the **work ban**; Hainmueller total **wait time** (the backlog, of which the ban is the first slice) — they compound.
 
 ---
 
 ## Sensitivity
 
-| Assumption | Base | If changed | Effect on charge recovery |
+| Assumption | Base | If changed | Effect |
 |---|---|---|---|
-| **Repayment threshold** | £25,000 | £15,000 | Recovery ~2.5–3× → ~30%. But taxes very low incomes — clashes with "sufficient funds" and is sharply regressive. |
-| — | | £12,500 | Recovery ~35–45%, clawing money from the poorest workers. |
-| **Repayment rate** | 9% | 15% | Scales ~linearly (~18%) — same people, same low base. |
-| **Recovery window** | 10 yr | Lifetime | Higher, but slowly; low earners never cross the threshold. |
-| **Employment response to right-to-work** | +15–25% into work sooner | Larger | Channel B scales ~linearly — the single most important number for the *fiscal* case. |
-| **Employment gain from 12→6 (scarring)** | ~3 pp | 2 pp / 4.7 pp | Channel C scales ~linearly: ~£62m / ~£240m per cohort. |
-| **Net fiscal value / person-year employed** | £8,000 | £6k / £10k | Channel C scales ~linearly. Author estimate — second-weakest input. |
-| **Eventual grant rate** | 60% | 50% / 75% | *Cuts both ways.* A lower rate shrinks charge recovery (fewer stayers to bill) *and* Channel C (fewer to scar) — but leaves Channel B untouched. So a tougher asylum regime makes the charge *less* collectable, not more. |
+| **Repayment threshold** | £25,000 | £15,000 | Recovery ~2.5–3× → ~30%, but collects from poverty wages |
+| — | | £12,500 | Recovery ~35–45% |
+| **Repayment rate** | 9% | 15% | Scales ~linearly (~18%) — same people, same low base |
+| **Recovery window** | 10 yr | Lifetime | Higher, but slowly; low earners never cross the threshold |
+| **Employment response to right-to-work** | +15–25% sooner | Larger | Channel B scales ~linearly — the single most important number |
+| **Employment gain from 12→6 (scarring)** | ~3 pp | 2 pp / 4.7 pp | Channel C scales ~linearly: ~£62m / ~£240m |
+| **Net fiscal value / person-year employed** | £8,000 | £6k / £10k | Channel C scales ~linearly. Author estimate — second-weakest input |
+| **Eventual grant rate** | 60% | 50% / 75% | *Cuts both ways.* A lower rate shrinks charge recovery *and* Channel C — but leaves Channel B untouched |
 
-**The load-bearing assumption is the threshold.** The only way to make the charge raise real money is to set a low threshold — collecting from refugees on poverty wages, undercutting the "sufficient funds" premise. There is no threshold that makes it both lucrative *and* fair. Channel B has no such tension: it raises money *and* helps the people it affects.
+**The load-bearing assumption is the threshold** (#2), then the share ever above it (#8).
 
 ---
 
@@ -237,16 +193,18 @@ There is **no direct evidence** that employment makes removal harder — it sits
 
 Channel A is a deterministic amortisation of the £10,000 charge over the RIO earnings trajectory, run to write-off (40 years) and discounted at the Green Book 3.5% real rate. It tracks individual earner types, not a population mean, because the £10,000 cap and the £25,000 threshold are both non-linear — the mean earner and the mean repayment are not the same person (Jensen's inequality). Channels B and C are expected-value calculations over the same cohort. Every headline number is printed by [`model.py`](model.py) and can be re-run and challenged directly.
 
-The remaining uncertainty is in *inputs*, not arithmetic. The largest source of error is the split of the ≥£20k earnings tail above/below £25k (estimated, not observed) — which is why the threshold matters most; the biggest single lever is assumption #8 (share ever above £25k), spanning ~10–21% PV across the range. All the key terms are policy-unspecified — the Bill sets neither threshold nor rate — so the model uses the student-loan analogy the government itself invited, and flags every borrowed value. *(One earlier version truncated recovery at 10 years, understating it; the honest lifetime figure is ~16% PV / ~28% nominal.)*
+**Confidence:** high that charge recovery is small; medium on the size of the right-to-work gain, which depends on the employment response.
 
-**Horizon caveat.** The 40-year recovery window matches the student-loan Plan 5 write-off term, but slightly exceeds a typical refugee's working life: the average adult is granted status in their early 30s ([~81% of claimants are adults](https://www.gov.uk/government/statistics/immigration-system-statistics-year-ending-december-2024/how-many-people-claim-asylum-in-the-uk), skewed young), so 40 years runs a few years past state pension age. Those final years are the most heavily PV-discounted and contribute almost nothing — so if anything the ~16% PV recovery is a touch *generous* to the charge.
+The remaining uncertainty is in *inputs*, not arithmetic. The largest source of error is the split of the ≥£20k earnings tail above/below £25k (estimated, not observed) — which is why the threshold matters most; the biggest single lever is assumption #8, spanning ~10–21% PV. All the key terms are policy-unspecified — the Bill sets neither threshold nor rate — so the model uses the student-loan analogy the government itself invited, and flags every borrowed value. *(One earlier version truncated recovery at 10 years, understating it; the honest lifetime figure is ~16% PV / ~28% nominal.)*
+
+**Horizon caveat.** The 40-year window matches the Plan 5 write-off term but slightly exceeds a typical working life: the average adult is granted status in their early 30s ([~81% of claimants are adults](https://www.gov.uk/government/statistics/immigration-system-statistics-year-ending-december-2024/how-many-people-claim-asylum-in-the-uk), skewed young), so 40 years runs a few years past pension age. Those final years are the most heavily discounted and contribute almost nothing — so if anything the ~16% PV recovery is a touch *generous* to the charge.
 
 ---
 
 ## Files & sources
 
-- **`model.py`** — the whole model in one runnable file (Channel A amortisation, the individual 40-year trajectory, the earner distribution, Channels B & C, hotel arithmetic). Sources noted inline.
+- **`model.py`** — the whole model in one runnable file (Channel A amortisation, the individual 40-year case, the earner distribution, Channels B & C, hotel arithmetic). Sources noted inline.
 - **`numbers.json`** — generated output; every headline number.
-- **`make_barchart.py`** → **`figure-charge-vs-righttowork.png`** (+ `.svg` source) — the figure (charge vs the two right-to-work channels), regenerated from `numbers.json`; every plotted coordinate derives from the model. The PNG is 1640px wide, for dropping into the blog; the SVG is the vector original. Regenerating the PNG needs `rsvg-convert` (`brew install librsvg`) — without it the SVG is still written.
+- **`make_barchart.py`** → **`figure-charge-vs-righttowork.png`** (+ `.svg` source) — the figure, regenerated from `numbers.json`; every plotted coordinate derives from the model. The PNG is 1640px wide for dropping into the blog. Regenerating it needs `rsvg-convert` (`brew install librsvg`); without it the SVG is still written.
 
 **Sources.** Home Office *Immigration System Statistics* and *Refugee Integration Outcomes (RIO) 2015–2023*; IPPR; National Audit Office (*Investigation into asylum accommodation*, 2024); Migration Observatory; student-loan Plan 5 terms; Fasani, Frattini & Minale (IZA DP 13149, 2020); Hainmueller, Hangartner & Lawrence (*Science Advances*, 2016).
