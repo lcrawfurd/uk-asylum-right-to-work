@@ -45,8 +45,15 @@ SCAR_PERSIST_YEARS = 10    # scarring persists up to a decade
 NET_FISCAL_PER_EMP_YR = 8_000   # tax gained + benefits saved per extra person-year employed (author est.)
 
 # --- Channel B (support saved by working while the claim is pending) ---
-SUPPORT_SAVED_PER_TRANSITION = 11_000     # 6-month bring-forward: ~£10k support + ~£1.3k tax
-WORK_SOONER_SHARE = (0.15, 0.25)          # share of cohort working sooner under a 6-month ban
+# Per person moved off support 6 months sooner: £10,000 accommodation (0.5yr x ~£20k/yr,
+# i.e. the £41k hotel-inflated average halved) + £1,300 tax/NI on 6 months at ~£25k.
+SUPPORT_SAVED_ACCOMMODATION, SUPPORT_SAVED_TAX = 10_000, 1_300
+SUPPORT_SAVED_PER_TRANSITION = SUPPORT_SAVED_ACCOMMODATION + SUPPORT_SAVED_TAX   # £11,300
+WORK_SOONER_SHARE = (0.15, 0.25)          # sensitivity range: share working sooner under a 6-month ban
+WORK_SOONER_CENTRAL = sum(WORK_SOONER_SHARE) / 2   # 20% — midpoint of the range.
+# Deliberately BELOW the 24% RIO year-1 refugee employment rate (EMP_RATE[1]): asylum seekers
+# face more barriers than recognised refugees (no settled status, dispersal, shortage-list
+# limits), so assuming parity with them would not be conservative. B scales linearly in this.
 
 # --- hotels (NAO, Investigation into asylum accommodation, 2024) ---
 HOTEL_BILL_PER_YEAR = 3_000_000_000       # ~£3bn/yr spent on asylum hotels
@@ -122,10 +129,18 @@ def quartile_repaid(plateau, horizon=20):
     return round(sum(repay_stream([plateau * ramp(t) for t in range(1, horizon + 1)])))
 
 # ===================== 5. CHANNELS B & C =====================
-def channel_B_m():
+def channel_B_m():                        # sensitivity range across WORK_SOONER_SHARE
     lo, hi = WORK_SOONER_SHARE
     return (COHORT_ADULTS * lo * SUPPORT_SAVED_PER_TRANSITION / 1e6,
             COHORT_ADULTS * hi * SUPPORT_SAVED_PER_TRANSITION / 1e6)
+
+def channel_B_central_m(share=WORK_SOONER_CENTRAL):
+    return COHORT_ADULTS * share * SUPPORT_SAVED_PER_TRANSITION / 1e6
+
+def channel_B_split_m(share=WORK_SOONER_CENTRAL):
+    """Channel B's two components: accommodation saved, and tax paid."""
+    return (COHORT_ADULTS * share * SUPPORT_SAVED_ACCOMMODATION / 1e6,
+            COHORT_ADULTS * share * SUPPORT_SAVED_TAX / 1e6)
 
 def channel_C_m(emp_gain_pp=SCAR_GAIN_PP, persistence=SCAR_PERSIST_YEARS,
                 fiscal=NET_FISCAL_PER_EMP_YR, pv=False):
@@ -150,7 +165,11 @@ def all_numbers():
     C_pv = channel_C_m(pv=True)                                       # C over 10 yrs, discounted
     C_pv_lo = channel_C_m(emp_gain_pp=2.0, fiscal=6_000, pv=True)     # low: 2pp x £6k
     C_pv_hi = channel_C_m(emp_gain_pp=4.7, fiscal=10_000, pv=True)    # high: 4.7pp x £10k
-    rtw_total_pv = (B[0] + B[1]) / 2 + C_pv                           # support saved (mid) + scarring PV
+    B_central = channel_B_central_m()                                 # at the RIO-anchored 24%
+    B_accom, B_tax = channel_B_split_m()
+    # Sum the ROUNDED parts, so the published components always add to the published total
+    # (readers add up what they see; £231m + £102m must not print as £332m).
+    rtw_total_pv = round(B_central) + round(C_pv)
     N = {
         # --- Channel A: the charge ---
         "charge_recovered_pv_pct": round(A["pct_pv"]),
@@ -174,7 +193,11 @@ def all_numbers():
         "q_bottom_15k": quartile_repaid(15_000), "q_median_23k": quartile_repaid(23_000),
         "q_upper_32k": quartile_repaid(32_000), "q_top_42k": quartile_repaid(42_000),
         # --- Channels B & C ---
-        "channel_B_support_saved_m": [round(B[0]), round(B[1])],
+        "channel_B_support_saved_m": [round(B[0]), round(B[1])],      # sensitivity range (15–25%)
+        "work_sooner_central_pct": round(WORK_SOONER_CENTRAL * 100),  # 24%, = RIO yr-1 employment
+        "channel_B_central_m": round(B_central),
+        "channel_B_accommodation_m": round(B_accom),
+        "channel_B_tax_m": round(B_tax),
         "channel_C_scarring_avoided_m": round(C),                     # nominal, 10 yrs
         "channel_C_scarring_avoided_pv_m": round(C_pv),               # present value
         "channel_C_pv_range_m": [round(C_pv_lo), round(C_pv_hi)],

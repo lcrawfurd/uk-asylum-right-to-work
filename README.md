@@ -6,7 +6,7 @@ The modelling behind the CGD blog **"The UK's £10,000 Asylum Seeker Payment Mus
 
 **Contents** — [Reproduce every number](#reproduce-every-number) · [The three channels](#the-three-channels) · [Parameters](#parameters) · [Channel A](#channel-a--how-much-does-the-charge-recover) · [Channel B](#channel-b--support-saved) · [Channel C](#channel-c--scarring-avoided) · [Sensitivity](#sensitivity) · [Methodology & verification](#methodology--verification) · [Files & sources](#files--sources)
 
-![The £10,000 charge recovers a fraction of what the right to work is worth. Present value per cohort: the charge recovers about £82m (range £48–109m); the right to work is worth far more — support saved while claims are pending about £187m (£140–234m) and scarring avoided about £102m (£51–199m), together roughly £289m, about 3.5× the charge.](figure-charge-vs-righttowork.png)
+![The £10,000 charge recovers a fraction of what the right to work is worth. Present value per cohort: the charge recovers about £82m (range £48–109m); the right to work is worth far more — support saved while claims are pending about £192m (£144–240m) and scarring avoided about £102m (£51–199m), together roughly £294m, about 3.6× the charge.](figure-charge-vs-righttowork.png)
 
 ---
 
@@ -33,12 +33,13 @@ It prints every number and writes [`numbers.json`](numbers.json). `make_barchart
 | Median full-time worker (£23k) repays nothing | `q_median_23k` | £0 |
 | An 80th-pct earner clears the £10k only by year 28 | `indiv_charge_clears_year_statusquo` | 28 |
 | …worth just ~£5.4k of £10k in present value | `indiv_repaid_pv_statusquo` | £5,358 |
-| ~£11,000 per person who starts work sooner | `SUPPORT_SAVED_PER_TRANSITION` *(model.py)* | £11,000 |
-| Channel B (support saved) | `channel_B_support_saved_m` | £140–234m |
+| ~£11,000 per person who starts work sooner | `SUPPORT_SAVED_PER_TRANSITION` *(model.py)* | £11,300 |
+| Channel B (support saved), central | `channel_B_central_m` (range `channel_B_support_saved_m`) | £192m (£144–240m) |
+| …of which accommodation / tax | `channel_B_accommodation_m` / `…_tax_m` | £170m / £22m |
 | Cutting the ban 12→6 months lifts employment ~3pp | `scarring_gain_from_cut_pp` | 3.0 |
 | Channel C (scarring avoided) | `channel_C_scarring_avoided_m` (PV `…_pv_m`) | £122m (£102m PV) |
-| Right to work (support saved + scarring avoided), PV | `righttowork_total_pv_m` | £289m |
-| …worth several times the charge | `righttowork_vs_charge_multiple` | ~3.5× |
+| Right to work (support saved + scarring avoided), PV | `righttowork_total_pv_m` | £294m |
+| …worth several times the charge | `righttowork_vs_charge_multiple` | ~3.6× |
 | Hotels ~£145/night, ~6× dispersal | `hotel_night` / `hotel_vs_dispersal_multiple` | £144.98 / 6.2× |
 
 `model.py` computes a few further outputs the blog doesn't currently use — nominal recovery (28%), the RAB charge (84%), full-time-work shares, the earnings quartiles, and hotel-saving scenarios. They're in [`numbers.json`](numbers.json) if wanted.
@@ -130,15 +131,17 @@ Per person moved off support and into work **six months sooner**:
 |---|---|---|---|
 | Avoided support (0.5 yr × annual cost) | £5,000 (dispersal ~£10k/yr) | £10,000 (~£20k/yr) | £20,500 (hotel ~£41k/yr) |
 | Tax + NI on 6 months' work (~£25k salary) | £1,000 | £1,300 | £1,500 |
-| **Total per person, one transition** | **~£6,000** | **~£11,000** | **~£22,000** |
+| **Total per person, one transition** | **~£6,000** | **£11,300** | **~£22,000** |
 
-**Aggregate:** `85,000 adults × 15–25% working sooner × £11,000` = **£140–234m** (12,750–21,250 people). Note the base is the **full 85,000**, not the 51,000 granted: the saving accrues while the claim is *pending*, whether or not it later succeeds — so Channel B alone doesn't scale with the grant rate.
+**Aggregate:** `85,000 adults × 15–25% working sooner × £11,300` = **£144–240m** (12,750–21,250 people). The headline uses the **midpoint, 20%** → **£192m** (= £170m accommodation + £22m tax). That 20% is deliberately *below* the 24% RIO year-1 employment rate for *recognised* refugees: asylum seekers face more barriers, so assuming parity with them would not be conservative.
+
+Note the base is the **full 85,000**, not the 51,000 granted: the saving accrues while the claim is *pending*, whether or not it later succeeds — so Channel B alone doesn't scale with the grant rate.
 
 **Confidence: medium-to-low**, for two reasons worth being explicit about:
 - The **15–25% employment response is stipulated, not derived** — the model has no basis for it, and Channel B scales linearly in it. For scale, RIO puts *recognised refugees* at 24% employment in year 1 *post-status*; assuming a similar share of *asylum seekers* work during their claim is not conservative.
 - The **£10,000 uses *average* support cost.** The marginal saving is lower — hotels are block-booked, so one person leaving banks nothing until a facility closes.
 
-Both push the same way: Channel B is more likely over- than under-stated. Note also that ~£10,000 of the £11,000 is *accommodation*, not tax — so any separate "hotel savings" figure would double-count this channel.
+Both push the same way: Channel B is more likely over- than under-stated. Note also that **£10,000 of the £11,300 is *accommodation***, not tax (£170m of the £192m) — so any separate "hotel savings" figure would double-count this channel.
 
 ---
 
@@ -166,7 +169,7 @@ Scarring applies only to those who *get* status, so the base is the **~51,000 gr
 | **Annual fiscal gain** | **~£6m** | **~£12m** | **~£24m** |
 | **Over ~10 years (undiscounted)** | **~£62m** | **~£122m** | **~£240m** |
 
-Discounted over the 10 years at 3.5%, the central £122m is **~£102m PV**. With Channel B's midpoint (£187m), the right to work totals **~£289m PV per cohort, ~3.5× the charge** (envelope ~£210–420m across the ranges, with a haircut for overlap).
+Discounted over the 10 years at 3.5%, the central £122m is **~£102m PV**. With Channel B's midpoint (£192m), the right to work totals **~£294m PV per cohort, ~3.6× the charge** (envelope ~£210–420m across the ranges, with a haircut for overlap).
 
 *Sanity check:* Fasani et al. put the Europe-wide output loss from bans on the 2015 cohort at **€37.6bn**; the UK per-cohort figures here are a small fiscal slice of that GDP-basis total. *Note also:* Fasani identifies the **work ban**; Hainmueller total **wait time** (the backlog, of which the ban is the first slice) — they compound.
 

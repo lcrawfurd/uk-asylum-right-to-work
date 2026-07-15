@@ -23,16 +23,20 @@
   "q_upper_32k": 7116,
   "q_top_42k": 10000,
   "channel_B_support_saved_m": [
-    140,
-    234
+    144,
+    240
   ],
+  "work_sooner_central_pct": 20,
+  "channel_B_central_m": 192,
+  "channel_B_accommodation_m": 170,
+  "channel_B_tax_m": 22,
   "channel_C_scarring_avoided_m": 122,
   "channel_C_scarring_avoided_pv_m": 102,
   "channel_C_pv_range_m": [
     51,
     199
   ],
-  "righttowork_total_pv_m": 289,
+  "righttowork_total_pv_m": 294,
   "scarring_gap_pp": 8.5,
   "scarring_gain_from_cut_pp": 3.0,
   "fulltime_share_of_employed_yr1_pct": 23,
@@ -44,5 +48,5 @@
   "dispersal_night": 23.25,
   "hotel_saving_10pct_m": 300,
   "hotel_saving_25pct_m": 750,
-  "righttowork_vs_charge_multiple": 3.5
+  "righttowork_vs_charge_multiple": 3.6
 }
