@@ -32,22 +32,24 @@ It prints every number and writes [`numbers.json`](numbers.json). `make_barchart
 
 | Blog claim | `numbers.json` key | Value |
 |---|---|---|
+| ~85,000 adults claim asylum; ~51,000 could ever repay | `cohort_adults` / `granted` | 85,000 / 51,000 |
 | Charge recovers ~a sixth of face value in PV | `charge_recovered_pv_pct` | 16% |
-| …~28% in nominal terms | `charge_recovered_nominal_pct` | 28% |
 | …roughly £82m per cohort | `charge_agg_pv_m` (range `…_range_m`) | £82m (£48–109m) |
-| RAB charge (share written off) | `rab_charge_pct` | 84% |
 | ~1% earn above £25k in year 1 | `share_above_25k_yr1_pct` | 1% |
 | …~13% by year 8 | `share_above_25k_yr8_pct` | 13% |
-| 80th-pct earner clears the £10k only by year 28 | `indiv_charge_clears_year_statusquo` | 28 |
-| …worth just ~£5.4k of £10k in present value | `indiv_repaid_pv_statusquo` | £5,358 |
+| Only the top ~22% ever pay it off in full | `share_ever_clear_pct` | 22% |
 | Median full-time worker (£23k) repays nothing | `q_median_23k` | £0 |
+| An 80th-pct earner clears the £10k only by year 28 | `indiv_charge_clears_year_statusquo` | 28 |
+| …worth just ~£5.4k of £10k in present value | `indiv_repaid_pv_statusquo` | £5,358 |
+| ~£11,000 per person who starts work sooner | `SUPPORT_SAVED_PER_TRANSITION` *(model.py)* | £11,000 |
 | Channel B (support saved) | `channel_B_support_saved_m` | £140–234m |
-| Channel C (scarring avoided) | `channel_C_scarring_avoided_m` | £122m |
+| Cutting the ban 12→6 months lifts employment ~3pp | `scarring_gain_from_cut_pp` | 3.0 |
+| Channel C (scarring avoided) | `channel_C_scarring_avoided_m` (PV `…_pv_m`) | £122m (£102m PV) |
 | Right to work (support saved + scarring avoided), PV | `righttowork_total_pv_m` | £289m |
 | …worth several times the charge | `righttowork_vs_charge_multiple` | ~3.5× |
-| 23% of employed refugees full-time, yr1 → 37% yr8 | `fulltime_share_of_employed_*` | 23% / 37% |
-| Hotels vs dispersal | `hotel_vs_dispersal_multiple` | 6.2× |
-| Hotel saving at 10–25% move-out | `hotel_saving_10pct_m` / `_25pct_m` | £300–750m |
+| Hotels ~£145/night, ~6× dispersal | `hotel_night` / `hotel_vs_dispersal_multiple` | £144.98 / 6.2× |
+
+`model.py` computes a few further outputs the blog doesn't currently use — nominal recovery (28%), the RAB charge (84%), full-time-work shares, the earnings quartiles, and hotel-saving scenarios. They're in [`numbers.json`](numbers.json) if wanted.
 
 ---
 
