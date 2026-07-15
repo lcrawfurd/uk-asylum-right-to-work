@@ -17,17 +17,18 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent   # read/write next to the script, never the CWD
 N = json.load(open(HERE / "numbers.json"))
 charge, (c_lo, c_hi) = N["charge_agg_pv_m"], N["charge_agg_pv_range_m"]
-b_lo, b_hi = N["channel_B_support_saved_m"]; b_mid = round((b_lo + b_hi) / 2)
+accom, (a_lo, a_hi) = N["channel_B_accommodation_m"], N["channel_B_accommodation_range_m"]
+btax,  (t_lo, t_hi) = N["channel_B_tax_m"], N["channel_B_tax_range_m"]
 cscar, (s_lo, s_hi) = N["channel_C_scarring_avoided_pv_m"], N["channel_C_pv_range_m"]
 rtw_total = N["righttowork_total_pv_m"]; mult = N["righttowork_vs_charge_multiple"]
 
 # ---- geometry ----
-VBW, VBH = 820, 300
+VBW, VBH = 900, 336
 X0 = 250.0                     # bar baseline (after left labels)
 SCALE = 1.9                    # px per £m
 def bx(v): return round(X0 + v * SCALE, 1)
 
-RED, TEAL, BLUE = "#D15553", "#006970", "#2D99B5"
+RED, TEAL, BLUE, GOLD = "#D15553", "#006970", "#2D99B5", "#B8860B"
 INK, MUTE, HAIR = "#1A272A", "#52514e", "#c3c2b7"
 
 def row(y, colour, val, lo, hi, l1, l2):
@@ -50,7 +51,7 @@ def row(y, colour, val, lo, hi, l1, l2):
     return "\n  ".join(p)
 
 svg = f'''<?xml version="1.0" encoding="UTF-8"?>
-<svg viewBox="0 0 {VBW} {VBH}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Horizontal bar chart, present value per cohort. The £10,000 charge recovers about £{charge} million (range £{c_lo}–{c_hi}m). The right to work is worth far more: support saved while claims are pending about £{b_mid} million (£{b_lo}–{b_hi}m) and scarring avoided about £{cscar} million (£{s_lo}–{s_hi}m) — together roughly £{rtw_total} million, about {mult} times the charge." style="font-family:system-ui,-apple-system,'Segoe UI',sans-serif;">
+<svg viewBox="0 0 {VBW} {VBH}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Horizontal bar chart, present value per cohort. The £10,000 charge recovers about £{charge} million (range £{c_lo}–{c_hi}m). The right to work is worth far more, in three parts: accommodation saved about £{accom} million (£{a_lo}–{a_hi}m), tax paid immediately about £{btax} million (£{t_lo}–{t_hi}m), and tax paid later from avoided scarring about £{cscar} million (£{s_lo}–{s_hi}m) — together roughly £{rtw_total} million, about {mult} times the charge." style="font-family:system-ui,-apple-system,'Segoe UI',sans-serif;">
   <rect x="0" y="0" width="{VBW}" height="{VBH}" rx="8" fill="#ffffff"/>
   <text x="20" y="30" font-size="17" font-weight="700" fill="{INK}">The £10,000 charge recovers a fraction of what the right to work is worth</text>
   <text x="20" y="50" font-size="12.5" fill="{MUTE}">Fiscal value to the Exchequer per annual cohort, present value (£m). Bar = central; whisker = key-assumption range, not a full envelope.</text>
@@ -58,12 +59,13 @@ svg = f'''<?xml version="1.0" encoding="UTF-8"?>
   {row(95, RED, charge, c_lo, c_hi, "The £10,000 charge", "what it recovers")}
 
   <text x="20" y="146" font-size="11.5" font-weight="700" fill="{TEAL}" letter-spacing="0.5">THE RIGHT TO WORK</text>
-  {row(178, TEAL, b_mid, b_lo, b_hi, "Support saved", "while claims are pending")}
-  {row(220, BLUE, cscar, s_lo, s_hi, "Scarring avoided", "higher long-run employment")}
+  {row(178, TEAL, accom, a_lo, a_hi, "Accommodation saved", "support not paid while claims pending")}
+  {row(220, GOLD, btax, t_lo, t_hi, "Tax paid immediately", "by those working sooner")}
+  {row(262, BLUE, cscar, s_lo, s_hi, "Tax paid later", "less scarring, higher employment")}
 
-  <line x1="20" y1="250" x2="{VBW-20}" y2="250" stroke="{HAIR}" stroke-width="1"/>
-  <text x="20" y="270" font-size="13" fill="{INK}"><tspan font-weight="700">Together, the right to work ≈ £{rtw_total}m</tspan> — about {mult}× the charge, and collected up front rather than over decades.</text>
-  <text x="20" y="290" font-size="10" fill="{MUTE}">Sources: Home Office RIO; IPPR; NAO; Fasani et al. (2020); Hainmueller et al. (2016). Generated from model.py.</text>
+  <line x1="20" y1="292" x2="{VBW-20}" y2="292" stroke="{HAIR}" stroke-width="1"/>
+  <text x="20" y="311" font-size="13" fill="{INK}"><tspan font-weight="700">Together, the right to work ≈ £{rtw_total}m</tspan> — about {mult}× the charge, and collected up front rather than over decades.</text>
+  <text x="20" y="329" font-size="10" fill="{MUTE}">Source: CGD/Authors' analysis of Home Office RIO; IPPR; NAO; Fasani et al. (2020); Hainmueller et al. (2016).</text>
 </svg>
 '''
 
@@ -81,5 +83,6 @@ if shutil.which("rsvg-convert"):
 else:
     print(f"! rsvg-convert not found — {PNG_PATH} not regenerated (brew install librsvg)")
 
-print(f"  charge £{charge}m ({c_lo}-{c_hi}) | support £{b_mid}m ({b_lo}-{b_hi}) | "
-      f"scarring £{cscar}m ({s_lo}-{s_hi}) | right to work £{rtw_total}m = {mult}x")
+print(f"  charge £{charge}m ({c_lo}-{c_hi}) | accommodation £{accom}m ({a_lo}-{a_hi}) | "
+      f"tax now £{btax}m ({t_lo}-{t_hi}) | tax later £{cscar}m ({s_lo}-{s_hi}) | "
+      f"right to work £{rtw_total}m = {mult}x")

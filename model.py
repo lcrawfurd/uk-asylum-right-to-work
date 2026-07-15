@@ -162,9 +162,16 @@ def channel_B_central_m(share=WORK_SOONER_CENTRAL):
     return COHORT_ADULTS * share * SUPPORT_SAVED_PER_TRANSITION / 1e6
 
 def channel_B_split_m(share=WORK_SOONER_CENTRAL):
-    """Channel B's two components: accommodation saved, and tax paid."""
+    """Channel B's two components: accommodation saved, and tax paid. Reported separately
+    because they are different things — money the state stops spending vs money it receives."""
     return (COHORT_ADULTS * share * SUPPORT_SAVED_ACCOMMODATION / 1e6,
             COHORT_ADULTS * share * SUPPORT_SAVED_TAX / 1e6)
+
+def channel_B_split_range_m():
+    """Each component across the WORK_SOONER_SHARE sensitivity range."""
+    lo, hi = WORK_SOONER_SHARE
+    return (tuple(COHORT_ADULTS * s * SUPPORT_SAVED_ACCOMMODATION / 1e6 for s in (lo, hi)),
+            tuple(COHORT_ADULTS * s * SUPPORT_SAVED_TAX / 1e6 for s in (lo, hi)))
 
 def channel_C_m(emp_gain_pp=SCAR_GAIN_PP, persistence=SCAR_PERSIST_YEARS,
                 fiscal=NET_FISCAL_PER_EMP_YR, pv=False):
@@ -191,6 +198,7 @@ def all_numbers():
     C_pv_hi = channel_C_m(emp_gain_pp=4.7, fiscal=10_000, pv=True)    # high: 4.7pp x £10k
     B_central = channel_B_central_m()                                 # at the range midpoint (20%)
     B_accom, B_tax = channel_B_split_m()
+    (B_accom_lo, B_accom_hi), (B_tax_lo, B_tax_hi) = channel_B_split_range_m()
     # Sum the ROUNDED parts, so the published components always add to the published total
     # (readers add up what they see; £192m + £102m must not print as £294m by luck).
     rtw_total_pv = round(B_central) + round(C_pv)
@@ -221,7 +229,9 @@ def all_numbers():
         "work_sooner_central_pct": round(WORK_SOONER_CENTRAL * 100),  # 20% — midpoint, below RIO's 24%
         "channel_B_central_m": round(B_central),
         "channel_B_accommodation_m": round(B_accom),
+        "channel_B_accommodation_range_m": [round(B_accom_lo), round(B_accom_hi)],
         "channel_B_tax_m": round(B_tax),
+        "channel_B_tax_range_m": [round(B_tax_lo), round(B_tax_hi)],
         "channel_C_scarring_avoided_m": round(C),                     # nominal, 10 yrs
         "channel_C_scarring_avoided_pv_m": round(C_pv),               # present value
         "channel_C_pv_range_m": [round(C_pv_lo), round(C_pv_hi)],

@@ -29,7 +29,15 @@
   "work_sooner_central_pct": 20,
   "channel_B_central_m": 192,
   "channel_B_accommodation_m": 170,
+  "channel_B_accommodation_range_m": [
+    128,
+    212
+  ],
   "channel_B_tax_m": 22,
+  "channel_B_tax_range_m": [
+    17,
+    28
+  ],
   "channel_C_scarring_avoided_m": 122,
   "channel_C_scarring_avoided_pv_m": 102,
   "channel_C_pv_range_m": [

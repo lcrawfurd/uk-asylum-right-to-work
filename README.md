@@ -6,7 +6,7 @@ The modelling behind the CGD blog **"The UK's £10,000 Asylum Seeker Payment Mus
 
 **Contents** — [Reproduce every number](#reproduce-every-number) · [The three channels](#the-three-channels) · [Parameters](#parameters) · [Channel A](#channel-a--how-much-does-the-charge-recover) · [Channel B](#channel-b--support-saved) · [Channel C](#channel-c--scarring-avoided) · [Sensitivity](#sensitivity) · [Methodology & verification](#methodology--verification) · [Files & sources](#files--sources)
 
-![The £10,000 charge recovers a fraction of what the right to work is worth. Present value per cohort: the charge recovers about £82m (range £48–109m); the right to work is worth far more — support saved while claims are pending about £192m (£144–240m) and scarring avoided about £102m (£51–199m), together roughly £294m, about 3.6× the charge.](figure-charge-vs-righttowork.png)
+![The £10,000 charge recovers a fraction of what the right to work is worth. Present value per cohort: the charge recovers about £82m (range £48–109m). The right to work is worth far more, in three parts — accommodation saved about £170m (£128–212m), tax paid immediately about £22m (£17–28m), and tax paid later from avoided scarring about £102m (£51–199m) — together roughly £294m, about 3.6× the charge.](figure-charge-vs-righttowork.png)
 
 ---
 
@@ -35,7 +35,8 @@ It prints every number and writes [`numbers.json`](numbers.json). `make_barchart
 | …worth just ~£5.4k of £10k in present value | `indiv_repaid_pv_statusquo` | £5,358 |
 | ~£11,000 per person who starts work sooner | `SUPPORT_SAVED_PER_TRANSITION` *(model.py)* | £11,300 |
 | Channel B (support saved), central | `channel_B_central_m` (range `channel_B_support_saved_m`) | £192m (£144–240m) |
-| …of which accommodation / tax | `channel_B_accommodation_m` / `…_tax_m` | £170m / £22m |
+| …of which accommodation saved | `channel_B_accommodation_m` (range `…_range_m`) | £170m (£128–212m) |
+| …of which tax paid immediately | `channel_B_tax_m` (range `…_range_m`) | £22m (£17–28m) |
 | Cutting the ban 12→6 months lifts employment ~3pp | `scarring_gain_from_cut_pp` | 3.0 |
 | Channel C (scarring avoided) | `channel_C_scarring_avoided_m` (PV `…_pv_m`) | £122m (£102m PV) |
 | Right to work (support saved + scarring avoided), PV | `righttowork_total_pv_m` | £294m |
