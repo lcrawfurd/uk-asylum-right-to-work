@@ -23,7 +23,7 @@ cscar, (s_lo, s_hi) = N["channel_C_scarring_avoided_pv_m"], N["channel_C_pv_rang
 rtw_total = N["righttowork_total_pv_m"]; mult = N["righttowork_vs_charge_multiple"]
 
 # ---- geometry ----
-VBW, VBH = 900, 336
+VBW, VBH = 900, 296
 X0 = 250.0                     # bar baseline (after left labels)
 SCALE = 1.9                    # px per £m
 def bx(v): return round(X0 + v * SCALE, 1)
@@ -53,19 +53,17 @@ def row(y, colour, val, lo, hi, l1, l2):
 svg = f'''<?xml version="1.0" encoding="UTF-8"?>
 <svg viewBox="0 0 {VBW} {VBH}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Horizontal bar chart, present value per cohort. The £10,000 charge recovers about £{charge} million (range £{c_lo}–{c_hi}m). The right to work is worth far more, in three parts: accommodation saved about £{accom} million (£{a_lo}–{a_hi}m), tax paid immediately about £{btax} million (£{t_lo}–{t_hi}m), and tax paid later from avoided scarring about £{cscar} million (£{s_lo}–{s_hi}m) — together roughly £{rtw_total} million, about {mult} times the charge." style="font-family:system-ui,-apple-system,'Segoe UI',sans-serif;">
   <rect x="0" y="0" width="{VBW}" height="{VBH}" rx="8" fill="#ffffff"/>
-  <text x="20" y="30" font-size="17" font-weight="700" fill="{INK}">The £10,000 charge recovers a fraction of what the right to work is worth</text>
-  <text x="20" y="50" font-size="12.5" fill="{MUTE}">Fiscal value to the Exchequer per annual cohort, present value (£m). Bar = central; whisker = key-assumption range, not a full envelope.</text>
+  <text x="20" y="22" font-size="12.5" fill="{MUTE}">Fiscal value to the Exchequer per annual cohort, present value (£m). Bar = central; whisker = key-assumption range, not a full envelope.</text>
 
-  {row(95, RED, charge, c_lo, c_hi, "The £10,000 charge", "what it recovers")}
+  {row(66, RED, charge, c_lo, c_hi, "The £10,000 charge", "what it recovers")}
 
-  <text x="20" y="146" font-size="11.5" font-weight="700" fill="{TEAL}" letter-spacing="0.5">THE RIGHT TO WORK</text>
-  {row(178, TEAL, accom, a_lo, a_hi, "Accommodation saved", "support not paid while claims pending")}
-  {row(220, GOLD, btax, t_lo, t_hi, "Tax paid immediately", "by those working sooner")}
-  {row(262, BLUE, cscar, s_lo, s_hi, "Tax paid later", "less scarring, higher employment")}
+  <text x="20" y="117" font-size="11.5" font-weight="700" fill="{TEAL}" letter-spacing="0.5">THE RIGHT TO WORK</text>
+  {row(149, TEAL, accom, a_lo, a_hi, "Accommodation saved", "support not paid while claims pending")}
+  {row(191, GOLD, btax, t_lo, t_hi, "Tax paid immediately", "by those working sooner")}
+  {row(233, BLUE, cscar, s_lo, s_hi, "Tax paid later", "less scarring, higher employment")}
 
-  <line x1="20" y1="292" x2="{VBW-20}" y2="292" stroke="{HAIR}" stroke-width="1"/>
-  <text x="20" y="311" font-size="13" fill="{INK}"><tspan font-weight="700">Together, the right to work ≈ £{rtw_total}m</tspan> — about {mult}× the charge, and collected up front rather than over decades.</text>
-  <text x="20" y="329" font-size="10" fill="{MUTE}">Source: CGD/Authors' analysis of Home Office RIO; IPPR; NAO; Fasani et al. (2020); Hainmueller et al. (2016).</text>
+  <line x1="20" y1="263" x2="{VBW-20}" y2="263" stroke="{HAIR}" stroke-width="1"/>
+  <text x="20" y="282" font-size="13" fill="{INK}"><tspan font-weight="700">Together, the right to work ≈ £{rtw_total}m</tspan> — about {mult}× the charge, and collected up front rather than over decades.</text>
 </svg>
 '''
 
